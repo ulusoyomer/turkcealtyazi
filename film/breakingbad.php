@@ -958,7 +958,7 @@ if(isset($_SESSION["Kullanici"])){
 
                     </div>
                     <?php
-                        if($son_sayfa > 1){
+                        if($son_sayfa > 1 && @($_GET["sayfa"] == "yorum")){
 
                         
                     ?>

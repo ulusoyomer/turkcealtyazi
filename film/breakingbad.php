@@ -732,10 +732,11 @@ if(isset($_SESSION["Kullanici"])){
                             }
                             $yorumyapan_adi = $_SESSION["Kullanici"];
                             $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'Breaking Bad'");
+                            $yorum_say = $yorum_say_sorgu->num_rows;
                             $yorumekleme_sorgusu = $db->query("INSERT INTO yorumlar (username,yorum,diziadi,begeni,kacinci,dizibolum,dizisezon) values('$yorumyapan_adi','$comment','Breaking Bad',0,'$yorum_say','$dizi_bolum',' $dizi_sezon')");
                             $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'Breaking Bad'");
-                            $yorum_say = $yorum_say_sorgu->num_rows;
-                            $son_sayfa = $yorum_say / 5;
+                            $yorum_say_sayfa = $yorum_say_sorgu->num_rows;
+                            $son_sayfa = $yorum_say_sayfa / 5;
                             $son_sayfa = ceil($son_sayfa);   
                             header("Location:breakingbad.php?sayfa=yorum&yorums=$son_sayfa");
                             
@@ -816,6 +817,19 @@ if(isset($_SESSION["Kullanici"])){
                             ';
                             $altyorumbul_sorgu = $db->query("SELECT * FROM altyorum WHERE ustyorumid = '$yorum_id'");
                             $altyorumbul_kontol = $altyorumbul_sorgu->num_rows;
+                            if(isset($_SESSION["Kullanici"])){
+                                if($yorum_kacinci >= 5){
+                                    $yorum_kacinci = $yorum_kacinci % 5;
+                                    if($yorum_kacinci % 5 == 0){
+                                        $yorum_kacinci = 0;
+                                    }
+                                    
+                                }
+                                $altyorumekleAc = "altyorumekleAc($yorum_kacinci)";
+                            }
+                            else{
+                                $altyorumekleAc = "uyegiris($yorum_kacinci)";
+                            }
                             if($altyorumbul_kontol >=0){
                                 echo '<div class="alt-yorum" style="margin-top:15px;margin-left:50px;display:block;">
                                 <a class="a-cevaplar" style="float:none;" onclick="altCevapAc('.$yorum_kacinci.')">Cevaplar&nbsp;('.$altyorumbul_kontol.')</a>
@@ -849,42 +863,17 @@ if(isset($_SESSION["Kullanici"])){
                             }
                             echo '
                             <div class="yorum-alt-secenekler" style="width:510px;margin-left: 50px;margin-top: 25px;">';
-                            if(isset($_SESSION["Kullanici"])){
-                                if(isset($_GET["like"])){
-                                    $k_adi = $_SESSION["Kullanici"];
-                                    $like = $_GET["like"];
-                                    if($like == 1){
-                                        $like_sorgu = $db->query("SELECT * FROM ybegeni WHERE username = '$k_adi' AND yid = '$yorum_id' ");
-                                        $like_sorgu_kontrol = $like_sorgu->num_rows;
-                                        if($like_sorgu_kontrol > 0){
-                                            $like_varmi_kontrol = $db->query("SELECT * FROM ybegeni WHERE yid = '$yorum_id' AND username = '$k_adi' ");
-                                            $like_varmi_kontrol_veri = $like_varmi_kontrol->fetch_assoc();
-                                            if($like_varmi_kontrol_veri["begeni"] == 1){
-                                            $likesi_sorgu = $db->query("UPDATE yorumlar SET begeni=begeni-1 WHERE id = '$yorum_id'");
-                                             $like_sıfırla = $db->query("UPDATE ybegeni SET begeni=0 WHERE yid = '$yorum_id' AND username = '$k_adi'");
-                                             header("Location:breakingbad.php?sayfa=yorum");
-                                            }
-                                            else if($like_varmi_kontrol_veri["begeni"] == 0){
-                                                $likesi_sorgu = $db->query("UPDATE yorumlar SET begeni=begeni+1 WHERE id = '$yorum_id'");
-                                             $like_sıfırla = $db->query("UPDATE ybegeni SET begeni=1 WHERE yid = '$yorum_id' AND username = '$k_adi'");
-                                             header("Location:breakingbad.php?sayfa=yorum");
-                                            }
-                                            
-                                        }
-                                        else{
-                                            $like_ekle = $db->query("INSERT INTO ybegeni (yid,username,begeni) values ('$yorum_id','$k_adi',1)");
-                                            $yoruma_like_ekle = $db->query("UPDATE yorumlar SET begeni=begeni+1 WHERE id = '$yorum_id'");
-                                            header("Location:breakingbad.php?sayfa=yorum");
-                                        }
-                                    }
-                                    else{
-                                        header("Location:breakingbad.php?sayfa=yorum");
+                            if(@isset($_SESSION["Kullanici"])){ 
+                                if(isset($_GET["yorums"])){
+                                    if($_GET["yorums"] > 0){
+                                        $sayfa = $_GET["yorums"];
                                     }
                                 }
-                            }
-                            if(@isset($_SESSION["Kullanici"])){ 
+                                else{
+                                    $sayfa = 1;
+                                }
                             echo'
-                                <a href="breakingbad.php?sayfa=yorum&like=1"><span class="like-butonu"></span></a> 
+                                <a href="breakingbad.php?sayfa=yorum&like=1&yorum='.$yorum_id.'&yorums='.$sayfa.'"><span class="like-butonu"></span></a> 
                                 ';
                             }
                             else{
@@ -896,13 +885,6 @@ if(isset($_SESSION["Kullanici"])){
                                 echo'
                                <a title="'.@$dizi2[0].', '.@$dizi2[1].', '.@$dizi2[2].'..."><span class="like-sayac" alt="">'.$yorum_begeni.'</span></a>
                                 <span style="float:left;margin-top: 5px;margin-left: 5px;">|';
-                                if(isset($_SESSION["Kullanici"])){
-                                    $yorum_bul =
-                                    $altyorumekleAc = "altyorumekleAc($yorum_kacinci)";
-                                }
-                                else{
-                                    $altyorumekleAc = "uyegiris($yorum_kacinci)";
-                                }
                                 echo'
                                     <a class="alt-cevap-ekle" onclick="'.$altyorumekleAc.'">
                                         Cevapla
@@ -916,8 +898,18 @@ if(isset($_SESSION["Kullanici"])){
                                 <form action="breakingbad.php" method="POST">
                                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                         <tr>
-                                            <td colspan="2" align="center">
+                                            <td colspan="2" align="center">';
+                                            if(isset($_GET["yorums"])){
+                                                if($_GET["yorums"] > 0){
+                                                    $sayfa = $_GET["yorums"];
+                                                }
+                                                else{
+                                                    $sayfa = 1;
+                                                }
+                                            }
+                                            echo'
                                                 <input type="radio" style="display:none" name="ust-yorum-id" value="'.$yorum_id.'" checked>
+                                                <input type="radio" style="display:none" name="yorums" value="'.$sayfa.'" checked>
                                                 <textarea maxlength="370" name="a-comments"
                                                     style="padding: 4px;font-size: 14px;width: 598px;height: 100px;box-sizing: border-box;resize: none;"></textarea>
                                             </td>
@@ -947,7 +939,10 @@ if(isset($_SESSION["Kullanici"])){
                                     $ust_yorum_id = $_POST["ust-yorum-id"];
                                     $yorumcunun_adi =$_SESSION["Kullanici"];
                                     $altyorumekle_sorgu = $db->query("INSERT INTO altyorum (ustyorumid,username,yorum) values ('$ust_yorum_id','$yorumcunun_adi','$alt_yorum')");
-                                    header("Location:breakingbad.php?sayfa=yorum");
+                                    $sayfa = $_POST["yorums"];
+                                    header("Location:breakingbad.php?sayfa=yorum&yorums=$sayfa");
+                                    
+                                    
                                     
                                 }
                                 
@@ -958,7 +953,7 @@ if(isset($_SESSION["Kullanici"])){
 
                     </div>
                     <?php
-                        if($son_sayfa > 1 && @($_GET["sayfa"] == "yorum")){
+                        if($son_sayfa > 1 && @($_GET["sayfa"] == "yorum") ){
 
                         
                     ?>
@@ -1011,7 +1006,7 @@ if(isset($_SESSION["Kullanici"])){
                             <?php
                                 if($son_sayfa == 3){
                             ?>
-                            <a class="<?php if($sayfa_num == 3){echo "aktifsayfa";} else{echo "sayfalama";} ?>" <?php if($sayfa_num != 2){echo 'href="breakingbad.php?sayfa=yorum&yorums=3"';} ?>>3</a>
+                            <a class="<?php if($sayfa_num == 3){echo "aktifsayfa";} else{echo "sayfalama";} ?>" <?php if($sayfa_num != 3){echo 'href="breakingbad.php?sayfa=yorum&yorums=3"';} ?>>3</a>
                             <?php
                                 }
                             ?>
@@ -1026,7 +1021,7 @@ if(isset($_SESSION["Kullanici"])){
                 <div id="sag-govde">
                     <div class="kisa-sol" id="yorum-poster" style="display:<?php if(@$_GET["sayfa"] == "yorum"){ echo "block";}else{echo "none";} ?>">
                         <a href="breakingbad.php" style="margin-top:-4px; margin-bottom: -8px;">
-                            <img src="filmPoster/breakingyorum.jpg" width="308" style="border-radius:4px;"
+                            <img src="filmPoster/breakyorum.jpg" width="308" style="border-radius:4px;"
                                 title="Breaking Bad" alt="Breaking Bad">
                         </a>
                     </div>
@@ -1146,6 +1141,43 @@ if(isset($_GET["puan"])){
         header("Location:index.php");
     }
     }
+?>
+<?php
+if(isset($_SESSION["Kullanici"])){
+    if(isset($_GET["like"])){
+        $k_adi = $_SESSION["Kullanici"];
+        $yorum_id = $_GET["yorum"];
+        $like = $_GET["like"];
+        $sayfa = $_GET["yorums"];
+        if($like == 1){
+            $like_sorgu = $db->query("SELECT * FROM ybegeni WHERE username = '$k_adi' AND yid = '$yorum_id' ");
+            $like_sorgu_kontrol = $like_sorgu->num_rows;
+            if($like_sorgu_kontrol > 0){
+                $like_varmi_kontrol = $db->query("SELECT * FROM ybegeni WHERE yid = '$yorum_id' AND username = '$k_adi' ");
+                $like_varmi_kontrol_veri = $like_varmi_kontrol->fetch_assoc();
+                if($like_varmi_kontrol_veri["begeni"] == 1){
+                $likesi_sorgu = $db->query("UPDATE yorumlar SET begeni=begeni-1 WHERE id = '$yorum_id'");
+                 $like_sıfırla = $db->query("UPDATE ybegeni SET begeni=0 WHERE yid = '$yorum_id' AND username = '$k_adi'");
+                 header("Location:breakingbad.php?sayfa=yorum&yorums=$sayfa");
+                }
+                else if($like_varmi_kontrol_veri["begeni"] == 0){
+                    $likesi_sorgu = $db->query("UPDATE yorumlar SET begeni=begeni+1 WHERE id = '$yorum_id'");
+                 $like_sıfırla = $db->query("UPDATE ybegeni SET begeni=1 WHERE yid = '$yorum_id' AND username = '$k_adi'");
+                 header("Location:breakingbad.php?sayfa=yorum&yorums=$sayfa");
+                }
+                
+            }
+            else{
+                $like_ekle = $db->query("INSERT INTO ybegeni (yid,username,begeni) values ('$yorum_id','$k_adi',1)");
+                $yoruma_like_ekle = $db->query("UPDATE yorumlar SET begeni=begeni+1 WHERE id = '$yorum_id'");
+                header("Location:breakingbad.php?sayfa=yorum&yorums=$sayfa");
+            }
+        }
+        else{
+            header("Location:breakingbad.php?sayfa=yorum");
+        }
+    }
+}
 ?>
 <?php
 $db->close();

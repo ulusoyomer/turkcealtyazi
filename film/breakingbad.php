@@ -732,9 +732,12 @@ if(isset($_SESSION["Kullanici"])){
                             }
                             $yorumyapan_adi = $_SESSION["Kullanici"];
                             $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'Breaking Bad'");
-                            $yorum_say = $yorum_say_sorgu->num_rows;
                             $yorumekleme_sorgusu = $db->query("INSERT INTO yorumlar (username,yorum,diziadi,begeni,kacinci,dizibolum,dizisezon) values('$yorumyapan_adi','$comment','Breaking Bad',0,'$yorum_say','$dizi_bolum',' $dizi_sezon')");
-                            header("Location:breakingbad.php?sayfa=yorum");
+                            $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'Breaking Bad'");
+                            $yorum_say = $yorum_say_sorgu->num_rows;
+                            $son_sayfa = $yorum_say / 5;
+                            $son_sayfa = ceil($son_sayfa);   
+                            header("Location:breakingbad.php?sayfa=yorum&yorums=$son_sayfa");
                             
                         }
                                 }
@@ -747,8 +750,29 @@ if(isset($_SESSION["Kullanici"])){
                         </div>
                         
                         <?php
-                        $sayfa_yorum_yazdirma_sorgusu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Breaking Bad' LIMIT 10");
+                        if(isset($_GET["yorums"])){
+                            if($_GET["yorums"] > 0){
+                                $sayfa = $_GET["yorums"]-1;
+                                $sayfa = $sayfa * 5;
+                                $sayfa_num = $_GET["yorums"];
+                            }
+                            else{
+                                $sayfa = 0;
+                                $sayfa_num = 1;
+                            }
+                            
+                        }
+                        else{
+                            $sayfa = 0;
+                            $sayfa_num = 1;
+                        }
+                        $sayfa_yorum_yazdirma_sorgusu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Breaking Bad' LIMIT $sayfa,5");
                         $sayfa_yorum_yazdirma_kontrol = $sayfa_yorum_yazdirma_sorgusu->num_rows;
+                        $son_sayfa_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Breaking Bad'");
+                        $yorum_num = $son_sayfa_sorgu->num_rows;
+                        $son_sayfa = $yorum_num;
+                        $son_sayfa/=5;
+                        $son_sayfa = ceil($son_sayfa);
                         if($sayfa_yorum_yazdirma_kontrol > 0){
                             while($yorumun_verileri = $sayfa_yorum_yazdirma_sorgusu->fetch_assoc()){
                                 $yorum_metni = $yorumun_verileri["yorum"];
@@ -933,12 +957,76 @@ if(isset($_SESSION["Kullanici"])){
                         ?>
 
                     </div>
+                    <?php
+                        if($son_sayfa > 1){
 
+                        
+                    ?>
+                        <div class="sblock page" style="background: none; border: none;">
+                            <div style="width: 50%; margin:5px auto;">
+                            <?php
+                        if($son_sayfa > 3){
+                            if($sayfa_num < 3 ){
+                        ?>
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">< Önceki</a>
+                            <a class="<?php if($sayfa_num == 1){echo "aktifsayfa";} else{echo "sayfalama";} ?>" <?php if($sayfa_num != 1){echo 'href="breakingbad.php?sayfa=yorum&yorums=1"';} ?>>1</a>
+                            <a class="<?php if($sayfa_num == 2){echo "aktifsayfa";} else{echo "sayfalama";} ?>" <?php if($sayfa_num != 2){echo 'href="breakingbad.php?sayfa=yorum&yorums=2"';} ?>>2</a>
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=3">3</a>
+                            ...
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=<?php echo $son_sayfa;  ?>"><?php echo $son_sayfa;  ?></a>
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=<?php if($sayfa_num != $son_sayfa){echo $sayfa_num+1;}  ?>">Sonraki ></a>
+                           
+                           <?php
+                            }
+                            elseif($sayfa_num > $son_sayfa-2){
+                           ?>
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">< Önceki</a>
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=1">1</a>
+                            ...
+                            <a class="<?php if($sayfa_num == $son_sayfa-2){echo "aktifsayfa";} else{echo "sayfalama";} ?>" <?php if($sayfa_num != $son_sayfa-2){echo 'href="breakingbad.php?sayfa=yorum&yorums='.($son_sayfa-2).'"';} ?>><?php echo $son_sayfa-2;  ?></a>
+                            <a class="<?php if($sayfa_num == $son_sayfa-1){echo "aktifsayfa";} else{echo "sayfalama";} ?>" <?php if($sayfa_num != $son_sayfa-1){echo 'href="breakingbad.php?sayfa=yorum&yorums='.($son_sayfa-1).'"';} ?>><?php echo $son_sayfa-1;  ?></a>
+                            <a class="<?php if($sayfa_num == $son_sayfa){echo "aktifsayfa";} else{echo "sayfalama";} ?>" <?php if($sayfa_num != $son_sayfa){echo 'href="breakingbad.php?sayfa=yorum&yorums='.$son_sayfa.'"';} ?>><?php echo $son_sayfa;  ?></a>
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=<?php if($sayfa_num != $son_sayfa){echo $sayfa_num+1;}  ?>">Sonraki ></a>
+                           <?php
+                            }elseif($sayfa_num >= 3){
+                           ?>
+                               <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">< Önceki</a>
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=1">1</a>
+                            ...
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=<?php echo $sayfa_num-1; ?>"><?php echo $sayfa_num-1;  ?></a>
+                            <a class="aktifsayfa"><?php echo $sayfa_num;  ?></a>
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=<?php echo $sayfa_num+1;  ?>"><?php echo $sayfa_num+1;  ?></a>
+                            ...
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=<?php echo $son_sayfa;  ?>"><?php echo $son_sayfa;  ?></a>
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=<?php if($sayfa_num != $son_sayfa){echo $sayfa_num+1;}  ?>">Sonraki ></a> 
+                           <?php
+                            }
+                           ?>
+                           <?php
+                        }else{
+                        ?>
+                            <a class="sayfalama" href="breakingbad.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">< Önceki</a>
+                            <a class="<?php if($sayfa_num == 1){echo "aktifsayfa";} else{echo "sayfalama";} ?>" <?php if($sayfa_num != 1){echo 'href="breakingbad.php?sayfa=yorum&yorums=1"';} ?>>1</a>
+                            <a class="<?php if($sayfa_num == 2){echo "aktifsayfa";} else{echo "sayfalama";} ?>" <?php if($sayfa_num != 2){echo 'href="breakingbad.php?sayfa=yorum&yorums=2"';} ?>>2</a>
+                            <?php
+                                if($son_sayfa == 3){
+                            ?>
+                            <a class="<?php if($sayfa_num == 3){echo "aktifsayfa";} else{echo "sayfalama";} ?>" <?php if($sayfa_num != 2){echo 'href="breakingbad.php?sayfa=yorum&yorums=3"';} ?>>3</a>
+                            <?php
+                                }
+                            ?>
+                        <?php }
+                        ?>
+                            </div>
+                        </div>
+                        <?php
+                        }
+                        ?>
                 </div>
                 <div id="sag-govde">
                     <div class="kisa-sol" id="yorum-poster" style="display:<?php if(@$_GET["sayfa"] == "yorum"){ echo "block";}else{echo "none";} ?>">
                         <a href="breakingbad.php" style="margin-top:-4px; margin-bottom: -8px;">
-                            <img src="filmPoster/breakyorum.jpg" width="308" style="border-radius:4px;"
+                            <img src="filmPoster/breakingyorum.jpg" width="308" style="border-radius:4px;"
                                 title="Breaking Bad" alt="Breaking Bad">
                         </a>
                     </div>

@@ -828,6 +828,13 @@ if(isset($_SESSION["Kullanici"])){
                                 $altyorumekleAc = "altyorumekleAc($yorum_kacinci)";
                             }
                             else{
+                                if($yorum_kacinci >= 5){
+                                    $yorum_kacinci = $yorum_kacinci % 5;
+                                    if($yorum_kacinci % 5 == 0){
+                                        $yorum_kacinci = 0;
+                                    }
+                                    
+                                }
                                 $altyorumekleAc = "uyegiris($yorum_kacinci)";
                             }
                             if($altyorumbul_kontol >=0){

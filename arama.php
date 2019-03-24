@@ -1,22 +1,24 @@
 <?php
-                                                require_once("../baglanti.php");
-                                            ?>
+require_once("baglanti.php");
+?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta charset="UTF-8">
     <title>TürkçeAltyazı</title>
-    <link rel="stylesheet" href="../main.css">
+    <link rel="stylesheet" href="main.css">
 </head>
 
 <body onscroll="yukari()">
 
     <div id="cerceve">
-        <div id="header" onscroll="yukari()">
-            <a id="hlogo" href="../index.php" title="Altyazı"></a>
+        <div id="header">
+            <a id="hlogo" href="index.php" title="Altyazı"></a>
             <div id="Find">
                 <ul>
+
                     <li onclick="menuac()" onmouseout="kapat()">
                         <a class="menu-bas-yazı">Altyazı</a>
                         <ul class="ust-menu" onmouseover="ac()">
@@ -28,7 +30,7 @@
                         </ul>
                     </li>
                 </ul>
-                <form method="POST" action="../arama.php">
+                <form method="POST" action="arama.php">
                     <input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz" name="find">
                     <input type="submit" value="">
                 </form>
@@ -42,7 +44,7 @@
             <div class="clear"></div>
             <div id="menu">
                 <ul>
-                    <li class="orta-menu" onmouseover="ortamenuac(0)"><a href="../index.php">Anasayfa</a>
+                    <li class="orta-menu" onmouseover="ortamenuac(0)"><a href="index.php">Anasayfa</a>
                         <ul class="orta-menu-liste" style="display: block;">
                             <li><a href="" #>TA 250 Film</a></li>
                             <li><a href="" #>Imdb 250 Film</a></li>
@@ -106,30 +108,65 @@
                 </ul>
             </div>
             <?php 
-                                                        if(!isset($_SESSION["Kullanici"])){
-                                            
-                                                        
-                                                        ?>
+            if(isset($_COOKIE["giris"]) && !isset($_SESSION["Kullanici"]) ){
+                $giris_verileri = json_decode($_COOKIE["giris"]);
+                $kadi=$giris_verileri->kullaniciadi;
+                $sifre = $giris_verileri->parola;
+                $giris_sorgusu = $db->query("SELECT * from uyeler WHERE username='$kadi' AND sifre='$sifre'");
+                $giris_sorgusu_kontrol = $giris_sorgusu->num_rows;
+                if($giris_sorgusu_kontrol > 0){
+                    $_SESSION["Kullanici"] = $kadi;
+                    header("Location:index.php");
+                }
+            
+            
+            
+            }
+            if(!isset($_SESSION["Kullanici"])){
+                echo '
+          <script>
+          if (typeof(Storage) !== "undefined") {
+            sessionStorage.clear();
+          }
+           
+          </script>      
+                
+                ';
+            ?>
             <a id="giris" onclick="gpaneliAc()">Giriş</a>
-            <a id="register" href="../kayit.php">Kayıt</a>
+            <a id="register" href="kayit.php">Kayıt</a>
             <div id="girispaneli" onclick="gpaneliAc()" style="display:none;">
-                <form method="POST" action="../uyegiris.php">
+                <form method="POST" action="uyegiris.php">
                     <input class="girisler" type="text" placeholder="Kullanıcı Adı" name="username" required="required">
                     <input class="girisler" type="password" placeholder="Parola" name="parola" required="required">
                     <input type="submit" value="Giriş">
                     <span>
-                        <input type="checkbox" name="remember">Beni Hatırla
+                        <input type="checkbox" name="remember" value="1">Beni Hatırla
                     </span>
                 </form>
             </div>
             <?php
-                                                        }
-                                                        else{
-                                                        ?>
-            <ul>
+            }
+            else{
+                $k_adi = $_SESSION["Kullanici"];
+                $uye_veri_sorgu = $db->query("SELECT * from uyeler WHERE username = '$k_adi'");
+                $uye_veri = $uye_veri_sorgu->fetch_assoc();
+                $uye_id = $uye_veri["id"];
+                echo '
+          <script>
+                    if (typeof(Storage) !== "undefined") {
+                        // Store
+                        sessionStorage.setItem("Kullanici", "'.$k_adi.'");
+                    
+                    }
+           
+          </script>      
+                
+                ';
+
+            ?> <ul>
                 <li class="ok orta-menu">
-                    <a id="giris" class="ok" onclick="gpaneliAc2()">
-                        JON_SINOW&nbsp;</a>
+                    <a id="giris" class="ok" onclick="gpaneliAc2()"><?php echo $name; ?>&nbsp;</a>
                 </li>
             </ul>
             <div id="girispaneli2" onclick="gpaneliAc2()">
@@ -140,7 +177,7 @@
                             Özel Mesaj</a>
                     </li>
                     <li>
-                        <a href="../members/1.php">
+                        <a href="members/<?php echo $uye_id; ?>.php">
                             <i class="r2"></i>
                             Kullanıcı Sayfam</a>
                     </li>
@@ -230,115 +267,73 @@
                             Ayarlarım</a>
                     </li>
                     <li style="background: #c30;">
-                        <a href="../cikis.php">
+                        <a href="cikis.php">
                             <i class="r20"></i>
                             Çıkış Yap</a>
                     </li>
                 </ul>
             </div>
+
             <?php
-                                                        }
-                                                            ?>
+            }
+                ?>
 
             <div class="clear"></div>
         </div>
-
         <div id="govde">
             <div id="zemingovde">
                 <div id="solgovde">
-                    <div class="sblock">
-                        <table>
-                            <tr>
-                                <td valign="top" style="border-right:1px solid #e8e8e8; width: 150px;">
-                                    <div style="text-align: center; width:150px;">
-                                        <img src="../members/avatar/default.png">
+                    <?php
+                        if(isset($_POST["find"])){
+                            if($_POST["find"] != ""){
+                                $find = filtre($_POST["find"]);
+                                $arama_sorgusu = $db->query("SELECT * FROM yildizoy WHERE isim like '%$find%'");
+                                $arama_sorgu_kontrol = $arama_sorgusu->num_rows;
+                                if($arama_sorgu_kontrol > 0){
+                                    while($dizi_verileri = $arama_sorgusu->fetch_assoc()){
+                                        $dizi_name = $dizi_verileri["isim"];
+                                        $dizi_yol = $dizi_verileri["yol"];
+                                        $dizi_poster = $dizi_verileri["poster"];
+                                        echo'
+                                        <div class="sblock" style="height:150px;">
+                                        <a href="'.$dizi_yol.'" style="margin-left:5px;  display: inline-block;"><img src="'.$dizi_poster.'" width="100" height="150" style="border-radius:4px;" alt="'.$dizi_name.'"></a>
+                                        <a href="'.$dizi_yol.'" style="display:inline-block;position: relative; top:-130px; left:5px;"><span style="font-size: 20px; color: #069;"><strong>'.$dizi_name.'</strong></span>
+                                        <span>(TARİH)</span>
+                                        </a>
+                                        <div style="position:relative; left:120px; top:-100px;">
+                                            <p><span><strong>Yönetmen : </strong></span><span>Lorem ipsum dolor sit amet consectetur adipisicing elit</span></p>
+                                            <p><span><strong>Oyuncular : </strong></span><span>Lorem ipsum dolor sit amet consectetur adipisicing elit</span></p>
+                                            <p><span><strong>Tür : </strong></span><span>Lorem ipsum dolor sit amet consectetur adipisicing elit</span></p>
+                                        </div>
                                     </div>
-                                    <div style="text-align: center; width:150px;">
-                                        <a><img src="../img/profil_pm.png"></a>
-                                    </div>
-                                    <div class="kullanicipaneli">
-                                        <ul>
-                                            <li><a>İzleyici Biyografisi</a></li>
-                                            <li><a>Forum Başlıkları</a></li>
-                                            <li><a>Oylar</a></li>
-                                            <li><a>İzleme Listesi</a></li>
-                                            <li><a>IMDb Top250 ile karşılaştır</a></li>
-                                            <li><a>TA Top250 ile karşılaştır</a></li>
 
-
-                                        </ul>
-                                    </div>
-                                </td>
-                                <td style="vertical-align: top; width: 100%;">
-                                    <table style="width:100%;">
-                                        <tr>
-                                            <td style="border-bottom:1px solid black; width:20%;">
-                                                <h1 style="font-weight: bold;font-size: 20px;display: inline;">
-                                                    JON_SINOW</h1>
-                                            </td>
-                                            <td style="border-bottom:1px solid black;"></td>
-                                            <td style="border-bottom:1px solid black;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Kayıt</b></td>
-                                            <td>:</td>
-                                            <td>2019-03-24 15:25:19</td>
-                                        </tr>
-                                        <tr>
-                                            <td><b>Son Giriş</b></td>
-                                            <td>:</td>
-                                            <td>24.03.2019 15:25</td>
-                                        </tr>
-                                        <tr>
-                                            <td style="border-bottom:1px solid black; width:26%;">
-                                                <h1 style="font-weight: bold;font-size: 20px;display: inline;">İzleme
-                                                    Listesi</h1>
-                                            </td>
-                                            <td style="border-bottom:1px solid black; width:5%;">
-                                                <?php
-                                                                        $izleme_list_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = 1 ");
-                                                                        $sayi = $izleme_list_sorgu->num_rows;
-                                                                        if($sayi > 0){
-                                                                      echo '  <h1 style="font-weight: bold;font-size: 20px;display: inline;">('.$sayi.')</h1>';
-                                                                       }
-                                                                        ?>
-                                            </td>
-                                            <td style="border-bottom:1px solid black;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="3" style="width:100%;">
-                                                <div>
-                                                    <ul style="width:100%;">
-                                                        <?php
-                                                                                $izleme_list_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = 1 ");
-                                                                                
-                                                                                while($izleme_list_dizi = $izleme_list_sorgu->fetch_assoc()){
-                                                                                    $dizi_name = $izleme_list_dizi["diziadi"];
-                                                                                    $sorgu2 = $db->prepare("SELECT * FROM yildizoy WHERE isim =?");
-                                                                                    $sorgu2->bind_param("s",$dizi_name);
-                                                                                    $sorgu2->execute();
-                                                                                    $sorgu2->bind_result($id,$isim,$oy,$toplam,$poster,$yol,$tur,$yorum_pos);
-                                                                                    while($sorgu2->fetch()){
-                                                                                        $dizi_poster = $poster;
-                                                                                        $dizi_adi = $isim;
-                                                                                    }
-                                                                                    echo '
-                                                                                    <li style="float:left;display:inline-block;margin-right:4px;">
-                                                                                        <img style="width:95px; height :140px;" src="../'.$dizi_poster.'" >
-                                                                                        <span style="display:block; text-align:center; font-size:11px;">'.$dizi_adi.'</span>
-                                                                                    </li>
-                                                                                    ';
-                                                                                 }
-                                                                                ?>
-                                                    </ul>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
+                                        ';
+                                    }
+                                }
+                                else{
+                                    echo'
+                            <div class="sblock">
+                                <div style="margin:50px 200px; font-size:20px; color:red;">Arama Sonucu YOK..</div>
+                            </div>
+                                ';
+                                }
+                            }
+                            else{
+                                echo'
+                            <div class="sblock">
+                                <div style="margin:50px 200px; font-size:20px; color:red;">Arama Sonucu YOK..</div>
+                            </div>
+                                ';
+                            }
+                        }
+                        else{
+                            echo'
+                            <div class="sblock">
+                                <div style="margin:50px 200px; font-size:20px; color:red;">Arama Sonucu YOK..</div>
+                            </div>
+                                ';
+                        }
+                    ?>
                 </div>
                 <div id="sag-govde">
                     <div class="kisa-sol">
@@ -389,9 +384,30 @@
                             </ul>
                         </div>
                     </div>
-
-
-
+                    <div class="kisa-sol">
+                        <div class="baslik">
+                            <h2><a href="#" title="Pek Yakında">Alt Yazıgönderenler</a></h2>
+                        </div>
+                        <div class="alt-menu">
+                            <a>Bugün</a>
+                            <a>Bu Hafta</a>
+                            <a>Bu Ay</a>
+                            <a>Bu Yıl</a>
+                            <a>Geçen Yıl</a>
+                        </div>
+                        <div class="alt-menu-icerik">
+                            <ul>
+                                <li>
+                                    <a>Lorem ipsum dolor sit amet.</a>
+                                </li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="kisa-sol">
                         <div class="baslik">
                             <h2><a href="#" title="Pek Yakında">Yakında</a></h2>
@@ -416,29 +432,55 @@
                             </ul>
                         </div>
                     </div>
+                    <div class="kisa-sol">
+                        <div class="baslik">
+                            <h2><a href="#" title="Pek Yakında">Ne var ne yok!</a></h2>
+                        </div>
+                        <div class="alt-menu">
+                            <a>Bugün</a>
+                            <a>Bu Hafta</a>
+                            <a>Bu Ay</a>
+                            <a>Bu Yıl</a>
+                            <a>Geçen Yıl</a>
+                        </div>
+                        <div class="alt-menu-icerik">
+                            <ul>
+                                <li>
+                                    <a>Lorem ipsum dolor sit amet.</a>
+                                </li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
 
 
                 </div>
+
+
+
+
+
+
+
+
             </div>
         </div>
-
         <div id="footer">
             <span id="eposta"></span>
             <span id="son">Türkçe Altyazı © 2007 - 2019</span>
         </div>
         <a id="yukari" href="#header" style="display:none;"></a>
-
-
-
-
-
-
-
     </div>
-    <script src="../index.js"></script>
+    <script src="index.js"></script>
+    <script src="slider.js"></script>
 </body>
 
 </html>
 <?php
-                                                    $db->close();
-                                            ?>
+$db->close();
+?>

@@ -30,7 +30,9 @@ require_once("baglanti.php");
                         </ul>
                     </li>
                 </ul>
-                <form><input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz">
+                <form method="POST" action="arama.php">
+                    <input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz"
+                        name="find">
                     <input type="submit" value="">
                 </form>
             </div>
@@ -326,137 +328,43 @@ require_once("baglanti.php");
                         </div>
                         <div id="bodyicerik">
                             <div id="icerik">
-                                <a href="film/gameof.php">
-                                    <img src="film/filmPoster/game.jpeg" alt="House M.D." width="148" height="198">
-                                    <span class="FilmName">Game of Thrones</span>
-                                    <span class="FilmYılı">2018 / Dizi</span>
+                                <?php
+                            $film_sorgu = $db->query("SELECT * FROM yildizoy ORDER BY id DESC LIMIT 8");
+                            $film_sorgu_kontrol = $film_sorgu->num_rows;
+                            if($film_sorgu_kontrol > 0){
+                                while($film_verileri = $film_sorgu->fetch_assoc()){
+                                    $name = $film_verileri["isim"];
+                                    $poster =$film_verileri["poster"];
+                                    $yol = $film_verileri["yol"];
+                                    $tur = $film_verileri["tur"];
+                                    echo'
+                                    <a href="'.$yol.'">
+                                    <img src="'.$poster.'" alt="'.$name.'" width="148" height="198">
+                                    <span class="FilmName">'.$name.'</span>
+                                    <span class="FilmYılı">LOREM / '.$tur.'</span>
                                     <span class="Ustbaslik">Yönetmen</span>
                                     <span class="alticerik">Lorem</span>
                                     <span class="Ustbaslik">Tür</span>
-                                    <span class="alticerik">Dram</span>
+                                    <span class="alticerik">LOREM</span>
                                     <span class="Ustbaslik">Çevirmen</span>
                                     <span class="alticerik">Ömer Ulusoy</span>
                                     <span class="alticerik">
-                                        <span class="puan">7.0</span>
-                                        <span class="sayı"> (9,420)</span>
+                                        <span class="puan">PUAN</span>
+                                        <span class="sayı">LOREM</span>
                                     </span>
                                     <span class="Ustbaslik">Zaman</span>
 
 
                                 </a>
-                                <a href="film/breakingbad.php">
-                                    <img src="film/filmPoster/break.jpg" alt="Breaking Bad" width="148" height="198">
-                                    <span class="FilmName">Breaking Bad</span>
-                                    <span class="FilmYılı">2018 / Dizi</span>
-                                    <span class="Ustbaslik">Yönetmen</span>
-                                    <span class="alticerik">Lorem</span>
-                                    <span class="Ustbaslik">Tür</span>
-                                    <span class="alticerik">Dram</span>
-                                    <span class="Ustbaslik">Çevirmen</span>
-                                    <span class="alticerik">Ömer Ulusoy</span>
-                                    <span class="alticerik">
-                                        <span class="puan">7.0</span>
-                                        <span class="sayı"> (9,420)</span>
-                                    </span>
-                                    <span class="Ustbaslik">Zaman</span>
-                                </a>
-                                <a href="#">
-                                    <img src="film/filmPoster/narcos.jpg" alt="Narcos" width="148" height="198">
-                                    <span class="FilmName">Narcos</span>
-                                    <span class="FilmYılı">2018 / Dizi</span>
-                                    <span class="Ustbaslik">Yönetmen</span>
-                                    <span class="alticerik">Lorem</span>
-                                    <span class="Ustbaslik">Tür</span>
-                                    <span class="alticerik">Dram</span>
-                                    <span class="Ustbaslik">Çevirmen</span>
-                                    <span class="alticerik">Ömer Ulusoy</span>
-                                    <span class="alticerik">
-                                        <span class="puan">7.0</span>
-                                        <span class="sayı"> (9,420)</span>
-                                    </span>
-                                    <span class="Ustbaslik">Zaman</span>
-                                </a>
-                                <a href="#">
-                                    <img src="film/filmPoster/sherlock.jpg" alt="Sherlock" width="148" height="198">
-                                    <span class="FilmName">Sherlock</span>
-                                    <span class="FilmYılı">2018 / Dizi</span>
-                                    <span class="Ustbaslik">Yönetmen</span>
-                                    <span class="alticerik">Lorem</span>
-                                    <span class="Ustbaslik">Tür</span>
-                                    <span class="alticerik">Dram</span>
-                                    <span class="Ustbaslik">Çevirmen</span>
-                                    <span class="alticerik">Ömer Ulusoy</span>
-                                    <span class="alticerik">
-                                        <span class="puan">7.0</span>
-                                        <span class="sayı"> (9,420)</span>
-                                    </span>
-                                    <span class="Ustbaslik">Zaman</span>
-                                </a>
-                                <a href="#">
-                                    <img src="film/filmPoster/death.jpg" alt="Ölüm Defteri " width="148" height="198">
-                                    <span class="FilmName">Ölüm Defteri</span>
-                                    <span class="FilmYılı">2018 / Anime</span>
-                                    <span class="Ustbaslik">Yönetmen</span>
-                                    <span class="alticerik">Lorem</span>
-                                    <span class="Ustbaslik">Tür</span>
-                                    <span class="alticerik">Dram</span>
-                                    <span class="Ustbaslik">Çevirmen</span>
-                                    <span class="alticerik">Ömer Ulusoy</span>
-                                    <span class="alticerik">
-                                        <span class="puan">7.0</span>
-                                        <span class="sayı"> (9,420)</span>
-                                    </span>
-                                    <span class="Ustbaslik">Zaman</span>
-                                </a>
-                                <a href="#"> <img src="film/filmPoster/yuzuk.jpg"
-                                        alt="Yüzüklerin Efendisi: Kralın Dönüşü" width="148" height="198">
-                                    <span class="FilmName">Yüzüklerin Efendisi: Kralın Dönüşü</span>
-                                    <span class="FilmYılı">2018 / Film</span>
-                                    <span class="Ustbaslik">Yönetmen</span>
-                                    <span class="alticerik">Lorem</span>
-                                    <span class="Ustbaslik">Tür</span>
-                                    <span class="alticerik">Dram</span>
-                                    <span class="Ustbaslik">Çevirmen</span>
-                                    <span class="alticerik">Ömer Ulusoy</span>
-                                    <span class="alticerik">
-                                        <span class="puan">7.0</span>
-                                        <span class="sayı"> (9,420)</span>
-                                    </span>
-                                    <span class="Ustbaslik">Zaman</span></a>
-                                <a href="#"> <img src="film/filmPoster/Matrix.jpg" alt="Matrix" width="148"
-                                        height="198">
-                                    <span class="FilmName">Matrix</span>
-                                    <span class="FilmYılı">2018 / Film</span>
-                                    <span class="Ustbaslik">Yönetmen</span>
-                                    <span class="alticerik">Lorem</span>
-                                    <span class="Ustbaslik">Tür</span>
-                                    <span class="alticerik">Dram</span>
-                                    <span class="Ustbaslik">Çevirmen</span>
-                                    <span class="alticerik">Ömer Ulusoy</span>
-                                    <span class="alticerik">
-                                        <span class="puan">7.0</span>
-                                        <span class="sayı"> (9,420)</span>
-                                    </span>
-                                    <span class="Ustbaslik">Zaman</span></a>
-                                <a href="#">
-                                    <img src="film/filmPoster/black.jpg" alt="Black Mirror" width="148" height="198">
-                                    <span class="FilmName">Black Mirror</span>
-                                    <span class="FilmYılı">2018 / Dizi</span>
-                                    <span class="Ustbaslik">Yönetmen</span>
-                                    <span class="alticerik">Lorem</span>
-                                    <span class="Ustbaslik">Tür</span>
-                                    <span class="alticerik">Dram</span>
-                                    <span class="Ustbaslik">Çevirmen</span>
-                                    <span class="alticerik">Ömer Ulusoy</span>
-                                    <span class="alticerik">
-                                        <span class="puan">7.0</span>
-                                        <span class="sayı"> (9,420)</span>
-                                    </span>
-                                    <span class="Ustbaslik">Zaman</span>
-                                </a>
+                                        
+                                        ';
+                                }
+                            }
+                            ?>
+
                                 <div class="clear"></div>
                             </div>
-                            <a href="#" id="icerikson">Listenin Devamı »</a>
+                            <a href="tum.php" id="icerikson">Listenin Devamı »</a>
                         </div>
                     </div>
                     <div class="sblock">
@@ -469,12 +377,6 @@ require_once("baglanti.php");
                                     <span>Matrix</span>
                                     <a href="#" title="Matrix">
                                         <img src="film/filmPoster/matrix.jpg" alt="Matrix" width="120" height="100">
-                                    </a>
-                                </li>
-                                <li><span>Yüzüklerin Efendisi:</span>
-                                    <a href="#" title="Yüzüklerin Efendisi: Kralın Dönüşü">
-                                        <img src="film/filmPoster/yuzuk.jpg" alt="Yüzüklerin Efendisi: Kralın Dönüşü"
-                                            width="120" height="100">
                                     </a>
                                 </li>
 
@@ -560,7 +462,7 @@ require_once("baglanti.php");
                                     Accusantium, asperiores assumenda distinctio
                                     fugiat illum nulla perferendis quas quos, reiciendis saepe sed temporibus vitae.
                                     <a href="#">
-                                    <span class="ozet"></span>
+                                        <span class="ozet"></span>
                                     </a>
 
                                 </div>
@@ -920,7 +822,7 @@ require_once("baglanti.php");
                                             <?php echo $anketkayitdeger["cevapsekiz"] ?>
                                         </span>
                                     </li>
-                                    <li>
+                                    <li align="center">
                                         <span>
                                             <input type="submit" value="Gönder">
                                         </span>
@@ -936,12 +838,12 @@ require_once("baglanti.php");
 
                         </div>
                     </div>
-                        <div class="kisa-sol">
-                            <div class="baslik">
-                                <h2><a href="#" title="Pek Yakında">Anket Sonuçları</a></h2>
-                            </div>
-                            <div class="alt-menu-icerik-anket">
-                                <?php
+                    <div class="kisa-sol">
+                        <div class="baslik">
+                            <h2><a href="#" title="Pek Yakında">Anket Sonuçları</a></h2>
+                        </div>
+                        <div class="alt-menu-icerik-anket">
+                            <?php
                             $anketkayit = $db->query("SELECT * FROM anket");
                                     $anketkayitsayisi = $anketkayit->num_rows;
                                     $anketkayitdeger = $anketkayit->fetch_assoc();
@@ -972,16 +874,85 @@ require_once("baglanti.php");
                                     $sekizyuzde = number_format($sekizyuzde,0,",","");
                                     if($anketkayitsayisi > 0){
                                         ?>
-                                <div class="soru">
-                                    <a>
-                                        <?php echo $anketkayitdeger["soru"] ?></a>
-                                </div>
+                            <div class="soru">
+                                <a>
+                                    <?php echo $anketkayitdeger["soru"] ?></a>
+                            </div>
 
-                                <ul>
+                            <ul>
 
-                                    <li>
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapbir"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $birinciyuzde?>%;background: green;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:green">%
+                                            <?php echo $birinciyuzde?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapiki"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $ikinciyuzde?>%;background: red;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:red">%
+                                            <?php echo $ikinciyuzde ?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapuc"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $ucuncuyuzde?>%;background: #c0c15b;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:#c0c15b">%
+                                            <?php echo $ucuncuyuzde?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapdort"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $dorduncuyuzde?>%;background: gray;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:gray">%
+                                            <?php echo $dorduncuyuzde?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
                                         <span>
-                                            <?php echo $anketkayitdeger["cevapbir"] ?>
+                                            <?php echo $anketkayitdeger["cevapbes"] ?>
 
 
 
@@ -989,16 +960,18 @@ require_once("baglanti.php");
                                         <span>
 
                                             <span class="ceviri-durumu-gosterge-anket">
-                                                <span style="width:<?php echo $birinciyuzde?>%;background: green;"
+                                                <span style="width:<?php echo $besyuzde?>%;background: blue;"
                                                     class="ceviri-durumu-gosterge-ic-anket"></span>
                                             </span>
-                                            <span class="ceviri-durumu-yazı-anket" style="color:green">%
-                                                <?php echo $birinciyuzde?></span>
+                                            <span class="ceviri-durumu-yazı-anket" style="color:blue">%
+                                                <?php echo $besyuzde?></span>
                                         </span>
-                                    </li>
-                                    <li>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
                                         <span>
-                                            <?php echo $anketkayitdeger["cevapiki"] ?>
+                                            <?php echo $anketkayitdeger["cevapalti"] ?>
 
 
 
@@ -1006,16 +979,35 @@ require_once("baglanti.php");
                                         <span>
 
                                             <span class="ceviri-durumu-gosterge-anket">
-                                                <span style="width:<?php echo $ikinciyuzde?>%;background: red;"
+                                                <span style="width:<?php echo $altiyuzde?>%;background: pink;"
                                                     class="ceviri-durumu-gosterge-ic-anket"></span>
                                             </span>
-                                            <span class="ceviri-durumu-yazı-anket" style="color:red">%
-                                                <?php echo $ikinciyuzde ?></span>
+                                            <span class="ceviri-durumu-yazı-anket" style="color:pink">%
+                                                <?php echo $altiyuzde?></span>
                                         </span>
-                                    </li>
-                                    <li>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapyedi"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $yediyuzde?>%;background: orange;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:orange">%
+                                            <?php echo $yediyuzde?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
                                         <span>
-                                            <?php echo $anketkayitdeger["cevapuc"] ?>
+                                            <?php echo $anketkayitdeger["cevapsekiz"] ?>
 
 
 
@@ -1023,106 +1015,16 @@ require_once("baglanti.php");
                                         <span>
 
                                             <span class="ceviri-durumu-gosterge-anket">
-                                                <span style="width:<?php echo $ucuncuyuzde?>%;background: #c0c15b;"
+                                                <span style="width:<?php echo $sekizyuzde?>%;background: aqua;"
                                                     class="ceviri-durumu-gosterge-ic-anket"></span>
                                             </span>
-                                            <span class="ceviri-durumu-yazı-anket" style="color:#c0c15b">%
-                                                <?php echo $ucuncuyuzde?></span>
+                                            <span class="ceviri-durumu-yazı-anket" style="color:aqua">%
+                                                <?php echo $sekizyuzde?></span>
                                         </span>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <?php echo $anketkayitdeger["cevapdort"] ?>
+                                    </span>
+                                </li>
 
-
-
-                                        </span>
-                                        <span>
-
-                                            <span class="ceviri-durumu-gosterge-anket">
-                                                <span style="width:<?php echo $dorduncuyuzde?>%;background: gray;"
-                                                    class="ceviri-durumu-gosterge-ic-anket"></span>
-                                            </span>
-                                            <span class="ceviri-durumu-yazı-anket" style="color:gray">%
-                                                <?php echo $dorduncuyuzde?></span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <span>
-                                                <?php echo $anketkayitdeger["cevapbes"] ?>
-
-
-
-                                            </span>
-                                            <span>
-
-                                                <span class="ceviri-durumu-gosterge-anket">
-                                                    <span style="width:<?php echo $besyuzde?>%;background: blue;"
-                                                        class="ceviri-durumu-gosterge-ic-anket"></span>
-                                                </span>
-                                                <span class="ceviri-durumu-yazı-anket" style="color:blue">%
-                                                    <?php echo $besyuzde?></span>
-                                            </span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <span>
-                                                <?php echo $anketkayitdeger["cevapalti"] ?>
-
-
-
-                                            </span>
-                                            <span>
-
-                                                <span class="ceviri-durumu-gosterge-anket">
-                                                    <span style="width:<?php echo $altiyuzde?>%;background: pink;"
-                                                        class="ceviri-durumu-gosterge-ic-anket"></span>
-                                                </span>
-                                                <span class="ceviri-durumu-yazı-anket" style="color:pink">%
-                                                    <?php echo $altiyuzde?></span>
-                                            </span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <?php echo $anketkayitdeger["cevapyedi"] ?>
-
-
-
-                                        </span>
-                                        <span>
-
-                                            <span class="ceviri-durumu-gosterge-anket">
-                                                <span style="width:<?php echo $yediyuzde?>%;background: orange;"
-                                                    class="ceviri-durumu-gosterge-ic-anket"></span>
-                                            </span>
-                                            <span class="ceviri-durumu-yazı-anket" style="color:orange">%
-                                                <?php echo $yediyuzde?></span>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span>
-                                            <span>
-                                                <?php echo $anketkayitdeger["cevapsekiz"] ?>
-
-
-
-                                            </span>
-                                            <span>
-
-                                                <span class="ceviri-durumu-gosterge-anket">
-                                                    <span style="width:<?php echo $sekizyuzde?>%;background: aqua;"
-                                                        class="ceviri-durumu-gosterge-ic-anket"></span>
-                                                </span>
-                                                <span class="ceviri-durumu-yazı-anket" style="color:aqua">%
-                                                    <?php echo $sekizyuzde?></span>
-                                            </span>
-                                        </span>
-                                    </li>
-
-                                    <?php
+                                <?php
                                     }
                                     else{
                                         echo "Anket Bulunamadı";
@@ -1130,85 +1032,85 @@ require_once("baglanti.php");
                                  ?>
 
 
-                                </ul>
+                            </ul>
 
-                            </div>
                         </div>
-                            <div class="kisa-sol">
-                                <div class="baslik">
-                                    <h2><a href="#" title="Pek Yakında">Alt Yazıgönderenler</a></h2>
-                                </div>
-                                <div class="alt-menu">
-                                    <a>Bugün</a>
-                                    <a>Bu Hafta</a>
-                                    <a>Bu Ay</a>
-                                    <a>Bu Yıl</a>
-                                    <a>Geçen Yıl</a>
-                                </div>
-                                <div class="alt-menu-icerik">
-                                    <ul>
-                                        <li>
-                                            <a>Lorem ipsum dolor sit amet.</a>
-                                        </li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="kisa-sol">
-                                <div class="baslik">
-                                    <h2><a href="#" title="Pek Yakında">Yakında</a></h2>
-                                </div>
-                                <div class="alt-menu">
-                                    <a>Bugün</a>
-                                    <a>Bu Hafta</a>
-                                    <a>Bu Ay</a>
-                                    <a>Bu Yıl</a>
-                                    <a>Geçen Yıl</a>
-                                </div>
-                                <div class="alt-menu-icerik">
-                                    <ul>
-                                        <li>
-                                            <a>Lorem ipsum dolor sit amet.</a>
-                                        </li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="kisa-sol">
-                                <div class="baslik">
-                                    <h2><a href="#" title="Pek Yakında">Ne var ne yok!</a></h2>
-                                </div>
-                                <div class="alt-menu">
-                                    <a>Bugün</a>
-                                    <a>Bu Hafta</a>
-                                    <a>Bu Ay</a>
-                                    <a>Bu Yıl</a>
-                                    <a>Geçen Yıl</a>
-                                </div>
-                                <div class="alt-menu-icerik">
-                                    <ul>
-                                        <li>
-                                            <a>Lorem ipsum dolor sit amet.</a>
-                                        </li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    </ul>
-                                </div>
-                            </div>
+                    </div>
+                    <div class="kisa-sol">
+                        <div class="baslik">
+                            <h2><a href="#" title="Pek Yakında">Alt Yazıgönderenler</a></h2>
+                        </div>
+                        <div class="alt-menu">
+                            <a>Bugün</a>
+                            <a>Bu Hafta</a>
+                            <a>Bu Ay</a>
+                            <a>Bu Yıl</a>
+                            <a>Geçen Yıl</a>
+                        </div>
+                        <div class="alt-menu-icerik">
+                            <ul>
+                                <li>
+                                    <a>Lorem ipsum dolor sit amet.</a>
+                                </li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="kisa-sol">
+                        <div class="baslik">
+                            <h2><a href="#" title="Pek Yakında">Yakında</a></h2>
+                        </div>
+                        <div class="alt-menu">
+                            <a>Bugün</a>
+                            <a>Bu Hafta</a>
+                            <a>Bu Ay</a>
+                            <a>Bu Yıl</a>
+                            <a>Geçen Yıl</a>
+                        </div>
+                        <div class="alt-menu-icerik">
+                            <ul>
+                                <li>
+                                    <a>Lorem ipsum dolor sit amet.</a>
+                                </li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="kisa-sol">
+                        <div class="baslik">
+                            <h2><a href="#" title="Pek Yakında">Ne var ne yok!</a></h2>
+                        </div>
+                        <div class="alt-menu">
+                            <a>Bugün</a>
+                            <a>Bu Hafta</a>
+                            <a>Bu Ay</a>
+                            <a>Bu Yıl</a>
+                            <a>Geçen Yıl</a>
+                        </div>
+                        <div class="alt-menu-icerik">
+                            <ul>
+                                <li>
+                                    <a>Lorem ipsum dolor sit amet.</a>
+                                </li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                            </ul>
+                        </div>
+                    </div>
 
-                        
-                    
+
+
                 </div>
 
 

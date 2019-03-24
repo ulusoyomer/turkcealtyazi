@@ -81,7 +81,8 @@ if($_POST){
                         </ul>
                     </li>
                 </ul>
-                <form><input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz">
+                <form method="POST" action="../arama.php">
+                    <input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz" name="find">
                     <input type="submit" value="">
                 </form>
             </div>
@@ -369,7 +370,7 @@ if($_POST){
                                                                                     $sorgu2 = $db->prepare("SELECT * FROM yildizoy WHERE isim =?");
                                                                                     $sorgu2->bind_param("s",$dizi_name);
                                                                                     $sorgu2->execute();
-                                                                                    $sorgu2->bind_result($id,$isim,$oy,$toplam,$poster);
+                                                                                    $sorgu2->bind_result($id,$isim,$oy,$toplam,$poster,$yol,$tur,$yorum_pos);
                                                                                     while($sorgu2->fetch()){
                                                                                         $dizi_poster = $poster;
                                                                                         $dizi_adi = $isim;
@@ -498,7 +499,7 @@ if($_POST){
 chdir("members");
 $DosyaAdi = $uye_id.".php";
 touch($DosyaAdi);
-$dosya_Ac = fopen($DosyaAdi,w);
+$dosya_Ac = fopen($DosyaAdi,"w");
 fwrite($dosya_Ac,$kullanici_sayfa_icerik);
 fclose($dosya_Ac);
 chdir("..");
@@ -541,7 +542,8 @@ $sifre_esitligi=1;
                         </ul>
                     </li>
                 </ul>
-                <form><input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz">
+                <form method="POST" action="arama.php">
+                    <input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz" name="find">
                     <input type="submit" value="">
                 </form>
             </div>

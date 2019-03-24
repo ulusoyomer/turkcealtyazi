@@ -61,7 +61,8 @@ if(@$giris_sorgusu){
                         </ul>
                     </li>
                 </ul>
-                <form><input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz">
+                <form method="POST" action="arama.php">
+                    <input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz" name="find">
                     <input type="submit" value="">
                 </form>
             </div>

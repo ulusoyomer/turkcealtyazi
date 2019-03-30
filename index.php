@@ -263,7 +263,7 @@ require_once("baglanti.php");
                             Bölüm Takibi</a>
                     </li>
                     <li>
-                        <a>
+                        <a href="setting.php">
                             <i class="r19"></i>
                             Ayarlarım</a>
                     </li>

@@ -1,26 +1,25 @@
 <?php
 require_once("baglanti.php");
 date_default_timezone_set('Europe/Istanbul');
-if($_POST){
-    if($_POST["username"]){
+    if(@$_POST["username"]){
         $username = filtre($_POST["username"]);
     }
     else{
         $username = "";
     }
-    if($_POST["sifre"]){
+    if(@$_POST["sifre"]){
         $sifre = $_POST["sifre"];
     }
     else{
         $sifre = "";
     }
-    if($_POST["sifre2"]){
+    if(@$_POST["sifre2"]){
         $sifre2 = $_POST["sifre2"];
     }
     else{
         $sifre2 = "";
     }
-    if($_POST["eposta"]){
+    if(@$_POST["eposta"]){
         $eposta = $_POST["eposta"];
     }
     else{
@@ -53,6 +52,9 @@ if($_POST){
                 $uye_son_giris= $uye_veri["songiris"];
                 $kullanici_sayfa_icerik = '<?php
                                                 require_once("../baglanti.php");
+                                                $uye_veri_sorgu = $db->query("SELECT * from uyeler WHERE username = \''.$k_adi.'\'");
+                                                $uye_veri = $uye_veri_sorgu->fetch_assoc();
+                                                $uye_resim = $uye_veri["uyeresim"];
                                             ?>
 <!DOCTYPE html>
 <html>
@@ -278,7 +280,7 @@ if($_POST){
                             Bölüm Takibi</a>
                     </li>
                     <li>
-                        <a>
+                        <a href="../setting.php">
                             <i class="r19"></i>
                             Ayarlarım</a>
                     </li>
@@ -304,7 +306,7 @@ if($_POST){
                             <tr>
                                 <td valign="top" style="border-right:1px solid #e8e8e8; width: 150px;">
                                     <div style="text-align: center; width:150px;">
-                                        <img src="../'.$uye_resim.'">
+                                        <img src="../<?php echo $uye_resim; ?>" width="100" height="104">
                                     </div>
                                     <div style="text-align: center; width:150px;">
                                         <a><img src="../img/profil_pm.png"></a>
@@ -513,7 +515,7 @@ else{
 $sifre_esitligi=1;
 }
 }
-}
+
 ?>
 <!DOCTYPE html>
 <html>

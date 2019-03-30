@@ -1,5 +1,8 @@
 <?php
                                                 require_once("../baglanti.php");
+                                                $uye_veri_sorgu = $db->query("SELECT * from uyeler WHERE username = 'JON_SINOW'");
+                                                $uye_veri = $uye_veri_sorgu->fetch_assoc();
+                                                $uye_resim = $uye_veri["uyeresim"];
                                             ?>
 <!DOCTYPE html>
 <html>
@@ -225,7 +228,7 @@
                             Bölüm Takibi</a>
                     </li>
                     <li>
-                        <a>
+                        <a href="../setting.php">
                             <i class="r19"></i>
                             Ayarlarım</a>
                     </li>
@@ -251,7 +254,7 @@
                             <tr>
                                 <td valign="top" style="border-right:1px solid #e8e8e8; width: 150px;">
                                     <div style="text-align: center; width:150px;">
-                                        <img src="../members/avatar/default.png">
+                                        <img src="../<?php echo $uye_resim; ?>" width="100" height="104">
                                     </div>
                                     <div style="text-align: center; width:150px;">
                                         <a><img src="../img/profil_pm.png"></a>
@@ -282,12 +285,12 @@
                                         <tr>
                                             <td><b>Kayıt</b></td>
                                             <td>:</td>
-                                            <td>2019-03-24 15:25:19</td>
+                                            <td>2019-03-25 22:14:09</td>
                                         </tr>
                                         <tr>
                                             <td><b>Son Giriş</b></td>
                                             <td>:</td>
-                                            <td>24.03.2019 15:25</td>
+                                            <td>25.03.2019 22:14</td>
                                         </tr>
                                         <tr>
                                             <td style="border-bottom:1px solid black; width:26%;">

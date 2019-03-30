@@ -237,7 +237,7 @@ if(isset($_SESSION["Kullanici"])){
                             Bölüm Takibi</a>
                     </li>
                     <li>
-                        <a>
+                        <a href="../setting.php">
                             <i class="r19"></i>
                             Ayarlarım</a>
                     </li>
@@ -261,9 +261,9 @@ if(isset($_SESSION["Kullanici"])){
                     <div class="sblock">
                         <div id="Baslik">
                             <h1>
-                                House </h1>
+                                House M.D </h1>
                             <h2>
-                                House </h2>
+                                House M.D </h2>
                             <span>50 dk</span>
                         </div>
                         <div class="alt-menu">
@@ -283,7 +283,7 @@ if(isset($_SESSION["Kullanici"])){
                                 <a class="google" href="#">&nbsp;</a>
                             </div>
                             <?php
-                                $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'House'");
+                                $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'House M.D'");
                                 $toplamsonucverileri = $toplamsonucsorgusu->fetch_assoc();
                                 $dizi_poster = $toplamsonucverileri["poster"];
                                 $dizi_id = $toplamsonucverileri["id"];
@@ -292,7 +292,7 @@ if(isset($_SESSION["Kullanici"])){
                                 <div class="afis">
                                     <div id="poster">
                                         <a>
-                                            <img width="203" src="../<?php echo $dizi_poster; ?>">
+                                            <img width="203" height="304" src="../<?php echo $dizi_poster; ?>">
                                         </a>
                                     </div>
                                     <div id="filminfo">
@@ -306,8 +306,8 @@ if(isset($_SESSION["Kullanici"])){
                                     <div>
                                         <span class="dizi-puan" title="IMDB PUANI">9.5</span>
                                         <?php
-                                        $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'House'");
-                                        $kisi_sorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'House'");
+                                        $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'House M.D'");
+                                        $kisi_sorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'House M.D'");
                                         $kisi_sayisi = $kisi_sorgusu->num_rows;
                                         if($kisi_sayisi > 0){
                                         $toplamsonucverileri = $toplamsonucsorgusu->fetch_assoc();
@@ -320,7 +320,7 @@ if(isset($_SESSION["Kullanici"])){
                                             $yazısonuc = 0;
                                         }
                                         function oylayanlar($db){
-                                            $oylayan_sorgu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'House' ORDER BY id DESC LIMIT 3");
+                                            $oylayan_sorgu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'House M.D' ORDER BY id DESC LIMIT 3");
                                             while($oylayan_veri = $oylayan_sorgu->fetch_assoc()){
                                                 $oylayan_ad=$oylayan_veri["username"];
                                                 echo "$oylayan_ad".", ";
@@ -337,7 +337,7 @@ if(isset($_SESSION["Kullanici"])){
                                         }
                                         if(isset($_SESSION["Kullanici"])){
                                             $k_adi = $_SESSION["Kullanici"];
-                                            $k_adiSorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE username ='$k_adi' AND diziname = 'House'");
+                                            $k_adiSorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE username ='$k_adi' AND diziname = 'House M.D'");
                                             $k_adiBilgileri = $k_adiSorgusu->fetch_assoc();
                                             $k_adiKontrol = $k_adiSorgusu->num_rows;
                                             if($k_adiKontrol > 0){
@@ -563,7 +563,7 @@ if(isset($_SESSION["Kullanici"])){
                                 <a>Altyazı Gönder</a>
                                 <?php
                                 $k_adi = $_SESSION["Kullanici"];
-                                $secenek_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = '$uye_id' AND diziadi = 'House'");
+                                $secenek_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = '$uye_id' AND diziadi = 'House M.D'");
                                 $secenek_kontrol = $secenek_sorgu->num_rows;
                                 if($secenek_kontrol > 0){
                                 ?>
@@ -585,7 +585,7 @@ if(isset($_SESSION["Kullanici"])){
                             if(isset($_GET["altsecenek"])){
                                 if($_GET["altsecenek"] == "lekle"){
                                     $k_adi = $_SESSION["Kullanici"];
-                                    $liste_ekle_sorgu = $db->query("INSERT INTO izlemeliste (diziadi,userid) values ('House','$uye_id')");
+                                    $liste_ekle_sorgu = $db->query("INSERT INTO izlemeliste (diziadi,userid) values ('House M.D','$uye_id')");
                                     header("Location:../film/house.php");
                                 }
                                 elseif($_GET["altsecenek"] == "leklecik"){
@@ -672,7 +672,7 @@ if(isset($_SESSION["Kullanici"])){
                             <form method="POST" action="../film/house.php">
                                 <div class="alt-Baslik">
                                     <h5>
-                                        <img class="avatar" src="../members/avatar/default_avatar.gif">
+                                        <img class="avatar" src="../<?php echo $uye_resim; ?>" width="40" height="40">
                                         <span><?php echo $k_adi; ?></span>
                                         <span style="float:right;font-size:12px;">
                                             Bir Bölüm için Yorum Yapınız
@@ -732,10 +732,10 @@ if(isset($_SESSION["Kullanici"])){
                                 $dizi_sezon = 0;
                             }
                             $yorumyapan_adi = $_SESSION["Kullanici"];
-                            $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'House'");
+                            $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'House M.D'");
                             $yorum_say = $yorum_say_sorgu->num_rows;
-                            $yorumekleme_sorgusu = $db->query("INSERT INTO yorumlar (username,yorum,diziadi,begeni,kacinci,dizibolum,dizisezon) values('$yorumyapan_adi','$comment','House',0,'$yorum_say','$dizi_bolum',' $dizi_sezon')");
-                            $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'House'");
+                            $yorumekleme_sorgusu = $db->query("INSERT INTO yorumlar (username,yorum,diziadi,begeni,kacinci,dizibolum,dizisezon) values('$yorumyapan_adi','$comment','House M.D',0,'$yorum_say','$dizi_bolum',' $dizi_sezon')");
+                            $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'House M.D'");
                             $yorum_say_sayfa = $yorum_say_sorgu->num_rows;
                             $son_sayfa = $yorum_say_sayfa / 5;
                             $son_sayfa = ceil($son_sayfa);   
@@ -768,9 +768,9 @@ if(isset($_SESSION["Kullanici"])){
                             $sayfa = 0;
                             $sayfa_num = 1;
                         }
-                        $sayfa_yorum_yazdirma_sorgusu = $db->query("SELECT * FROM yorumlar WHERE diziadi='House' LIMIT $sayfa,5");
+                        $sayfa_yorum_yazdirma_sorgusu = $db->query("SELECT * FROM yorumlar WHERE diziadi='House M.D' LIMIT $sayfa,5");
                         $sayfa_yorum_yazdirma_kontrol = $sayfa_yorum_yazdirma_sorgusu->num_rows;
-                        $son_sayfa_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi='House'");
+                        $son_sayfa_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi='House M.D'");
                         $yorum_num = $son_sayfa_sorgu->num_rows;
                         $son_sayfa = $yorum_num;
                         $son_sayfa/=5;
@@ -1061,7 +1061,7 @@ if(isset($_SESSION["Kullanici"])){
                         style="display:<?php if(@$_GET["sayfa"] == "yorum"){ echo "block";}else{echo "none";} ?>">
                         <a href="../film/house.php" style="margin-top:-4px; margin-bottom: -8px;">
                             <img src="../film/filmPoster/houseyorum.jpg" width="308" height="173" style="border-radius:4px;"
-                                title="House" alt="House">
+                                title="House M.D" alt="House M.D">
                         </a>
                     </div>
                     <div class="kisa-sol">
@@ -1168,8 +1168,8 @@ if(isset($_GET["puan"])){
     $puan = filtre($_GET["puan"]);
     if(($puan == 1) || ($puan == 2) || ($puan == 3) || ($puan == 4) || ($puan == 5) || ($puan == 6) || ($puan == 7) || ($puan == 8) || ($puan == 9) || ($puan == 10)){
         $k_adi = $_SESSION["Kullanici"];
-        $k_adiKayit = $db->query("INSERT INTO yildizoyatanlar (username,puan,diziname) values ('$k_adi','$puan','House')");
-        $puan_Kayit = $db->query("UPDATE yildizoy set oy = oy + '$puan',toplam = toplam + 1 WHERE isim = 'House'");
+        $k_adiKayit = $db->query("INSERT INTO yildizoyatanlar (username,puan,diziname) values ('$k_adi','$puan','House M.D')");
+        $puan_Kayit = $db->query("UPDATE yildizoy set oy = oy + '$puan',toplam = toplam + 1 WHERE isim = 'House M.D'");
         if($puan_Kayit){
             echo "hata";
         }

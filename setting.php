@@ -1,7 +1,10 @@
 <?php
 require_once("baglanti.php");
 ?>
+<?php
+if(isset($_SESSION["Kullanici"])){
 
+?>
 <!DOCTYPE html>
 <html>
 
@@ -9,6 +12,23 @@ require_once("baglanti.php");
     <meta charset="UTF-8">
     <title>TürkçeAltyazı</title>
     <link rel="stylesheet" href="main.css">
+    <style>
+        .sblock table tr td {
+            background-color: #fafafa;
+            border-bottom: 1px solid #f4f4f4;
+            padding: 6px 6px;
+            line-height: 11px;
+            border-right: 1px solid #f4f4f4
+        }
+
+        .inputlar {
+            padding: 4px;
+            border: #eee solid 1px;
+            font-size: 12px;
+            width: 270px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 
 <body onscroll="yukari()">
@@ -31,7 +51,8 @@ require_once("baglanti.php");
                     </li>
                 </ul>
                 <form method="POST" action="arama.php">
-                    <input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz" name="find">
+                    <input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz"
+                        name="find">
                     <input type="submit" value="">
                 </form>
             </div>
@@ -283,57 +304,205 @@ require_once("baglanti.php");
         <div id="govde">
             <div id="zemingovde">
                 <div id="solgovde">
-                    <?php
-                        if(isset($_POST["find"])){
-                            if($_POST["find"] != ""){
-                                $find = filtre($_POST["find"]);
-                                $arama_sorgusu = $db->query("SELECT * FROM yildizoy WHERE isim like '%$find%'");
-                                $arama_sorgu_kontrol = $arama_sorgusu->num_rows;
-                                if($arama_sorgu_kontrol > 0){
-                                    while($dizi_verileri = $arama_sorgusu->fetch_assoc()){
-                                        $dizi_name = $dizi_verileri["isim"];
-                                        $dizi_yol = $dizi_verileri["yol"];
-                                        $dizi_poster = $dizi_verileri["poster"];
-                                        echo'
-                                        <div class="sblock" style="height:150px;">
-                                        <a href="'.$dizi_yol.'" style="margin-left:5px;  display: inline-block;"><img src="'.$dizi_poster.'" width="100" height="150" style="border-radius:4px;" alt="'.$dizi_name.'"></a>
-                                        <a href="'.$dizi_yol.'" style="display:inline-block;position: relative; top:-130px; left:5px;"><span style="font-size: 20px; color: #069;"><strong>'.$dizi_name.'</strong></span>
-                                        <span>(TARİH)</span>
-                                        </a>
-                                        <div style="position:relative; left:120px; top:-100px;">
-                                            <p><span><strong>Yönetmen : </strong></span><span>Lorem ipsum dolor sit amet consectetur adipisicing elit</span></p>
-                                            <p><span><strong>Oyuncular : </strong></span><span>Lorem ipsum dolor sit amet consectetur adipisicing elit</span></p>
-                                            <p><span><strong>Tür : </strong></span><span>Lorem ipsum dolor sit amet consectetur adipisicing elit</span></p>
-                                        </div>
-                                    </div>
-
+                    <div class="sblock" style="padding: 0;">
+                        <table border="1" cellpadding="0" cellspacing="0"
+                            style="width:100%;background: #fafafa; border-radius: 4px;">
+                            <?php
+                            if(isset($_POST["form1"])){
+                                $eskip = filtre($_POST["eskiparo"]);
+                                $eskip = md5($eskip);
+                                $parola_sorgu = $db->query("SELECT * FROM uyeler WHERE sifre = '$eskip'");
+                                $parola_sorgu_kontrol = $parola_sorgu->num_rows;
+                                if($parola_sorgu_kontrol > 0){
+                                    $yeni_parola = filtre($_POST["yeniparo1"]);
+                                    $yeni_parola2 = filtre($_POST["yeniparo2"]);
+                                    if($yeni_parola == $yeni_parola2){
+                                        $yeni_parola = md5($yeni_parola);
+                                        $name = $_SESSION["Kullanici"];
+                                        $yeni_parola_sorgu = $db->query("UPDATE uyeler SET sifre = '$yeni_parola' WHERE username = '$name'");
+                                        if($yeni_parola_sorgu){
+                                            echo '
+                                        <tr>
+                                    <td colspan="2" align="center" style="background:#f0f4f7; color:red;">
+                                        <strong>Parola Değiştirme İşleminiz Tamamlandı..</strong>
+                                    </td>
+                                </tr>
+                                        ';
+                                        }
+                                        else{
+                                            echo '
+                                        <tr>
+                                    <td colspan="2" align="center" style="background:#f0f4f7; color:red;">
+                                        <strong>Teknik Bir hata oldu.</strong>
+                                    </td>
+                                </tr>
+                                        ';
+                                        }
+                                    }
+                                    else{
+                                        echo '
+                                        <tr>
+                                    <td colspan="2" align="center" style="background:#f0f4f7; color:red;">
+                                        <strong>Yeni Parolalarınız birbiri ile Uyuşmuyor</strong>
+                                    </td>
+                                </tr>
                                         ';
                                     }
                                 }
                                 else{
-                                    echo'
-                            <div class="sblock">
-                                <div style="margin:50px 200px; font-size:20px; color:red;">Arama Sonucu YOK..</div>
-                            </div>
-                                ';
+                                    echo '
+                                        <tr>
+                                    <td colspan="2" align="center" style="background:#f0f4f7; color:red;">
+                                        <strong>Mevcut Parolanız Hatalı !</strong>
+                                    </td>
+                                </tr>
+                                        ';
                                 }
                             }
-                            else{
-                                echo'
-                            <div class="sblock">
-                                <div style="margin:50px 200px; font-size:20px; color:red;">Arama Sonucu YOK..</div>
-                            </div>
-                                ';
+                            elseif(isset($_POST["form2"])){
+                                if(isset($_POST["sil"])){
+                                    if($_POST["sil"] == 1){
+                                        $def_avatar = "members/avatar/default.png";
+                                        $name = $_SESSION["Kullanici"];
+                                        $avatar_sifirla = $db->query("UPDATE uyeler SET uyeresim = '$def_avatar' WHERE username = '$name'");
+                                        if($avatar_sifirla){
+                                            echo '
+                                        <tr>
+                                    <td colspan="2" align="center" style="background:#f0f4f7; color:red;">
+                                        <strong>Avatar Sıfırlanmıstır</strong>
+                                    </td>
+                                </tr>
+                                        ';
+                                        }
+                                        else{
+                                            echo '
+                                        <tr>
+                                    <td colspan="2" align="center" style="background:#f0f4f7; color:red;">
+                                        <strong>Teknik Bir Hata Oldu</strong>
+                                    </td>
+                                </tr>
+                                        ';
+                                        }
+                                    }
+
+                                }
+                               elseif(isset($_FILES["file"])){
+                                   $gelen_resim = $_FILES["file"];
+                                   $dosya_uzanti = $gelen_resim["name"];
+                                   $dosya_uzanti = explode(".", $dosya_uzanti);
+                                   $dosya_temp_adi = $gelen_resim["tmp_name"];
+                                   $name = $_SESSION["Kullanici"];
+                                   if($dosya_uzanti[1] == "jpg" || $dosya_uzanti[1] == "jpeg" || $dosya_uzanti[1] == "png"){
+                                     $dosya_yolu = "members/avatar/";
+                                     $dosya_adi = $_SESSION["Kullanici"].".".$dosya_uzanti[1];
+                                     $dosya_yolu = $dosya_yolu.$dosya_adi;
+                                     chdir("members/avatar");
+                                        @unlink($dosya_adi);
+                                        chdir("../");
+                                        chdir("../");
+                                     if(move_uploaded_file($dosya_temp_adi , $dosya_yolu)){
+                                        $resim_güncelle_sorgu = $db->query("UPDATE uyeler SET uyeresim = '$dosya_yolu' WHERE username = '$name'");
+                                        if($resim_güncelle_sorgu){
+                                            echo '
+                                        <tr>
+                                    <td colspan="2" align="center" style="background:#f0f4f7; color:red;">
+                                        <strong>Resminiz Güncelendi</strong>
+                                    </td>
+                                </tr>
+                                        ';
+                                        }
+                                        else{
+                                            echo '
+                                            <tr>
+                                        <td colspan="2" align="center" style="background:#f0f4f7; color:red;">
+                                            <strong>Sorgu Hatası !!</strong>
+                                        </td>
+                                    </tr>
+                                            ';
+                                        }
+                                        
+                                     }
+                                   }
+                                   else{
+                                    echo '
+                                    <tr>
+                                <td colspan="2" align="center" style="background:#f0f4f7; color:red;">
+                                    <strong>UYARI !!! JPG PNG JPEG uzatılı resimler yüklenebilir !!</strong>
+                                </td>
+                            </tr>
+                                    ';
+                                   }
+                               } 
                             }
-                        }
-                        else{
-                            echo'
-                            <div class="sblock">
-                                <div style="margin:50px 200px; font-size:20px; color:red;">Arama Sonucu YOK..</div>
-                            </div>
-                                ';
-                        }
-                    ?>
+                            ?>
+                            <form action="setting.php" method="POST">
+                                <tr>
+                                    <td colspan="2">
+                                        <div class="baslik">
+                                            <h2><a href="#" title="Hesap Bilgileri">Hesap Bilgileri</a></h2>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;"><strong style="margin-left:5px;">Kullanıcı Adı:*</strong>
+                                    </td>
+                                    <td><?php echo $_SESSION["Kullanici"]; ?></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;"><strong style="margin-left:5px;">Şimdiki Parolanız:*</strong>
+                                        <p style="margin-left:5px;margin-top:3px;color: #888;font-size:11px;">Parolanızı
+                                             değiştirmek için parolanızı tekrar girerek
+                                            onaylamanız gerekmektedir.</p>
+                                    </td>
+                                    <td><input class="inputlar" type="password" name="eskiparo"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;"><strong style="margin-left:5px;">Yeni Parolaniz:*</strong>
+                                        <p style="margin-left:5px;margin-top:3px;color: #888;font-size:11px;">Sadece
+                                            değiştirmek istiyorsanız parolanızı yazmalısınız.</p>
+                                    </td>
+                                    <td><input class="inputlar" type="password" name="yeniparo1"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;"><strong style="margin-left:5px;">Yeni Parolanizi Tekrar
+                                            Girin:*</strong>
+                                        <p style="margin-left:5px;margin-top:3px;color: #888;font-size:11px;">Sadece
+                                            parolanızı değiştirdiyseniz yeni parolanızı onaylamalısınız.</p>
+                                    </td>
+                                    <td><input class="inputlar" type="password" name="yeniparo2"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center"><input type="submit" name="form1" value="Gönder">
+                                    </td>
+                                </tr>
+                            </form>
+                            <form enctype="multipart/form-data" action="setting.php" method="POST">
+                                <tr>
+                                    <td colspan="2" align="center" style="background:#f0f4f7; color:#3f3f3f;;">
+                                        <strong>Profil Resmi Ayarları</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;"><strong style="margin-left:5px;">Profil Resmini Sil</strong>
+                                        <p style="margin-left:5px;margin-top:3px;color: #888;font-size:11px;">
+                                            İletilerinizin
+                                            yanındaki küçük resim. Bir seferde sadece bir resim gösterilebilir.
+                                            </p>
+                                    </td>
+                                    <td><input type="checkbox" name="sil" value="1"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:35%;"><strong style="margin-left:5px;">Bilgisayarınızdan Bir Avatar
+                                            Yollayın:*</strong></td>
+                                    <td><input type="file" name="file"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="center"><input type="submit" name="form2" value="Gönder">
+                                    </td>
+                                </tr>
+                            </form>
+                        </table>
+                    </div>
                 </div>
                 <div id="sag-govde">
                     <div class="kisa-sol">
@@ -384,6 +553,7 @@ require_once("baglanti.php");
                             </ul>
                         </div>
                     </div>
+
                     <div class="kisa-sol">
                         <div class="baslik">
                             <h2><a href="#" title="Pek Yakında">Alt Yazıgönderenler</a></h2>
@@ -408,54 +578,8 @@ require_once("baglanti.php");
                             </ul>
                         </div>
                     </div>
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Yakında</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Ne var ne yok!</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
+
+
 
 
 
@@ -477,10 +601,15 @@ require_once("baglanti.php");
         <a id="yukari" href="#header" style="display:none;"></a>
     </div>
     <script src="index.js"></script>
-    <script src="slider.js"></script>
 </body>
 
 </html>
+<?php
+}
+else{
+    header("Location:index.php");
+}
+?>
 <?php
 $db->close();
 ?>

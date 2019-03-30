@@ -237,7 +237,7 @@ if(isset($_SESSION["Kullanici"])){
                             Bölüm Takibi</a>
                     </li>
                     <li>
-                        <a>
+                        <a href="../setting.php">
                             <i class="r19"></i>
                             Ayarlarım</a>
                     </li>
@@ -292,7 +292,7 @@ if(isset($_SESSION["Kullanici"])){
                                 <div class="afis">
                                     <div id="poster">
                                         <a>
-                                            <img width="203" src="../<?php echo $dizi_poster; ?>">
+                                            <img width="203" height="304" src="../<?php echo $dizi_poster; ?>">
                                         </a>
                                     </div>
                                     <div id="filminfo">
@@ -672,7 +672,7 @@ if(isset($_SESSION["Kullanici"])){
                             <form method="POST" action="../film/sherlock.php">
                                 <div class="alt-Baslik">
                                     <h5>
-                                        <img class="avatar" src="../members/avatar/default_avatar.gif">
+                                        <img class="avatar" src="../<?php echo $uye_resim; ?>" width="40" height="40">
                                         <span><?php echo $k_adi; ?></span>
                                         <span style="float:right;font-size:12px;">
                                             Bir Bölüm için Yorum Yapınız

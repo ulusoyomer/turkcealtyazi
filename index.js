@@ -9,6 +9,8 @@ var girispaneli = document.getElementById("girispaneli");
 var girispaneli2 = document.getElementById("girispaneli2");
 var girisler = document.getElementsByClassName("girisler");
 var oyuncu_ad = document.getElementsByClassName("oyuncu-ad");
+var anket_soru = document.getElementsByClassName("anket-soru");
+var anket_cevap = document.getElementsByClassName("anket-cevap");
 window.addEventListener('mouseup', function(event){
     if(girispaneli != null){
         if(event.target != girispaneli && event.target != girisler[0] && event.target != girisler[1]){
@@ -28,7 +30,24 @@ window.addEventListener('mouseup', function(event){
     }
 });
 
-
+function anketAc(a,b){
+    if(a == 1){
+        if(anket_soru[b].style.display == "none"){
+            anket_soru[b].style.display = "block";
+        }
+        else{
+            anket_soru[b].style.display = "none";
+        }
+    }
+    else if(a == 2){
+        if(anket_cevap[b].style.display == "none"){
+            anket_cevap[b].style.display = "block";
+        }
+        else{
+            anket_cevap[b].style.display = "none";
+        }
+    }
+}
 
 function karart(a){
     if(a == 0){
@@ -48,21 +67,9 @@ function karart(a){
     }
 }
 function rengiac(a){
-    if(a == 0){
-        oyuncu_ad[0].style.background = "none";
-    }
-    if(a == 1){
-        oyuncu_ad[1].style.background = "none";
-    }
-    if(a == 2){
-        oyuncu_ad[2].style.background = "none";
-    }
-    if(a == 3){
-        oyuncu_ad[3].style.background = "none";
-    }
-    if(a == 4){
-        oyuncu_ad[4].style.background = "none";
-    }
+    
+        oyuncu_ad[a].style.background = "none";
+    
 }
 
 function gpaneliAc(){
@@ -120,5 +127,17 @@ function ortamenuac(a){
     else{
         yuk.style.display = "none";
     }
+   }
+   function yac(e){
+    $sonyorum = document.getElementById("sonyorum");
+    $yorumbazlar = document.getElementById("yorumbazlar");
+       if(e == 1){
+           $sonyorum.style.display = "block";
+           $yorumbazlar.style.display = "none";
+       }
+       else if(e == 2){
+        $sonyorum.style.display = "none";
+        $yorumbazlar.style.display = "block";
+       }
    }
    

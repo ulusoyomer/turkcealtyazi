@@ -1,6 +1,6 @@
 <?php
                                                 require_once("../baglanti.php");
-                                                $uye_veri_sorgu = $db->query("SELECT * from uyeler WHERE username = 'JON_SINOW'");
+                                                $uye_veri_sorgu = $db->query("SELECT * from uyeler WHERE username = 'superman'");
                                                 $uye_veri = $uye_veri_sorgu->fetch_assoc();
                                                 $uye_resim = $uye_veri["uyeresim"];
                                                 $uye_son_giris= $uye_veri["songiris"];
@@ -133,7 +133,7 @@
             <ul>
                 <li class="ok orta-menu">
                     <a id="giris" class="ok" onclick="gpaneliAc2()">
-                        JON_SINOW&nbsp;</a>
+                        superman&nbsp;</a>
                 </li>
             </ul>
             <div id="girispaneli2" onclick="gpaneliAc2()">
@@ -144,7 +144,7 @@
                             Özel Mesaj</a>
                     </li>
                     <li>
-                        <a href="../members/1.php">
+                        <a href="../members/5.php">
                             <i class="r2"></i>
                             Kullanıcı Sayfam</a>
                     </li>
@@ -278,7 +278,7 @@
                                         <tr>
                                             <td style="border-bottom:1px solid black; width:20%;">
                                                 <h1 style="font-weight: bold;font-size: 20px;display: inline;">
-                                                    JON_SINOW</h1>
+                                                    superman</h1>
                                             </td>
                                             <td style="border-bottom:1px solid black;"></td>
                                             <td style="border-bottom:1px solid black;"></td>
@@ -286,12 +286,12 @@
                                         <tr>
                                             <td><b>Kayıt</b></td>
                                             <td>:</td>
-                                            <td>2019-04-26 00:07:00</td>
+                                            <td>2019-04-26 00:10:26</td>
                                         </tr>
                                         <tr>
                                             <td><b>Son Giriş</b></td>
                                             <td>:</td>
-                                            <td><?php echo $uye_son_giris; ?></td>
+                                            <td><?php echo $uye_son_giris ?></td>
                                         </tr>
                                         <tr>
                                             <td style="border-bottom:1px solid black; width:26%;">
@@ -300,7 +300,7 @@
                                             </td>
                                             <td style="border-bottom:1px solid black; width:5%;">
                                                 <?php
-                                                                        $izleme_list_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = 1 ");
+                                                                        $izleme_list_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = 5 ");
                                                                         $sayi = $izleme_list_sorgu->num_rows;
                                                                         if($sayi > 0){
                                                                       echo '  <h1 style="font-weight: bold;font-size: 20px;display: inline;">('.$sayi.')</h1>';
@@ -314,7 +314,7 @@
                                                 <div>
                                                     <ul style="width:100%;">
                                                         <?php
-                                                                                $izleme_list_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = 1 ");
+                                                                                $izleme_list_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = 5 ");
                                                                                 
                                                                                 while($izleme_list_dizi = $izleme_list_sorgu->fetch_assoc()){
                                                                                     $dizi_name = $izleme_list_dizi["diziadi"];
@@ -410,7 +410,7 @@
         </div>
         </div>
 
-        
+       
         <a id="yukari" href="#header" style="display:none;"></a>
 
 

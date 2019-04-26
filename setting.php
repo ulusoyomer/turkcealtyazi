@@ -1,5 +1,6 @@
 <?php
 require_once("baglanti.php");
+$silinecek = array($_SESSION['Kullanici'].".jpg",$_SESSION['Kullanici'].".png",$_SESSION['Kullanici'].".jpeg");
 ?>
 <?php
 if(isset($_SESSION["Kullanici"])){
@@ -373,6 +374,12 @@ if(isset($_SESSION["Kullanici"])){
                                     </td>
                                 </tr>
                                         ';
+                                        chdir("members/avatar");
+                                        @unlink($silinecek[0]);
+                                        @unlink($silinecek[1]);
+                                        @unlink($silinecek[2]);
+                                        chdir("../");
+                                        chdir("../");
                                         }
                                         else{
                                             echo '
@@ -387,6 +394,7 @@ if(isset($_SESSION["Kullanici"])){
 
                                 }
                                elseif(isset($_FILES["file"])){
+                                  
                                    $gelen_resim = $_FILES["file"];
                                    $dosya_uzanti = $gelen_resim["name"];
                                    $dosya_uzanti = explode(".", $dosya_uzanti);
@@ -397,7 +405,9 @@ if(isset($_SESSION["Kullanici"])){
                                      $dosya_adi = $_SESSION["Kullanici"].".".$dosya_uzanti[1];
                                      $dosya_yolu = $dosya_yolu.$dosya_adi;
                                      chdir("members/avatar");
-                                        @unlink($dosya_adi);
+                                        @unlink($silinecek[0]);
+                                        @unlink($silinecek[1]);
+                                        @unlink($silinecek[2]);
                                         chdir("../");
                                         chdir("../");
                                      if(move_uploaded_file($dosya_temp_adi , $dosya_yolu)){
@@ -505,80 +515,63 @@ if(isset($_SESSION["Kullanici"])){
                     </div>
                 </div>
                 <div id="sag-govde">
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Film Altyazıları</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Dizi Altyazıları</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="kisa-sol">
+                            <div class="baslik" style="border-bottom:1px solid gray;">
+                                <h2><a href="#" title="Son Eklenen Altyazılar">Son Eklenen Altyazılar</a></h2>
+                            </div>
+                            <div class="alt-menu-icerik">
+                                <ul>
+                                <?php
+                                $altyazı_sorgu = $db->query("SELECT * FROM subs WHERE onay = '1' ORDER BY id DESC LIMIT 5");
+                                while($veri = $altyazı_sorgu->fetch_assoc()){
+                                    $diziname = $veri["diziname"];
+                                    $sezon = $veri["sezon"];
+                                    $bolum = $veri["bolum"];
+                                    $g_adi= $veri["username"];
+                                    $dizi_sorgu = $db->query("SELECT * FROM yildizoy WHERE isim = '$diziname'");
+                                    $dizi_veri = $dizi_sorgu->fetch_assoc();
+                                    $dizi_yol = $dizi_veri["yol"];
+                                    echo '
+                                        <li>
+                                            <a href="'.$dizi_yol.'">'.$diziname.' S '.$sezon.' / B '.$bolum.' <span style="color:gray;font-size:10px;"> Gönderici '.$g_adi.' </span></a>
+                                        </li>
+                                        ';
+                                }
+                            ?>
+                                </ul>
+                            </div>
+                </div>
 
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Alt Yazıgönderenler</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="kisa-sol">
+                                <div class="baslik" style="border-bottom:1px solid gray;">
+                                    <h2><a href="#" title="Pek Yakında">AltYazı Gönderenler</a></h2>
+                                </div>
+                                <div class="alt-menu-icerik">
+                                    <ul>
+                                        <?php
+                                        $altyazı_sorgu = $db->query("SELECT * FROM subs WHERE onay = '1' ORDER BY id DESC LIMIT 5");
+                                            while($veri = $altyazı_sorgu->fetch_assoc()){
+                                                $g_name = $veri["username"];
+                                                $diziname = $veri["diziname"];
+                                                $sezon = $veri["sezon"];
+                                                $bolum = $veri["bolum"];
+                                                $kullanici_sorgu = $db->query("SELECT * FROM uyeler WHERE username = '$g_name' ");
+                                                $kullanici_veri = $kullanici_sorgu->fetch_assoc();
+                                                $kullanici_id = $kullanici_veri["id"];
+                                                echo '
+                                                    <li>
+                                                        <a href="members/'.$kullanici_id.'.php">'.$g_name.' <span style="font-size:10px;color:gray"> '.$diziname.' S '.$sezon.'/ B '.$bolum.'</span></a>
+                                                    </li>
+                                                    ';
+                                            }
+                                        ?>
+                                    </ul>
+                                </div>
+                            </div>
 
+
+
+                </div>
 
 
 
@@ -593,11 +586,12 @@ if(isset($_SESSION["Kullanici"])){
 
 
             </div>
-        </div>
-        <div id="footer">
+            <div id="footer">
             <span id="eposta"></span>
             <span id="son">Türkçe Altyazı © 2007 - 2019</span>
         </div>
+        </div>
+        
         <a id="yukari" href="#header" style="display:none;"></a>
     </div>
     <script src="index.js"></script>

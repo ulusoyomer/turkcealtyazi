@@ -1,14 +1,14 @@
 <?php
 require_once("baglanti.php");
 date_default_timezone_set('Europe/Istanbul');
-if(@$_POST["username"]){
+if(isset($_POST["username"])){
     $name = $_POST["username"];
 
 }
-if(@$_POST["parola"]){
+if(isset($_POST["parola"])){
     $parola =$_POST["parola"];
 }
-if(@$_POST["remember"]){
+if(isset($_POST["remember"])){
 $remember = $_POST["remember"];
 }
 @$parola = md5($parola);

@@ -124,15 +124,6 @@ require_once("baglanti.php");
             
             }
             if(!isset($_SESSION["Kullanici"])){
-                echo '
-          <script>
-          if (typeof(Storage) !== "undefined") {
-            sessionStorage.clear();
-          }
-           
-          </script>      
-                
-                ';
             ?>
             <a id="giris" onclick="gpaneliAc()">Giriş</a>
             <a id="register" href="kayit.php">Kayıt</a>
@@ -153,18 +144,6 @@ require_once("baglanti.php");
                 $uye_veri_sorgu = $db->query("SELECT * from uyeler WHERE username = '$k_adi'");
                 $uye_veri = $uye_veri_sorgu->fetch_assoc();
                 $uye_id = $uye_veri["id"];
-                echo '
-          <script>
-                    if (typeof(Storage) !== "undefined") {
-                        // Store
-                        sessionStorage.setItem("Kullanici", "'.$k_adi.'");
-                    
-                    }
-           
-          </script>      
-                
-                ';
-
             ?> <ul>
                 <li class="ok orta-menu">
                     <a id="giris" class="ok" onclick="gpaneliAc2()"><?php echo $name; ?>&nbsp;</a>
@@ -315,51 +294,217 @@ require_once("baglanti.php");
                             <h2><a href="#" title="Pek Yakında">Türkçe Altyazısı Yeni Çıkanlar</a></h2>
                         </div>
                         <div id="bodymenu">
-                            <a href="#">Hepsi</a>
-                            <a href="#">Filmler</a>
-                            <a href="#">Diziler</a>
-                            <a href="#">Animeler</a>
-                            <a href="#">2019</a>
-                            <a href="#">2018</a>
-                            <a href="#">2017</a>
-                            <a href="#">2016 ve Öncesi</a>
-                            <a href="#">Türkçe(1)Altyazı</a>
-                            <a href="#">Son Yüklenenler</a>
+                            <a href="index.php?secim=Hepsi">Hepsi</a>
+                            <a href="index.php?secim=Film">Filmler</a>
+                            <a href="index.php?secim=Dizi">Diziler</a>
+                            <a href="index.php?secim=Anime">Animeler</a>
                         </div>
                         <div id="bodyicerik">
                             <div id="icerik">
                                 <?php
-                            $film_sorgu = $db->query("SELECT * FROM yildizoy ORDER BY id DESC LIMIT 8");
-                            $film_sorgu_kontrol = $film_sorgu->num_rows;
-                            if($film_sorgu_kontrol > 0){
-                                while($film_verileri = $film_sorgu->fetch_assoc()){
-                                    $name = $film_verileri["isim"];
-                                    $poster =$film_verileri["poster"];
-                                    $yol = $film_verileri["yol"];
-                                    $tur = $film_verileri["tur"];
-                                    echo'
-                                    <a href="'.$yol.'">
-                                    <img src="'.$poster.'" alt="'.$name.'" width="148" height="198">
-                                    <span class="FilmName">'.$name.'</span>
-                                    <span class="FilmYılı">LOREM / '.$tur.'</span>
-                                    <span class="Ustbaslik">Yönetmen</span>
-                                    <span class="alticerik">Lorem</span>
-                                    <span class="Ustbaslik">Tür</span>
-                                    <span class="alticerik">LOREM</span>
-                                    <span class="Ustbaslik">Çevirmen</span>
-                                    <span class="alticerik">Ömer Ulusoy</span>
-                                    <span class="alticerik">
-                                        <span class="puan">PUAN</span>
-                                        <span class="sayı">LOREM</span>
-                                    </span>
-                                    <span class="Ustbaslik">Zaman</span>
+                                if(isset($_GET["secim"])){
+                                        if($_GET["secim"] == "Hepsi"){
+                                            $film_sorgu = $db->query("SELECT * FROM yildizoy ORDER BY id DESC LIMIT 8");
+                                            $film_sorgu_kontrol = $film_sorgu->num_rows;
+                                            if($film_sorgu_kontrol > 0){
+                                            while($film_verileri = $film_sorgu->fetch_assoc()){
+                                                $name = $film_verileri["isim"];
+                                                $poster =$film_verileri["poster"];
+                                                $yol = $film_verileri["yol"];
+                                                $tur = $film_verileri["tur"];
+                                                echo'
+                                                <a href="'.$yol.'">
+                                                <img src="'.$poster.'" alt="'.$name.'" width="148" height="198">
+                                                <span class="FilmName">'.$name.'</span>
+                                                <span class="FilmYılı">LOREM / '.$tur.'</span>
+                                                <span class="Ustbaslik">Yönetmen</span>
+                                                <span class="alticerik">Lorem</span>
+                                                <span class="Ustbaslik">Tür</span>
+                                                <span class="alticerik">LOREM</span>
+                                                <span class="Ustbaslik">Çevirmen</span>
+                                                <span class="alticerik">Ömer Ulusoy</span>
+                                                <span class="alticerik">
+                                                    <span class="puan">PUAN</span>
+                                                    <span class="sayı">LOREM</span>
+                                                </span>
+                                                <span class="Ustbaslik">Zaman</span>
 
 
-                                </a>
-                                        
-                                        ';
+                                            </a>
+                                                    
+                                                    ';
+                                    }
+                                    }
+                                        }
+                                        elseif($_GET["secim"] == "Anime"){
+                                            $film_sorgu = $db->query("SELECT * FROM yildizoy WHERE tur = 'Anime' ORDER BY id DESC LIMIT 8");
+                                            $film_sorgu_kontrol = $film_sorgu->num_rows;
+                                            if($film_sorgu_kontrol > 0){
+                                            while($film_verileri = $film_sorgu->fetch_assoc()){
+                                                $name = $film_verileri["isim"];
+                                                $poster =$film_verileri["poster"];
+                                                $yol = $film_verileri["yol"];
+                                                $tur = $film_verileri["tur"];
+                                                echo'
+                                                <a href="'.$yol.'">
+                                                <img src="'.$poster.'" alt="'.$name.'" width="148" height="198">
+                                                <span class="FilmName">'.$name.'</span>
+                                                <span class="FilmYılı">LOREM / '.$tur.'</span>
+                                                <span class="Ustbaslik">Yönetmen</span>
+                                                <span class="alticerik">Lorem</span>
+                                                <span class="Ustbaslik">Tür</span>
+                                                <span class="alticerik">LOREM</span>
+                                                <span class="Ustbaslik">Çevirmen</span>
+                                                <span class="alticerik">Ömer Ulusoy</span>
+                                                <span class="alticerik">
+                                                    <span class="puan">PUAN</span>
+                                                    <span class="sayı">LOREM</span>
+                                                </span>
+                                                <span class="Ustbaslik">Zaman</span>
+
+
+                                            </a>
+                                                    
+                                                    ';
+                                    }
+                                    }
+
+                                        }
+                                        elseif($_GET["secim"] == "Dizi"){
+                                            $film_sorgu = $db->query("SELECT * FROM yildizoy WHERE tur = 'Dizi' ORDER BY id DESC LIMIT 8");
+                                            $film_sorgu_kontrol = $film_sorgu->num_rows;
+                                            if($film_sorgu_kontrol > 0){
+                                            while($film_verileri = $film_sorgu->fetch_assoc()){
+                                                $name = $film_verileri["isim"];
+                                                $poster =$film_verileri["poster"];
+                                                $yol = $film_verileri["yol"];
+                                                $tur = $film_verileri["tur"];
+                                                echo'
+                                                <a href="'.$yol.'">
+                                                <img src="'.$poster.'" alt="'.$name.'" width="148" height="198">
+                                                <span class="FilmName">'.$name.'</span>
+                                                <span class="FilmYılı">LOREM / '.$tur.'</span>
+                                                <span class="Ustbaslik">Yönetmen</span>
+                                                <span class="alticerik">Lorem</span>
+                                                <span class="Ustbaslik">Tür</span>
+                                                <span class="alticerik">LOREM</span>
+                                                <span class="Ustbaslik">Çevirmen</span>
+                                                <span class="alticerik">Ömer Ulusoy</span>
+                                                <span class="alticerik">
+                                                    <span class="puan">PUAN</span>
+                                                    <span class="sayı">LOREM</span>
+                                                </span>
+                                                <span class="Ustbaslik">Zaman</span>
+
+
+                                            </a>
+                                                    
+                                                    ';
+                                    }
+                                    }
+
+                                        }
+                                        elseif($_GET["secim"] == "Film"){
+                                            $film_sorgu = $db->query("SELECT * FROM yildizoy WHERE tur = 'Film' ORDER BY id DESC LIMIT 8");
+                                            $film_sorgu_kontrol = $film_sorgu->num_rows;
+                                            if($film_sorgu_kontrol > 0){
+                                            while($film_verileri = $film_sorgu->fetch_assoc()){
+                                                $name = $film_verileri["isim"];
+                                                $poster =$film_verileri["poster"];
+                                                $yol = $film_verileri["yol"];
+                                                $tur = $film_verileri["tur"];
+                                                echo'
+                                                <a href="'.$yol.'">
+                                                <img src="'.$poster.'" alt="'.$name.'" width="148" height="198">
+                                                <span class="FilmName">'.$name.'</span>
+                                                <span class="FilmYılı">LOREM / '.$tur.'</span>
+                                                <span class="Ustbaslik">Yönetmen</span>
+                                                <span class="alticerik">Lorem</span>
+                                                <span class="Ustbaslik">Tür</span>
+                                                <span class="alticerik">LOREM</span>
+                                                <span class="Ustbaslik">Çevirmen</span>
+                                                <span class="alticerik">Ömer Ulusoy</span>
+                                                <span class="alticerik">
+                                                    <span class="puan">PUAN</span>
+                                                    <span class="sayı">LOREM</span>
+                                                </span>
+                                                <span class="Ustbaslik">Zaman</span>
+
+
+                                            </a>
+                                                    
+                                                    ';
+                                    }
+                                    }
+
+                                        }
+                                            else{
+                                                $film_sorgu = $db->query("SELECT * FROM yildizoy  ORDER BY id DESC LIMIT 8");
+                                                $film_sorgu_kontrol = $film_sorgu->num_rows;
+                                                if($film_sorgu_kontrol > 0){
+                                                while($film_verileri = $film_sorgu->fetch_assoc()){
+                                                    $name = $film_verileri["isim"];
+                                                    $poster =$film_verileri["poster"];
+                                                    $yol = $film_verileri["yol"];
+                                                    $tur = $film_verileri["tur"];
+                                                    echo'
+                                                    <a href="'.$yol.'">
+                                                    <img src="'.$poster.'" alt="'.$name.'" width="148" height="198">
+                                                    <span class="FilmName">'.$name.'</span>
+                                                    <span class="FilmYılı">LOREM / '.$tur.'</span>
+                                                    <span class="Ustbaslik">Yönetmen</span>
+                                                    <span class="alticerik">Lorem</span>
+                                                    <span class="Ustbaslik">Tür</span>
+                                                    <span class="alticerik">LOREM</span>
+                                                    <span class="Ustbaslik">Çevirmen</span>
+                                                    <span class="alticerik">Ömer Ulusoy</span>
+                                                    <span class="alticerik">
+                                                        <span class="puan">PUAN</span>
+                                                        <span class="sayı">LOREM</span>
+                                                    </span>
+                                                    <span class="Ustbaslik">Zaman</span>
+
+
+                                                </a>
+                                                        
+                                                        ';
+                                        }
+                                        }
+                                    }
                                 }
-                            }
+                                else{
+                                    $film_sorgu = $db->query("SELECT * FROM yildizoy  ORDER BY id DESC LIMIT 8");
+                                        $film_sorgu_kontrol = $film_sorgu->num_rows;
+                                        if($film_sorgu_kontrol > 0){
+                                        while($film_verileri = $film_sorgu->fetch_assoc()){
+                                            $name = $film_verileri["isim"];
+                                            $poster =$film_verileri["poster"];
+                                            $yol = $film_verileri["yol"];
+                                            $tur = $film_verileri["tur"];
+                                            echo'
+                                            <a href="'.$yol.'">
+                                            <img src="'.$poster.'" alt="'.$name.'" width="148" height="198">
+                                            <span class="FilmName">'.$name.'</span>
+                                            <span class="FilmYılı">LOREM / '.$tur.'</span>
+                                            <span class="Ustbaslik">Yönetmen</span>
+                                            <span class="alticerik">Lorem</span>
+                                            <span class="Ustbaslik">Tür</span>
+                                            <span class="alticerik">LOREM</span>
+                                            <span class="Ustbaslik">Çevirmen</span>
+                                            <span class="alticerik">Ömer Ulusoy</span>
+                                            <span class="alticerik">
+                                                <span class="puan">PUAN</span>
+                                                <span class="sayı">LOREM</span>
+                                            </span>
+                                            <span class="Ustbaslik">Zaman</span>
+
+
+                                        </a>
+                                                
+                                                ';
+                                }
+                                }
+                                }
                             ?>
 
                                 <div class="clear"></div>
@@ -511,97 +656,27 @@ require_once("baglanti.php");
                     </div>
                     <div class="kisa-blok-sol">
                         <div class="kisa-sol">
-                            <div class="baslik">
-                                <h2><a href="#" title="Pek Yakında">Forumdan</a></h2>
-                            </div>
-                            <div class="alt-menu">
-                                <a>Son iletiler</a>
-                                <a>Yeni Başlıklar</a>
-                                <a>Forumbazlar</a>
-                            </div>
-                            <div class="alt-menu-icerik">
-                                <ul>
-                                    <li>
-                                        <a>Lorem ipsum dolor sit amet.</a>
-                                    </li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="kisa-sol">
-                            <div class="baslik">
-                                <h2><a href="#" title="Pek Yakında">Film Çevirileri</a></h2>
-                            </div>
-                            <span class="ceviri-durumu">
-                                <a>Chasing the Dragon</a>
-                                by
-                                <span>Ömer Ulusoy</span>
-                                <span class="ceviri-durumu-gosterge">
-                                    <span style="width:95%;" class="ceviri-durumu-gosterge-ic"></span>
-                                </span>
-                                <span class="ceviri-durumu-yazı">%95</span>
-                            </span>
-                            <span class="ceviri-durumu">
-                                <a>Chasing the Dragon</a>
-                                by
-                                <span>Ömer Ulusoy</span>
-                                <span class="ceviri-durumu-gosterge">
-                                    <span style="width:95%;" class="ceviri-durumu-gosterge-ic"></span>
-                                </span>
-                                <span class="ceviri-durumu-yazı">%95</span>
-                            </span>
-                            <span class="ceviri-durumu">
-                                <a>Chasing the Dragon</a>
-                                by
-                                <span>Ömer Ulusoy</span>
-                                <span class="ceviri-durumu-gosterge">
-                                    <span style="width:95%;" class="ceviri-durumu-gosterge-ic"></span>
-                                </span>
-                                <span class="ceviri-durumu-yazı">%95</span>
-                            </span>
-                            <span class="ceviri-durumu">
-                                <a>Chasing the Dragon</a>
-                                by
-                                <span>Ömer Ulusoy</span>
-                                <span class="ceviri-durumu-gosterge">
-                                    <span style="width:95%;" class="ceviri-durumu-gosterge-ic"></span>
-                                </span>
-                                <span class="ceviri-durumu-yazı">%95</span>
-                            </span>
-                            <span class="ceviri-durumu">
-                                <a>Chasing the Dragon</a>
-                                by
-                                <span>Ömer Ulusoy</span>
-                                <span class="ceviri-durumu-gosterge">
-                                    <span style="width:95%;" class="ceviri-durumu-gosterge-ic"></span>
-                                </span>
-                                <span class="ceviri-durumu-yazı">%95</span>
-                            </span>
-                        </div>
-                        <div class="kisa-sol">
-                            <div class="baslik">
+                            <div class="baslik" style="border-bottom:1px solid gray;">
                                 <h2><a href="#" title="Pek Yakında">Gözde Çevirmenler</a></h2>
                             </div>
-                            <div class="alt-menu">
-                                <a>Bu Gün</a>
-                                <a>Bu Hafta</a>
-                                <a>Bu Ay</a>
-                                <a>Bu Yıl</a>
-                            </div>
                             <div class="alt-menu-icerik">
                                 <ul>
-                                    <li>
-                                        <a>Lorem ipsum dolor sit amet.</a>
-                                    </li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                    <?php
+                                        $a_sorgu = $db->query("SELECT username,COUNT(username) AS asayisi FROM subs WHERE onay = '1' GROUP BY username ORDER BY COUNT(username) DESC LIMIT 5");
+                                        while($veri = $a_sorgu->fetch_assoc()){
+                                            $ad = $veri["username"];
+                                            $kullanici_sorgu = $db->query("SELECT * FROM uyeler WHERE username = '$ad'");
+                                            $k_veri = $kullanici_sorgu->fetch_assoc();
+                                            $kullanici_id = $k_veri["id"];
+                                            $a_sayisi = $veri["asayisi"];
+                                            echo '
+                                            <li>
+                                                <a href="members/'.$kullanici_id.'.php">'.$ad.' <span style="font-size:10px;color:gray"> '.$a_sayisi.' tane Altyazı</span>.</a>
+                                            </li>
+                                                 ';
+                                        }
+                                    ?>
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -609,168 +684,102 @@ require_once("baglanti.php");
                     <div class="orta-kisa-sag">
                         <div class="kisa-sol">
                             <div class="baslik">
-                                <h2><a href="#" title="Pek Yakında">Film Yorumları</a></h2>
+                                <h2><a href="#" title="Son Yorumlar">Son yorumlar</a></h2>
                             </div>
                             <div class="alt-menu">
-                                <a>Son Yorumlar</a>
-                                <a>Yorumcular</a>
-                                <a>Yorumbazlar</a>
+                                <a onclick="yac(1)">Son Yorumlar</a>
+                                <a onclick="yac(2)">Yorumbazlar</a>
                             </div>
-                            <div class="alt-menu-icerik">
+                            <div class="alt-menu-icerik" id="sonyorum">
                                 <ul>
-                                    <li>
-                                        <a>Lorem ipsum dolor sit amet.</a>
-                                    </li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="kisa-sol">
-                            <div class="baslik">
-                                <h2><a href="#" title="Pek Yakında">Dizi Çevirileri</a></h2>
-                            </div>
-                            <span class="ceviri-durumu">
-                                <a>Chasing the Dragon</a>
-                                by
-                                <span>Ömer Ulusoy</span>
-                                <span class="ceviri-durumu-gosterge">
-                                    <span style="width:95%;" class="ceviri-durumu-gosterge-ic"></span>
-                                </span>
-                                <span class="ceviri-durumu-yazı">%95</span>
-                            </span>
-                            <span class="ceviri-durumu">
-                                <a>Chasing the Dragon</a>
-                                by
-                                <span>Ömer Ulusoy</span>
-                                <span class="ceviri-durumu-gosterge">
-                                    <span style="width:95%;" class="ceviri-durumu-gosterge-ic"></span>
-                                </span>
-                                <span class="ceviri-durumu-yazı">%95</span>
-                            </span>
-                            <span class="ceviri-durumu">
-                                <a>Chasing the Dragon</a>
-                                by
-                                <span>Ömer Ulusoy</span>
-                                <span class="ceviri-durumu-gosterge">
-                                    <span style="width:95%;" class="ceviri-durumu-gosterge-ic"></span>
-                                </span>
-                                <span class="ceviri-durumu-yazı">%95</span>
-                            </span>
-                            <span class="ceviri-durumu">
-                                <a>Chasing the Dragon</a>
-                                by
-                                <span>Ömer Ulusoy</span>
-                                <span class="ceviri-durumu-gosterge">
-                                    <span style="width:95%;" class="ceviri-durumu-gosterge-ic"></span>
-                                </span>
-                                <span class="ceviri-durumu-yazı">%95</span>
-                            </span>
-                            <span class="ceviri-durumu">
-                                <a>Chasing the Dragon</a>
-                                by
-                                <span>Ömer Ulusoy</span>
-                                <span class="ceviri-durumu-gosterge">
-                                    <span style="width:95%;" class="ceviri-durumu-gosterge-ic"></span>
-                                </span>
-                                <span class="ceviri-durumu-yazı">%95</span>
-                            </span>
-                        </div>
-                        <div class="kisa-sol">
-                            <div class="baslik">
-                                <h2><a href="#" title="Pek Yakında">Fragmanlar</a></h2>
-                            </div>
-                            <div class="alt-menu">
-                                <a>Yeni Eklenenler</a>
-                                <a>Çok İzlenenler</a>
-                                <a>Gönderneler</a>
-                            </div>
-                            <div class="alt-menu-icerik">
-                                <ul>
-                                    <li>
-                                        <a>Lorem ipsum dolor sit amet.</a>
-                                    </li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                </ul>
-                            </div>
-                        </div>
+                                    <?php
+                                        $yorum_sorgu = $db->query("SELECT * FROM yorumlar ORDER BY id DESC LIMIT 5");
+                                        while($veri = $yorum_sorgu->fetch_assoc()){
+                                            $yorum_tarihi = $veri["tarih"];
+                                            $yorum_ad = $veri["username"];
+                                            $kullanici_sorgu = $db->query("SELECT * FROM uyeler WHERE username = '$yorum_ad'");
+                                            $k_veri = $kullanici_sorgu->fetch_assoc();
+                                            $kullanici_id = $k_veri["id"];
+                                            $yorum_dizi = $veri["diziadi"];
+                                            echo '
+                                                    <li>
+                                                        <a href="members/'.$kullanici_id.'.php">'.$yorum_ad.'<span style="font-size:10px;color:gray;"> '.$yorum_tarihi.' '.$yorum_dizi.'</span></a>
+                                                    </li>
+                                                 ';
 
+                                        }
+                                    ?>
+                                </ul>
+                            </div>
+                            <div class="alt-menu-icerik" id="yorumbazlar" style="display:none;">
+                                <ul>
+                                <?php
+                                        $yorum_sorgu = $db->query("SELECT username , COUNT(username) sayisi FROM yorumlar GROUP BY username ORDER BY COUNT(username) DESC LIMIT 5");
+                                        while($veri = $yorum_sorgu->fetch_assoc()){
+                                            $yorum_ad = $veri["username"];
+                                            $toplam_yorum = $veri["sayisi"];
+                                            $altyorum_sorgu = $db->query("SELECT * FROM altyorum WHERE username = '$yorum_ad'");
+                                            $alt_yorum_say = $altyorum_sorgu->num_rows;
+                                            $kullanici_sorgu = $db->query("SELECT * FROM uyeler WHERE username = '$yorum_ad'");
+                                            $k_veri = $kullanici_sorgu->fetch_assoc();
+                                            $kullanici_id = $k_veri["id"];
+                                            $toplam_yorum += $alt_yorum_say;
+                                            echo '
+                                                    <li>
+                                                        <a href="members/'.$kullanici_id.'.php">'.$yorum_ad.'<span style="font-size:10px;color:gray;"> '.$toplam_yorum.'</span></a>
+                                                    </li>
+                                                 ';
+
+                                        }
+                                    ?>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="sag-govde">
                     <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Film Altyazıları</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
+                        <div class="baslik" style="border-bottom:1px solid gray;">
+                            <h2><a href="#" title="Son Eklenen Altyazılar">Son Eklenen Altyazılar</a></h2>
                         </div>
                         <div class="alt-menu-icerik">
                             <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                            <?php
+                            $altyazı_sorgu = $db->query("SELECT * FROM subs WHERE onay = '1' ORDER BY id DESC LIMIT 5");
+                            while($veri = $altyazı_sorgu->fetch_assoc()){
+                                $diziname = $veri["diziname"];
+                                $sezon = $veri["sezon"];
+                                $bolum = $veri["bolum"];
+                                $g_adi= $veri["username"];
+                                $dizi_sorgu = $db->query("SELECT * FROM yildizoy WHERE isim = '$diziname'");
+                                $dizi_veri = $dizi_sorgu->fetch_assoc();
+                                $dizi_yol = $dizi_veri["yol"];
+                                echo '
+                                    <li>
+                                        <a href="'.$dizi_yol.'">'.$diziname.' S '.$sezon.' / B '.$bolum.' <span style="color:gray;font-size:10px;"> Gönderici '.$g_adi.' </span></a>
+                                    </li>
+                                    ';
+                            }
+                        ?>
                             </ul>
                         </div>
                     </div>
                     <div class="kisa-sol">
                         <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Dizi Altyazıları</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Anket</a></h2>
+                            <h2><a href="#" title="Anket">Anket</a></h2>
                         </div>
                         <div class="alt-menu-icerik">
                             <?php
-                                    $anketkayit = $db->query("SELECT * FROM anket");
+                                    $anketkayit = $db->query("SELECT * FROM anket WHERE id= '1'");
                                     $anketkayitsayisi = $anketkayit->num_rows;
                                     $anketkayitdeger = $anketkayit->fetch_assoc();
                                     if($anketkayitsayisi > 0){
-
-                    
                             ?>
-                            <div class="soru">
-                                <a>
+                            <div class="soru" style="border-bottom:1px solid gray;">
+                                <a onclick="anketAc(1,0)">
                                     <?php echo $anketkayitdeger["soru"] ?></a>
                             </div>
-                            <form method="POST" action="anketsonuc.php">
+                            <form method="POST" action="anketsonuc.php"  class="anket-soru" style="display:none;">
                                 <ul>
 
                                     <li>
@@ -822,9 +831,9 @@ require_once("baglanti.php");
                                             <?php echo $anketkayitdeger["cevapsekiz"] ?>
                                         </span>
                                     </li>
-                                    <li align="center">
+                                    <li align="center" style="background:none;">
                                         <span>
-                                            <input type="submit" value="Gönder">
+                                            <input type="submit" value="Gönder" name="form1">
                                         </span>
                                     </li>
                                     <?php
@@ -835,7 +844,121 @@ require_once("baglanti.php");
                                  ?>
                                 </ul>
                             </form>
+                            <?php
+                                    $anketkayit = $db->query("SELECT * FROM anket WHERE id=2");
+                                    $anketkayitsayisi = $anketkayit->num_rows;
+                                    $anketkayitdeger = $anketkayit->fetch_assoc();
+                                    if($anketkayitsayisi > 0){
+                            ?>
+                            <div class="soru" style="border-bottom:1px solid gray;">
+                                <a onclick="anketAc(1,1)">
+                                    <?php echo $anketkayitdeger["soru"] ?></a>
+                            </div>
+                            <form method="POST" action="anketsonuc.php"  class="anket-soru" style="display:none;">
+                                <ul>
 
+                                    <li>
+                                        <span>
+                                            <input type="radio" value="1" name="cevap">
+                                            <?php echo $anketkayitdeger["cevapbir"] ?>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <input type="radio" value="2" name="cevap">
+                                            <?php echo $anketkayitdeger["cevapiki"] ?>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <input type="radio" value="3" name="cevap">
+                                            <?php echo $anketkayitdeger["cevapuc"] ?>
+                                        </span>
+
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <input type="radio" value="4" name="cevap">
+                                            <?php echo $anketkayitdeger["cevapdort"] ?>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <input type="radio" value="5" name="cevap">
+                                            <?php echo $anketkayitdeger["cevapbes"] ?>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <input type="radio" value="6" name="cevap">
+                                            <?php echo $anketkayitdeger["cevapalti"] ?>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <input type="radio" value="7" name="cevap">
+                                            <?php echo $anketkayitdeger["cevapyedi"] ?>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <input type="radio" value="8" name="cevap">
+                                            <?php echo $anketkayitdeger["cevapsekiz"] ?>
+                                        </span>
+                                    </li>
+                                    <li align="center" style="background:none;">
+                                        <span>
+                                            <input type="submit" value="Gönder" name="form2">
+                                        </span>
+                                    </li>
+                                    <?php
+                                    }
+                                    else{
+                                        echo "Anket Bulunamadı";
+                                    }
+                                 ?>
+                                </ul>
+                            </form>
+                            <?php
+                                    $anketkayit = $db->query("SELECT * FROM anket WHERE id=3");
+                                    $anketkayitsayisi = $anketkayit->num_rows;
+                                    $anketkayitdeger = $anketkayit->fetch_assoc();
+                                    if($anketkayitsayisi > 0){
+                            ?>
+                            <div class="soru" style="border-bottom:1px solid gray;">
+                                <a onclick="anketAc(1,2)">
+                                    <?php echo $anketkayitdeger["soru"] ?></a>
+                            </div>
+                            <form method="POST" action="anketsonuc.php"  class="anket-soru" style="display:none;">
+                                <ul>
+
+                                    <li>
+                                        <span>
+                                            <input type="radio" value="1" name="cevap">
+                                            <?php echo $anketkayitdeger["cevapbir"] ?>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span>
+                                            <input type="radio" value="2" name="cevap">
+                                            <?php echo $anketkayitdeger["cevapiki"] ?>
+                                        </span>
+                                    </li>
+                                    <li align="center" style="background:none;">
+                                        <span>
+                                            <input type="submit" value="Gönder" name="form3">
+                                        </span>
+                                    </li>
+                                    <?php
+                                    }
+                                    else{
+                                        echo "Anket Bulunamadı";
+                                    }
+                                 ?>
+                                </ul>
+                            </form>
+                            
+                            
                         </div>
                     </div>
                     <div class="kisa-sol">
@@ -844,7 +967,7 @@ require_once("baglanti.php");
                         </div>
                         <div class="alt-menu-icerik-anket">
                             <?php
-                            $anketkayit = $db->query("SELECT * FROM anket");
+                            $anketkayit = $db->query("SELECT * FROM anket where id = '1'");
                                     $anketkayitsayisi = $anketkayit->num_rows;
                                     $anketkayitdeger = $anketkayit->fetch_assoc();
                                     $birincioy = $anketkayitdeger["sonucbir"];
@@ -874,12 +997,12 @@ require_once("baglanti.php");
                                     $sekizyuzde = number_format($sekizyuzde,0,",","");
                                     if($anketkayitsayisi > 0){
                                         ?>
-                            <div class="soru">
-                                <a>
+                            <div class="soru" style="border-bottom:1px solid gray;">
+                                <a onclick="anketAc(2,0)">
                                     <?php echo $anketkayitdeger["soru"] ?></a>
                             </div>
 
-                            <ul>
+                            <ul class="anket-cevap" style="display:none;">
 
                                 <li>
                                     <span>
@@ -1033,93 +1156,291 @@ require_once("baglanti.php");
 
 
                             </ul>
+                            <?php
+                            $anketkayit = $db->query("SELECT * FROM anket where id = '2'");
+                                    $anketkayitsayisi = $anketkayit->num_rows;
+                                    $anketkayitdeger = $anketkayit->fetch_assoc();
+                                    $birincioy = $anketkayitdeger["sonucbir"];
+                                    $ikincioy = $anketkayitdeger["sonuciki"];
+                                    $ucuncuoy = $anketkayitdeger["sonucuc"];
+                                    $dorduncuoy = $anketkayitdeger["sonucdort"];
+                                    $besincioy = $anketkayitdeger["sonucbes"];
+                                    $altincioy = $anketkayitdeger["sonucalti"];
+                                    $yedincioy = $anketkayitdeger["sonucyedi"];
+                                    $sekizincioy = $anketkayitdeger["sonucsekiz"];
+                                    $toplamsonuc = $anketkayitdeger["toplamsonuc"];
+                                    $birinciyuzde = @($birincioy/$toplamsonuc)*100;
+                                    $birinciyuzde = number_format($birinciyuzde,0,",","");
+                                    $ikinciyuzde = @($ikincioy/$toplamsonuc)*100;
+                                    $ikinciyuzde = number_format($ikinciyuzde,0,",","");
+                                    $ucuncuyuzde = @($ucuncuoy/$toplamsonuc)*100;
+                                    $ucuncuyuzde = number_format($ucuncuyuzde,0,",","");
+                                    $dorduncuyuzde = @($dorduncuoy/$toplamsonuc)*100;
+                                    $dorduncuyuzde = number_format($dorduncuyuzde,0,",","");
+                                    $besyuzde = @($besincioy/$toplamsonuc)*100;
+                                    $besyuzde = number_format($besyuzde,0,",","");
+                                    $altiyuzde = @($altincioy/$toplamsonuc)*100;
+                                    $altiyuzde = number_format($altiyuzde,0,",","");
+                                    $yediyuzde = @($yedincioy/$toplamsonuc)*100;
+                                    $yediyuzde = number_format($yediyuzde,"0",",","");
+                                    $sekizyuzde = @($sekizincioy/$toplamsonuc)*100;
+                                    $sekizyuzde = number_format($sekizyuzde,0,",","");
+                                    if($anketkayitsayisi > 0){
+                                        ?>
+                            <div class="soru" style="border-bottom:1px solid gray;">
+                                <a onclick="anketAc(2,1)">
+                                    <?php echo $anketkayitdeger["soru"] ?></a>
+                            </div>
+
+                            <ul class="anket-cevap" style="display:none;">
+
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapbir"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $birinciyuzde?>%;background: green;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:green">%
+                                            <?php echo $birinciyuzde?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapiki"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $ikinciyuzde?>%;background: red;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:red">%
+                                            <?php echo $ikinciyuzde ?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapuc"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $ucuncuyuzde?>%;background: #c0c15b;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:#c0c15b">%
+                                            <?php echo $ucuncuyuzde?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapdort"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $dorduncuyuzde?>%;background: gray;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:gray">%
+                                            <?php echo $dorduncuyuzde?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <span>
+                                            <?php echo $anketkayitdeger["cevapbes"] ?>
+
+
+
+                                        </span>
+                                        <span>
+
+                                            <span class="ceviri-durumu-gosterge-anket">
+                                                <span style="width:<?php echo $besyuzde?>%;background: blue;"
+                                                    class="ceviri-durumu-gosterge-ic-anket"></span>
+                                            </span>
+                                            <span class="ceviri-durumu-yazı-anket" style="color:blue">%
+                                                <?php echo $besyuzde?></span>
+                                        </span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <span>
+                                            <?php echo $anketkayitdeger["cevapalti"] ?>
+
+
+
+                                        </span>
+                                        <span>
+
+                                            <span class="ceviri-durumu-gosterge-anket">
+                                                <span style="width:<?php echo $altiyuzde?>%;background: pink;"
+                                                    class="ceviri-durumu-gosterge-ic-anket"></span>
+                                            </span>
+                                            <span class="ceviri-durumu-yazı-anket" style="color:pink">%
+                                                <?php echo $altiyuzde?></span>
+                                        </span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapyedi"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $yediyuzde?>%;background: orange;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:orange">%
+                                            <?php echo $yediyuzde?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <span>
+                                            <?php echo $anketkayitdeger["cevapsekiz"] ?>
+
+
+
+                                        </span>
+                                        <span>
+
+                                            <span class="ceviri-durumu-gosterge-anket">
+                                                <span style="width:<?php echo $sekizyuzde?>%;background: aqua;"
+                                                    class="ceviri-durumu-gosterge-ic-anket"></span>
+                                            </span>
+                                            <span class="ceviri-durumu-yazı-anket" style="color:aqua">%
+                                                <?php echo $sekizyuzde?></span>
+                                        </span>
+                                    </span>
+                                </li>
+
+                                <?php
+                                    }
+                                    else{
+                                        echo "Anket Bulunamadı";
+                                    }
+                                 ?>
+
+
+                            </ul>
+                            <?php
+                            $anketkayit = $db->query("SELECT * FROM anket where id = '3'");
+                                    $anketkayitsayisi = $anketkayit->num_rows;
+                                    $anketkayitdeger = $anketkayit->fetch_assoc();
+                                    $birincioy = $anketkayitdeger["sonucbir"];
+                                    $ikincioy = $anketkayitdeger["sonuciki"];
+                                    $toplamsonuc = $anketkayitdeger["toplamsonuc"];
+                                    $birinciyuzde = @($birincioy/$toplamsonuc)*100;
+                                    $birinciyuzde = number_format($birinciyuzde,0,",","");
+                                    $ikinciyuzde = @($ikincioy/$toplamsonuc)*100;
+                                    $ikinciyuzde = number_format($ikinciyuzde,0,",","");
+                                    
+                                    if($anketkayitsayisi > 0){
+                                        ?>
+                            <div class="soru" style="border-bottom:1px solid gray;">
+                                <a onclick="anketAc(2,2)">
+                                    <?php echo $anketkayitdeger["soru"] ?></a>
+                            </div>
+
+                            <ul class="anket-cevap" style="display:none;">
+
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapbir"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $birinciyuzde?>%;background: green;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:green">%
+                                            <?php echo $birinciyuzde?></span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <?php echo $anketkayitdeger["cevapiki"] ?>
+
+
+
+                                    </span>
+                                    <span>
+
+                                        <span class="ceviri-durumu-gosterge-anket">
+                                            <span style="width:<?php echo $ikinciyuzde?>%;background: red;"
+                                                class="ceviri-durumu-gosterge-ic-anket"></span>
+                                        </span>
+                                        <span class="ceviri-durumu-yazı-anket" style="color:red">%
+                                            <?php echo $ikinciyuzde ?></span>
+                                    </span>
+                                </li>
+                                <?php
+                                    }
+                                    else{
+                                        echo "Anket Bulunamadı";
+                                    }
+                                 ?>
+
+
+                            </ul>
 
                         </div>
                     </div>
                     <div class="kisa-sol">
                         <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Alt Yazıgönderenler</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
+                            <h2><a href="#" title="Pek Yakında">AltYazı Gönderenler</a></h2>
                         </div>
                         <div class="alt-menu-icerik">
                             <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                <?php
+                                $altyazı_sorgu = $db->query("SELECT * FROM subs WHERE onay = '1' ORDER BY id DESC LIMIT 5");
+                                    while($veri = $altyazı_sorgu->fetch_assoc()){
+                                        $g_name = $veri["username"];
+                                        $diziname = $veri["diziname"];
+                                        $sezon = $veri["sezon"];
+                                        $bolum = $veri["bolum"];
+                                        $kullanici_sorgu = $db->query("SELECT * FROM uyeler WHERE username = '$g_name' ");
+                                        $kullanici_veri = $kullanici_sorgu->fetch_assoc();
+                                        $kullanici_id = $kullanici_veri["id"];
+                                        echo '
+                                            <li>
+                                                <a href="members/'.$kullanici_id.'.php">'.$g_name.' <span style="font-size:10px;color:gray"> '.$diziname.' S '.$sezon.'/ B '.$bolum.'</span></a>
+                                            </li>
+                                            ';
+                                    }
+                                ?>
                             </ul>
                         </div>
                     </div>
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Yakında</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Ne var ne yok!</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-
+                    
                 </div>
-
-
-
-
-
-
-
-
             </div>
         </div>
         <div id="footer">

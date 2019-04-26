@@ -697,7 +697,7 @@ a{
     line-height: 20px;
     position: relative;
 }
-.alt-menu-icerik ul li:hover{
+.alt-menu-icerik ul li a:hover{
     cursor: pointer;
 }
 .alt-menu-icerik ul li a{
@@ -989,6 +989,9 @@ a{
     color: #069;
     display: block;
     font-size: 13px;
+}
+.soru a:hover{
+    cursor: pointer;
 }
 #girispaneli{
     width: 187px;
@@ -1555,6 +1558,17 @@ h5{
 .like-butonu:hover{
     background-position: -26px 0;
 }
+.unlike-butonu{
+    cursor: pointer;
+    display: block;
+    width: 22px;
+    height: 24px;
+    background: url(img/like.png) no-repeat 2px -28px;
+    float: left;
+}
+.unlike-butonu:hover{
+    background-position: -26px -28px;
+}
 .like-sayac{
     display: inline;
     font-size: 12px;
@@ -1628,4 +1642,18 @@ h5{
 }
 .aktifsayfa:hover{
     cursor: context-menu;
+}
+.td15{
+    background-color: #f8f8f8;
+    border-left: 1px solid #fff;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #eee;
+    border-right: 1px solid #eee;
+    padding: 6px 4px;
+}
+.tr15{
+    height: 40px;
+}
+#sezon-baslik:hover{
+    cursor: pointer;
 }

@@ -1,5 +1,9 @@
 <?php
                                                 require_once("../baglanti.php");
+                                                $uye_veri_sorgu = $db->query("SELECT * from uyeler WHERE username = 'moz'");
+                                                $uye_veri = $uye_veri_sorgu->fetch_assoc();
+                                                $uye_resim = $uye_veri["uyeresim"];
+                                                $uye_son_giris= $uye_veri["songiris"];
                                             ?>
 <!DOCTYPE html>
 <html>
@@ -28,7 +32,8 @@
                         </ul>
                     </li>
                 </ul>
-                <form><input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz">
+                <form method="POST" action="../arama.php">
+                    <input type="text" class="text-place" placeholder="Film / Dizi adı ya da IMDb linki giriniz" name="find">
                     <input type="submit" value="">
                 </form>
             </div>
@@ -128,7 +133,7 @@
             <ul>
                 <li class="ok orta-menu">
                     <a id="giris" class="ok" onclick="gpaneliAc2()">
-                        deneme&nbsp;</a>
+                        moz&nbsp;</a>
                 </li>
             </ul>
             <div id="girispaneli2" onclick="gpaneliAc2()">
@@ -224,7 +229,7 @@
                             Bölüm Takibi</a>
                     </li>
                     <li>
-                        <a>
+                        <a href="../setting.php">
                             <i class="r19"></i>
                             Ayarlarım</a>
                     </li>
@@ -250,7 +255,7 @@
                             <tr>
                                 <td valign="top" style="border-right:1px solid #e8e8e8; width: 150px;">
                                     <div style="text-align: center; width:150px;">
-                                        <img src="../members/avatar/default.png">
+                                        <img src="../<?php echo $uye_resim; ?>" width="100" height="104">
                                     </div>
                                     <div style="text-align: center; width:150px;">
                                         <a><img src="../img/profil_pm.png"></a>
@@ -273,7 +278,7 @@
                                         <tr>
                                             <td style="border-bottom:1px solid black; width:20%;">
                                                 <h1 style="font-weight: bold;font-size: 20px;display: inline;">
-                                                    deneme</h1>
+                                                    moz</h1>
                                             </td>
                                             <td style="border-bottom:1px solid black;"></td>
                                             <td style="border-bottom:1px solid black;"></td>
@@ -281,12 +286,12 @@
                                         <tr>
                                             <td><b>Kayıt</b></td>
                                             <td>:</td>
-                                            <td>2019-03-19 17:12:12</td>
+                                            <td>2019-04-26 00:07:21</td>
                                         </tr>
                                         <tr>
                                             <td><b>Son Giriş</b></td>
                                             <td>:</td>
-                                            <td>19.03.2019 17:12</td>
+                                            <td><?php echo $uye_son_giris; ?></td>
                                         </tr>
                                         <tr>
                                             <td style="border-bottom:1px solid black; width:26%;">
@@ -316,7 +321,7 @@
                                                                                     $sorgu2 = $db->prepare("SELECT * FROM yildizoy WHERE isim =?");
                                                                                     $sorgu2->bind_param("s",$dizi_name);
                                                                                     $sorgu2->execute();
-                                                                                    $sorgu2->bind_result($id,$isim,$oy,$toplam,$poster);
+                                                                                    $sorgu2->bind_result($id,$isim,$oy,$toplam,$poster,$yol,$tur,$yorum_pos);
                                                                                     while($sorgu2->fetch()){
                                                                                         $dizi_poster = $poster;
                                                                                         $dizi_adi = $isim;
@@ -340,91 +345,72 @@
                     </div>
                 </div>
                 <div id="sag-govde">
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Film Altyazıları</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Dizi Altyazıları</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-
-
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Yakında</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-
+                <div class="kisa-sol">
+                <div class="baslik" style="border-bottom:1px solid gray;">
+                    <h2><a href="#" title="Son Eklenen Altyazılar">Son Eklenen Altyazılar</a></h2>
                 </div>
-            </div>
+                <div class="alt-menu-icerik">
+                    <ul>
+                    <?php
+                    $altyazı_sorgu = $db->query("SELECT * FROM subs WHERE onay = '1' ORDER BY id DESC LIMIT 5");
+                    while($veri = $altyazı_sorgu->fetch_assoc()){
+                        $diziname = $veri["diziname"];
+                        $sezon = $veri["sezon"];
+                        $bolum = $veri["bolum"];
+                        $g_adi= $veri["username"];
+                        $dizi_sorgu = $db->query("SELECT * FROM yildizoy WHERE isim = '$diziname'");
+                        $dizi_veri = $dizi_sorgu->fetch_assoc();
+                        $dizi_yol = $dizi_veri["yol"];
+                        echo '
+                            <li>
+                                <a href="../'.$dizi_yol.'">'.$diziname.' S '.$sezon.' / B '.$bolum.' <span style="color:gray;font-size:10px;"> Gönderici '.$g_adi.' </span></a>
+                            </li>
+                            ';
+                    }
+                ?>
+                    </ul>
+                </div>
         </div>
 
-        <div id="footer">
+        <div class="kisa-sol">
+                    <div class="baslik" style="border-bottom:1px solid gray;">
+                        <h2><a href="#" title="Pek Yakında">AltYazı Gönderenler</a></h2>
+                    </div>
+                    <div class="alt-menu-icerik">
+                        <ul>
+                            <?php
+                            $altyazı_sorgu = $db->query("SELECT * FROM subs WHERE onay = '1' ORDER BY id DESC LIMIT 5");
+                                while($veri = $altyazı_sorgu->fetch_assoc()){
+                                    $g_name = $veri["username"];
+                                    $diziname = $veri["diziname"];
+                                    $sezon = $veri["sezon"];
+                                    $bolum = $veri["bolum"];
+                                    $kullanici_sorgu = $db->query("SELECT * FROM uyeler WHERE username = '$g_name' ");
+                                    $kullanici_veri = $kullanici_sorgu->fetch_assoc();
+                                    $kullanici_id = $kullanici_veri["id"];
+                                    echo '
+                                        <li>
+                                            <a href="../members/'.$kullanici_id.'.php">'.$g_name.' <span style="font-size:10px;color:gray"> '.$diziname.' S '.$sezon.' B '.$bolum.'</span></a>
+                                        </li>
+                                        ';
+                                }
+                            ?>
+                        </ul>
+                    </div>
+                </div>
+
+
+
+        </div>
+                </div>
+            </div>
+            <div id="footer">
             <span id="eposta"></span>
             <span id="son">Türkçe Altyazı © 2007 - 2019</span>
         </div>
+        </div>
+
+       
         <a id="yukari" href="#header" style="display:none;"></a>
 
 

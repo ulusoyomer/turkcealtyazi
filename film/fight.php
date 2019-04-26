@@ -1,5 +1,5 @@
 
-        <?php
+<?php
 require_once("../baglanti.php");
 if(isset($_SESSION["Kullanici"])){
     $k_adi = $_SESSION["Kullanici"];
@@ -237,7 +237,7 @@ if(isset($_SESSION["Kullanici"])){
                             Bölüm Takibi</a>
                     </li>
                     <li>
-                        <a>
+                        <a href="../setting.php">
                             <i class="r19"></i>
                             Ayarlarım</a>
                     </li>
@@ -292,7 +292,7 @@ if(isset($_SESSION["Kullanici"])){
                                 <div class="afis">
                                     <div id="poster">
                                         <a>
-                                            <img width="203" src="../<?php echo $dizi_poster; ?>">
+                                            <img width="203" height="304" src="../<?php echo $dizi_poster; ?>">
                                         </a>
                                     </div>
                                     <div id="filminfo">
@@ -304,7 +304,7 @@ if(isset($_SESSION["Kullanici"])){
                             <div class="dizi-bilgi">
                                 <div class="rate">
                                     <div>
-                                        <span class="dizi-puan" title="IMDB PUANI">9.5</span>
+                                        
                                         <?php
                                         $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'Fight Club'");
                                         $kisi_sorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'Fight Club'");
@@ -314,6 +314,9 @@ if(isset($_SESSION["Kullanici"])){
                                         $toplamsonuc = $toplamsonucverileri["oy"]/$toplamsonucverileri["toplam"];
                                         $yazısonuc = number_format($toplamsonuc,1,",","");
                                         $toplamsonuc = round($toplamsonuc);
+                                        ?>
+                                        <span class="dizi-puan" title="Oy"><?php echo "$yazısonuc";?></span>
+                                        <?php
                                         }
                                         else{
                                             $toplamsonuc = 0;
@@ -325,15 +328,6 @@ if(isset($_SESSION["Kullanici"])){
                                                 $oylayan_ad=$oylayan_veri["username"];
                                                 echo "$oylayan_ad".", ";
                                             }
-                                        }
-                                        function begenenler($db,$yorum_id){
-                                            $begenenler_sorgu = $db->query("SELECT * FROM ybegeni WHERE yid='$yorum_id' AND begeni = 1 ORDER BY id DESC LIMIT 3 ");
-                                            $dizi = [];
-                                            while($begenenler_veri = $begenenler_sorgu->fetch_assoc()){
-                                                $begeneler_name = $begenenler_veri["username"];
-                                                 array_push($dizi,$begeneler_name);
-                                                    }
-                                                    return $dizi;           
                                         }
                                         if(isset($_SESSION["Kullanici"])){
                                             $k_adi = $_SESSION["Kullanici"];
@@ -560,7 +554,7 @@ if(isset($_SESSION["Kullanici"])){
                             if(isset($_SESSION["Kullanici"])){  
                             ?>
                             <div id="alt-butonlar">
-                                <a>Altyazı Gönder</a>
+                                <a href="agonder.php?diziname=Fight Club">Altyazı Gönder</a>
                                 <?php
                                 $k_adi = $_SESSION["Kullanici"];
                                 $secenek_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = '$uye_id' AND diziadi = 'Fight Club'");
@@ -589,7 +583,7 @@ if(isset($_SESSION["Kullanici"])){
                                     header("Location:../film/fight.php");
                                 }
                                 elseif($_GET["altsecenek"] == "leklecik"){
-                                    $liste_ekle_kaldir_sorgu = $db->query("DELETE from izlemeliste WHERE userid = '$uye_id'");
+                                    $liste_ekle_kaldir_sorgu = $db->query("DELETE from izlemeliste WHERE userid = '$uye_id' and diziadi='Fight Club'");
                                     header("Location:../film/fight.php");
                                 }
                                 else{
@@ -672,7 +666,7 @@ if(isset($_SESSION["Kullanici"])){
                             <form method="POST" action="../film/fight.php">
                                 <div class="alt-Baslik">
                                     <h5>
-                                        <img class="avatar" src="../members/avatar/default_avatar.gif">
+                                        <img class="avatar" src="../<?php echo $uye_resim; ?>" width="40" height="40">
                                         <span><?php echo $k_adi; ?></span>
                                         <span style="float:right;font-size:12px;">
                                             Bir Bölüm için Yorum Yapınız
@@ -732,14 +726,12 @@ if(isset($_SESSION["Kullanici"])){
                                 $dizi_sezon = 0;
                             }
                             $yorumyapan_adi = $_SESSION["Kullanici"];
-                            $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'Fight Club'");
-                            $yorum_say = $yorum_say_sorgu->num_rows;
-                            $yorumekleme_sorgusu = $db->query("INSERT INTO yorumlar (username,yorum,diziadi,begeni,kacinci,dizibolum,dizisezon) values('$yorumyapan_adi','$comment','Fight Club',0,'$yorum_say','$dizi_bolum',' $dizi_sezon')");
+                            $yorumekleme_sorgusu = $db->query("INSERT INTO yorumlar (username,yorum,diziadi,begeni,dizibolum,dizisezon) values('$yorumyapan_adi','$comment','Fight Club',0,'$dizi_bolum',' $dizi_sezon')");
                             $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'Fight Club'");
                             $yorum_say_sayfa = $yorum_say_sorgu->num_rows;
                             $son_sayfa = $yorum_say_sayfa / 5;
                             $son_sayfa = ceil($son_sayfa);   
-                            header("Location:../film/fight.php?sayfa=yorum&yorums=$son_sayfa");
+                            header("Location:../film/fight.php?sayfa=yorum");
                             
                         }
                                 }
@@ -768,13 +760,14 @@ if(isset($_SESSION["Kullanici"])){
                             $sayfa = 0;
                             $sayfa_num = 1;
                         }
-                        $sayfa_yorum_yazdirma_sorgusu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Fight Club' LIMIT $sayfa,5");
+                        $sayfa_yorum_yazdirma_sorgusu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Fight Club' ORDER BY id DESC LIMIT $sayfa,5");
                         $sayfa_yorum_yazdirma_kontrol = $sayfa_yorum_yazdirma_sorgusu->num_rows;
                         $son_sayfa_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Fight Club'");
                         $yorum_num = $son_sayfa_sorgu->num_rows;
                         $son_sayfa = $yorum_num;
                         $son_sayfa/=5;
                         $son_sayfa = ceil($son_sayfa);
+                        $div_id=0;
                         if($sayfa_yorum_yazdirma_kontrol > 0){
                             while($yorumun_verileri = $sayfa_yorum_yazdirma_sorgusu->fetch_assoc()){
                                 $yorum_metni = $yorumun_verileri["yorum"];
@@ -782,10 +775,11 @@ if(isset($_SESSION["Kullanici"])){
                                 $yorumcu_resim_sorgu = $db->query("SELECT * FROM uyeler WHERE username = '$yorumcunun_adi'");
                                 $yorumcu_resim_veri = $yorumcu_resim_sorgu->fetch_assoc();
                                 $uye_resim = $yorumcu_resim_veri["uyeresim"];
+                                $uye_id = $yorumcu_resim_veri["id"];
                                 $yorum_tarih = $yorumun_verileri["tarih"];
                                 $yorum_begeni = $yorumun_verileri["begeni"];
                                 $yorum_id = $yorumun_verileri["id"];
-                                $yorum_kacinci = $yorumun_verileri["kacinci"];
+                                $yorum_kacinci = $yorum_id-1;
                                 $yorum_dizi_bolum = $yorumun_verileri["dizibolum"];
                                 $yorum_dizi_sezon = $yorumun_verileri["dizisezon"];
                                 echo '
@@ -795,7 +789,7 @@ if(isset($_SESSION["Kullanici"])){
                             </div>
                             <div class="yorumcu-bilgi-yorum" style="width: 620px; float: left;">
                                 <div>
-                                    <a style="color: #069;text-decoration: none;font-size: 14px;display:inline;">
+                                    <a style="color: #069;text-decoration: none;font-size: 14px;display:inline;" href="../members/'.$uye_id.'.php">
                                         <b>
                                             <span style="color: #808000;display:inline;">'.$yorumcunun_adi.'</span>
                                         </b>
@@ -819,32 +813,23 @@ if(isset($_SESSION["Kullanici"])){
                             $altyorumbul_sorgu = $db->query("SELECT * FROM altyorum WHERE ustyorumid = '$yorum_id'");
                             $altyorumbul_kontol = $altyorumbul_sorgu->num_rows;
                             if(isset($_SESSION["Kullanici"])){
-                                if($yorum_kacinci >= 5){
-                                    $yorum_kacinci = $yorum_kacinci % 5;
-                                    if($yorum_kacinci % 5 == 0){
-                                        $yorum_kacinci = 0;
-                                    }
-                                    
-                                }
-                                $altyorumekleAc = "altyorumekleAc($yorum_kacinci)";
+                                $altyorumekleAc = "altyorumekleAc($div_id)";
                             }
                             else{
-                                if($yorum_kacinci >= 5){
-                                    $yorum_kacinci = $yorum_kacinci % 5;
-                                    if($yorum_kacinci % 5 == 0){
-                                        $yorum_kacinci = 0;
-                                    }
-                                    
-                                }
-                                $altyorumekleAc = "uyegiris($yorum_kacinci)";
+                                
+                                $altyorumekleAc = "uyegiris($div_id)";
                             }
                             if($altyorumbul_kontol >=0){
                                 echo '<div class="alt-yorum" style="margin-top:15px;margin-left:50px;display:block;">
-                                <a class="a-cevaplar" style="float:none;" onclick="altCevapAc('.$yorum_kacinci.')">Cevaplar&nbsp;('.$altyorumbul_kontol.')</a>
-                                <div class="alt-yorumlar" style="display:none;">';
+                                <a class="a-cevaplar" style="float:none;" onclick="altCevapAc('.$div_id.')">Cevaplar&nbsp;('.$altyorumbul_kontol.')</a>
+                                <div class="alt-yorumlar" style="display:none;" id="alt-yorumlar'.$div_id.'">';
                                 while(@$altyorum_verileri = $altyorumbul_sorgu->fetch_assoc()){
                                     $altyorum_comment = $altyorum_verileri["yorum"];
                                     $altyorum_username = $altyorum_verileri["username"];
+                                    $altyorum_resim = $db->query("SELECT * FROM uyeler WHERE username = '$altyorum_username'");
+                                    $veri = $altyorum_resim->fetch_assoc();
+                                    $uye_resim = $veri["uyeresim"];
+                                    $uye_id = $veri["id"];
                                     $altyorum_tarih = $altyorum_verileri["tarih"];
                                     echo '<div class="a-yorum">
                                     <div class="yorumcu-avatar" style="width: 45px;float: left;">
@@ -853,7 +838,7 @@ if(isset($_SESSION["Kullanici"])){
                                     <div class="yorumcu-bilgi-yorum" style="float: left; width: 510px;">
                                         <div>
                                             <a
-                                                style="color: #069;text-decoration: none;font-size: 14px;display:inline;">
+                                                style="color: #069;text-decoration: none;font-size: 14px;display:inline;" href="../members/'.$uye_id.'.php">
                                                 <b>
                                                     <span style="color: #808000;display:inline;">'.$altyorum_username.'</span>
                                                 </b>
@@ -880,18 +865,26 @@ if(isset($_SESSION["Kullanici"])){
                                 else{
                                     $sayfa = 1;
                                 }
-                            echo'
+                                $begeni_sorgu=$db->query("SELECT * FROM ybegeni WHERE username = '$uye_name' AND yid = '$yorum_id' AND begeni = '1'");
+                                $begeni_sorgu_kontrol = $begeni_sorgu->num_rows;
+                                if($begeni_sorgu_kontrol > 0){
+                                    echo'
+                                <a href="../film/fight.php?sayfa=yorum&like=1&yorum='.$yorum_id.'&yorums='.$sayfa.'"><span class="unlike-butonu"></span></a> 
+                                ';
+                                }
+                                else{
+                                    echo'
                                 <a href="../film/fight.php?sayfa=yorum&like=1&yorum='.$yorum_id.'&yorums='.$sayfa.'"><span class="like-butonu"></span></a> 
                                 ';
+                                }
                             }
                             else{
                                 echo'
-                                <span class="like-butonu" onclick="uyegiris('.$yorum_kacinci.')"></span>
+                                <span class="like-butonu" onclick="uyegiris('.$div_id.')"></span>
                                 ';
                             }
-                                $dizi2=begenenler($db,$yorum_id);
                                 echo'
-                               <a title="'.@$dizi2[0].', '.@$dizi2[1].', '.@$dizi2[2].'..."><span class="like-sayac" alt="">'.$yorum_begeni.'</span></a>
+                               <a><span class="like-sayac" alt="">'.$yorum_begeni.'</span></a>
                                 <span style="float:left;margin-top: 5px;margin-left: 5px;">|';
                                 echo'
                                     <a class="alt-cevap-ekle" onclick="'.$altyorumekleAc.'">
@@ -901,8 +894,31 @@ if(isset($_SESSION["Kullanici"])){
                                 <div>&nbsp;</div>
                             </div>
                             <div class="clear"></div>
+                            <div style="margin-left:50px;">
+                                ';
+                                $begenenler_sorgu = $db->query("SELECT * FROM ybegeni WHERE yid = '$yorum_id' AND begeni = '1' ORDER BY id DESC LIMIT 3");
+                                $begenenler_sorgu_kontrol = $begenenler_sorgu->num_rows;
+                                if($begenenler_sorgu_kontrol > 0){
+                                    while($veri = $begenenler_sorgu->fetch_assoc()){
+                                        $b_adi = $veri["username"];
+                                        echo'
+                                             <span style=" display:inline-block;background:#F3F3F3; color:#111111; padding:2px 8px; font-size:15px;">'.$b_adi.'</span>&nbsp;
+                                            ';
+                                    }
+                                    echo '
+                                         <a style="display:inline-block;" title="';
+                                         $begenenler_sorgu = $db->query("SELECT * FROM ybegeni WHERE yid = '$yorum_id' AND begeni = '1'");
+                                         while($veri=$begenenler_sorgu->fetch_assoc()){
+                                             $begenen_adi = $veri["username"];
+                                             echo $begenen_adi.",";
+                                         }
+                                         echo'">...</a>
+                                        ';
+                                }
+                                echo'
+                            </div>
                             <div class ="giris-yap" style="color:red;font-size:14px;display:none;margin-left:50px;"><strong>Lütfen Giriş Yapınız</strong></div>
-                            <div class="cevapla-alani" style="display:none;">
+                            <div class="cevapla-alani" style="display:none;" id="alt_yor'.$div_id.'">
                                 <form action="../film/fight.php" method="POST">
                                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                         <tr>
@@ -937,6 +953,7 @@ if(isset($_SESSION["Kullanici"])){
                         </div>
                                 
                                 ';
+                                $div_id++;
                             }
                         }
                         ?>
@@ -948,7 +965,7 @@ if(isset($_SESSION["Kullanici"])){
                                     $yorumcunun_adi =$_SESSION["Kullanici"];
                                     $altyorumekle_sorgu = $db->query("INSERT INTO altyorum (ustyorumid,username,yorum,ididizi) values ('$ust_yorum_id','$yorumcunun_adi','$alt_yorum','$dizi_id')");
                                     $sayfa = $_POST["yorums"];
-                                    header("Location:../film/fight.php?sayfa=yorum&yorums=$sayfa");
+                                    header("Location:../film/fight.php?sayfa=yorum");
                                     
                                     
                                     
@@ -1054,6 +1071,60 @@ if(isset($_SESSION["Kullanici"])){
                     </div>
                     <?php
                         }
+                        $subs_sorgu = $db->query("SELECT * FROM subs WHERE diziname='Fight Club' AND onay = '1' ");
+                        $subs_sorgu_kontrol = $subs_sorgu->num_rows;
+                        $sezonlar = array();
+                        if($subs_sorgu_kontrol > 0){
+                            $sezon_kontrol = $db->query("SELECT DISTINCT sezon FROM subs WHERE diziname='Fight Club' AND onay = '1' ORDER BY sezon DESC");
+                            while($deger = $sezon_kontrol->fetch_assoc()){
+                                array_push($sezonlar,$deger["sezon"]);
+                            }
+                            for($i = 0 ;$i<count($sezonlar);$i++){
+                                $s = $sezonlar[$i];
+                                $altyazı_bul = $db->query("SELECT * FROM subs WHERE sezon = '$s' AND onay = 1 AND diziname='Fight Club' ORDER BY bolum ");
+                                ?>
+                                <div class="sblock">
+                                    <div class="alt-Baslik" align="center">
+                                        <h5 id="sezon-baslik">
+                                            <a onclick="acAltyazi(<?php echo $s; ?>)" style="display:inline-block; width:100%;height:100%;"><?php echo $s;?>. Sezon</a>
+                                        </h5>
+                                    </div>
+                                    <div class="ozet-goster" id="<?php echo $s; ?>sezona" style="border-bottom:1px solid #dbdbdb;display:block;" >
+                                        <table cellspacing="0" cellpadding="4" border="0" style="width:100%;">
+                                            <tr class="tr15">
+                                                <td class="td15" align="center">Alt Yazıyı Gönderen</td>
+                                                <td class="td15" align="center">Bölüm</td>
+                                                <td class="td15" align="center">Yorum</td>
+                                                <td class="td15" align="center">Gönderilen Tarih</td>
+                                                <td class="td15" align="center">Dil</td>
+                                                <td class="td15" align="center">İndir</td>
+                                            </tr>
+                                            <?php
+                                            while($a_degerler = $altyazı_bul->fetch_assoc()){
+                                                $g_adi = $a_degerler["username"];
+                                                $a_yolu = $a_degerler["diziyolu"];
+                                                $a_yorum = $a_degerler["diziyorum"];
+                                                $a_dil = $a_degerler["dil"];
+                                                $a_tarih = $a_degerler["zaman"];
+                                                $a_bolum = $a_degerler["bolum"];
+                                                echo '
+                                                <tr class="tr15">
+                                                    <td class="td15" align="center"><strong>'.$g_adi.'</strong></td>
+                                                    <td class="td15" align="center"><strgon>'.$a_bolum.'</strong></td>
+                                                    <td class="td15" align="center"><strong>'.$a_yorum.'</strong></td>
+                                                    <td class="td15" align="center"><strong>'.$a_tarih.'</strong></td>
+                                                    <td class="td15" align="center"><strong>'.$a_dil.'</strong></td>
+                                                    <td class="td15" align="center"><a href="../film/'.$a_yolu.'">TIKLA</a></td>
+                                                </tr>
+                                                ';
+                                            }
+                                            ?>
+                                        </table>    
+                                    </div>
+                                </div>
+                                <?php
+                            }
+                        }
                         ?>
                 </div>
                 <div id="sag-govde">
@@ -1065,83 +1136,62 @@ if(isset($_SESSION["Kullanici"])){
                         </a>
                     </div>
                     <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Film Altyazıları</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
+                            <div class="baslik" style="border-bottom:1px solid gray;">
+                                <h2><a href="#" title="Son Eklenen Altyazılar">Son Eklenen Altyazılar</a></h2>
+                            </div>
+                            <div class="alt-menu-icerik">
+                                <ul>
+                                <?php
+                                $altyazı_sorgu = $db->query("SELECT * FROM subs WHERE onay = '1' ORDER BY id DESC LIMIT 5");
+                                while($veri = $altyazı_sorgu->fetch_assoc()){
+                                    $diziname = $veri["diziname"];
+                                    $sezon = $veri["sezon"];
+                                    $bolum = $veri["bolum"];
+                                    $g_adi= $veri["username"];
+                                    $dizi_sorgu = $db->query("SELECT * FROM yildizoy WHERE isim = '$diziname'");
+                                    $dizi_veri = $dizi_sorgu->fetch_assoc();
+                                    $dizi_yol = $dizi_veri["yol"];
+                                    echo '
+                                        <li>
+                                            <a href="../'.$dizi_yol.'">'.$diziname.' S '.$sezon.' / B '.$bolum.' <span style="color:gray;font-size:10px;"> Gönderici '.$g_adi.' </span></a>
+                                        </li>
+                                        ';
+                                }
+                            ?>
+                                </ul>
+                            </div>
                     </div>
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Dizi Altyazıları</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
-
-
 
                     <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Yakında</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
+                                <div class="baslik" style="border-bottom:1px solid gray;">
+                                    <h2><a href="#" title="Pek Yakında">AltYazı Gönderenler</a></h2>
+                                </div>
+                                <div class="alt-menu-icerik">
+                                    <ul>
+                                        <?php
+                                        $altyazı_sorgu = $db->query("SELECT * FROM subs WHERE onay = '1' ORDER BY id DESC LIMIT 5");
+                                            while($veri = $altyazı_sorgu->fetch_assoc()){
+                                                $g_name = $veri["username"];
+                                                $diziname = $veri["diziname"];
+                                                $sezon = $veri["sezon"];
+                                                $bolum = $veri["bolum"];
+                                                $kullanici_sorgu = $db->query("SELECT * FROM uyeler WHERE username = '$g_name' ");
+                                                $kullanici_veri = $kullanici_sorgu->fetch_assoc();
+                                                $kullanici_id = $kullanici_veri["id"];
+                                                echo '
+                                                    <li>
+                                                        <a href="../members/'.$kullanici_id.'.php">'.$g_name.' <span style="font-size:10px;color:gray"> '.$diziname.' S '.$sezon.' B '.$bolum.'</span></a>
+                                                    </li>
+                                                    ';
+                                            }
+                                        ?>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
                     </div>
-
-
-                </div>
             </div>
         </div>
 

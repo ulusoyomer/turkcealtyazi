@@ -24,33 +24,115 @@ function diziyorumAc(){
 
 }
 function altyorumekleAc(e){
-    if(cevapla_alani[e].style.display == "block"){
-        if(giris_yap[0].style.display == "block"){
-            giris_yap[0].style.display="none";
+    if(e == 0){
+        var ac = document.getElementById("alt_yor0");
+        if(ac.style.display == "none"){
+            ac.style.display = "block";
         }
-        cevapla_alani[e].style.display = "none";
-    }
-    else{
-        if(giris_yap[0].style.display == "block"){
-            giris_yap[0].style.display="none";
+        else{
+            ac.style.display = "none";
         }
-        cevapla_alani[e].style.display = "block";
     }
+    if(e == 1){
+        var ac = document.getElementById("alt_yor1");
+        if(ac.style.display == "none"){
+            ac.style.display = "block";
+        }
+        else{
+            ac.style.display = "none";
+        }
+    }
+    if(e == 2){
+        var ac = document.getElementById("alt_yor2");
+        if(ac.style.display == "none"){
+            ac.style.display = "block";
+        }
+        else{
+            ac.style.display = "none";
+        }
+    }
+    if(e == 3){
+        var ac = document.getElementById("alt_yor3");
+        if(ac.style.display == "none"){
+            ac.style.display = "block";
+        }
+        else{
+            ac.style.display = "none";
+        }
+    }
+    if(e == 4){
+        var ac = document.getElementById("alt_yor4");
+        if(ac.style.display == "none"){
+            ac.style.display = "block";
+        }
+        else{
+            ac.style.display = "none";
+        }
+    }
+    
+    
+    
+    
+    
+    
 }
 function altCevapAc(e){
-    if(alt_yorumlar[e].style.display == "none"){
-        if(giris_yap[0].style.display == "block"){
-            giris_yap[0].style.display="none";
+    if(e == 0){
+        var ac = document.getElementById("alt-yorumlar0");
+        if(ac.style.display == "none"){
+            ac.style.display = "block";
         }
-        alt_yorumlar[e].style.display = "block";
+        else{
+            ac.style.display = "none";
+        }
     }
-    else{
-        if(giris_yap[0].style.display == "block"){
-            giris_yap[0].style.display="none";
+    if(e == 1){
+        var ac = document.getElementById("alt-yorumlar1");
+        if(ac.style.display == "none"){
+            ac.style.display = "block";
         }
-        alt_yorumlar[e].style.display = "none";
+        else{
+            ac.style.display = "none";
+        }
+    }
+    if(e == 2){
+        var ac = document.getElementById("alt-yorumlar2");
+        if(ac.style.display == "none"){
+            ac.style.display = "block";
+        }
+        else{
+            ac.style.display = "none";
+        }
+    }
+    if(e == 3){
+        var ac = document.getElementById("alt-yorumlar3");
+        if(ac.style.display == "none"){
+            ac.style.display = "block";
+        }
+        else{
+            ac.style.display = "none";
+        }
+    }
+    if(e == 4){
+        var ac = document.getElementById("alt-yorumlar4");
+        if(ac.style.display == "none"){
+            ac.style.display = "block";
+        }
+        else{
+            ac.style.display = "none";
+        }
     }
 
+}
+function acAltyazi(e){
+    var ad = e+"sezona";
+    var alt_yazı = document.getElementById(ad);
+    if(alt_yazı.style.display == "none"){
+        alt_yazı.style.display = "block";
+    }
+    else{
+        alt_yazı.style.display = "none";
+    }
 }
 function uyegiris(e){
     giris_yap[e].style.display="block";

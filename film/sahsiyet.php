@@ -261,16 +261,16 @@ if(isset($_SESSION["Kullanici"])){
                     <div class="sblock">
                         <div id="Baslik">
                             <h1>
-                                Game of Thrones </h1>
+                                Şahsiyet </h1>
                             <h2>
-                                Game of Thrones </h2>
+                                Şahsiyet </h2>
                             <span>50 dk</span>
                         </div>
                         <div class="alt-menu">
-                            <a href="../film/gameof.php?sayfa=dizidetay">Dizi Detay</a>
+                            <a href="../film/sahsiyet.php?sayfa=dizidetay">Dizi Detay</a>
                             <a>Fragman</a>
                             <a>Görsel</a>
-                            <a href="../film/gameof.php?sayfa=yorum">Yorum</a>
+                            <a href="../film/sahsiyet.php?sayfa=yorum">Yorum</a>
                             <a>Tavsiye</a>
                             <a>Liste</a>
                             <a>Altyazılar</a>
@@ -283,7 +283,7 @@ if(isset($_SESSION["Kullanici"])){
                                 <a class="google" href="#">&nbsp;</a>
                             </div>
                             <?php
-                                $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'Game of Thrones'");
+                                $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'Şahsiyet'");
                                 $toplamsonucverileri = $toplamsonucsorgusu->fetch_assoc();
                                 $dizi_poster = $toplamsonucverileri["poster"];
                                 $dizi_id = $toplamsonucverileri["id"];
@@ -306,8 +306,8 @@ if(isset($_SESSION["Kullanici"])){
                                     <div>
                                         
                                         <?php
-                                        $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'Game of Thrones'");
-                                        $kisi_sorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'Game of Thrones'");
+                                        $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'Şahsiyet'");
+                                        $kisi_sorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'Şahsiyet'");
                                         $kisi_sayisi = $kisi_sorgusu->num_rows;
                                         if($kisi_sayisi > 0){
                                         $toplamsonucverileri = $toplamsonucsorgusu->fetch_assoc();
@@ -323,7 +323,7 @@ if(isset($_SESSION["Kullanici"])){
                                             $yazısonuc = 0;
                                         }
                                         function oylayanlar($db){
-                                            $oylayan_sorgu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'Game of Thrones' ORDER BY id DESC LIMIT 3");
+                                            $oylayan_sorgu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'Şahsiyet' ORDER BY id DESC LIMIT 3");
                                             while($oylayan_veri = $oylayan_sorgu->fetch_assoc()){
                                                 $oylayan_ad=$oylayan_veri["username"];
                                                 echo "$oylayan_ad".", ";
@@ -331,7 +331,7 @@ if(isset($_SESSION["Kullanici"])){
                                         }
                                         if(isset($_SESSION["Kullanici"])){
                                             $k_adi = $_SESSION["Kullanici"];
-                                            $k_adiSorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE username ='$k_adi' AND diziname = 'Game of Thrones'");
+                                            $k_adiSorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE username ='$k_adi' AND diziname = 'Şahsiyet'");
                                             $k_adiBilgileri = $k_adiSorgusu->fetch_assoc();
                                             $k_adiKontrol = $k_adiSorgusu->num_rows;
                                             if($k_adiKontrol > 0){
@@ -365,34 +365,34 @@ if(isset($_SESSION["Kullanici"])){
                                         <div class="yıldızlar">
                                             <ul class="yıldızlar-rate">
                                                 <li style="margin-left:0px;">
-                                                    <a class="yildiz-1" href="../film/gameof.php?puan=1">1</a>
+                                                    <a class="yildiz-1" href="../film/sahsiyet.php?puan=1">1</a>
                                                 </li>
                                                 <li>
-                                                    <a class="yildiz-2" href="../film/gameof.php?puan=2">2</a>
+                                                    <a class="yildiz-2" href="../film/sahsiyet.php?puan=2">2</a>
                                                 </li>
                                                 <li>
-                                                    <a class="yildiz-3" href="../film/gameof.php?puan=3">3</a>
+                                                    <a class="yildiz-3" href="../film/sahsiyet.php?puan=3">3</a>
                                                 </li>
                                                 <li>
-                                                    <a class="yildiz-4" href="../film/gameof.php?puan=4">4</a>
+                                                    <a class="yildiz-4" href="../film/sahsiyet.php?puan=4">4</a>
                                                 </li>
                                                 <li>
-                                                    <a class="yildiz-5" href="../film/gameof.php?puan=5">5</a>
+                                                    <a class="yildiz-5" href="../film/sahsiyet.php?puan=5">5</a>
                                                 </li>
                                                 <li>
-                                                    <a class="yildiz-6" href="../film/gameof.php?puan=6">6</a>
+                                                    <a class="yildiz-6" href="../film/sahsiyet.php?puan=6">6</a>
                                                 </li>
                                                 <li>
-                                                    <a class="yildiz-7" href="../film/gameof.php?puan=7">7</a>
+                                                    <a class="yildiz-7" href="../film/sahsiyet.php?puan=7">7</a>
                                                 </li>
                                                 <li>
-                                                    <a class="yildiz-8" href="../film/gameof.php?puan=8">8</a>
+                                                    <a class="yildiz-8" href="../film/sahsiyet.php?puan=8">8</a>
                                                 </li>
                                                 <li>
-                                                    <a class="yildiz-9" href="../film/gameof.php?puan=9">9</a>
+                                                    <a class="yildiz-9" href="../film/sahsiyet.php?puan=9">9</a>
                                                 </li>
                                                 <li>
-                                                    <a class="yildiz-10" href="../film/gameof.php?puan=10">10</a>
+                                                    <a class="yildiz-10" href="../film/sahsiyet.php?puan=10">10</a>
                                                 </li>
                                             </ul>
                                             <div style="font-size:12px;padding-left:2px;">
@@ -554,19 +554,19 @@ if(isset($_SESSION["Kullanici"])){
                             if(isset($_SESSION["Kullanici"])){  
                             ?>
                             <div id="alt-butonlar">
-                                <a href="agonder.php?diziname=Game of Thrones">Altyazı Gönder</a>
+                                <a href="agonder.php?diziname=Şahsiyet">Altyazı Gönder</a>
                                 <?php
                                 $k_adi = $_SESSION["Kullanici"];
-                                $secenek_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = '$uye_id' AND diziadi = 'Game of Thrones'");
+                                $secenek_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = '$uye_id' AND diziadi = 'Şahsiyet'");
                                 $secenek_kontrol = $secenek_sorgu->num_rows;
                                 if($secenek_kontrol > 0){
                                 ?>
-                                <a href="../film/gameof.php?altsecenek=leklecik">Listemden Çıkar</a>
+                                <a href="../film/sahsiyet.php?altsecenek=leklecik">Listemden Çıkar</a>
                                 <?php
                                 }
                                 else{
                                 ?>
-                                <a href="../film/gameof.php?altsecenek=lekle">Listeme Ekle</a>
+                                <a href="../film/sahsiyet.php?altsecenek=lekle">Listeme Ekle</a>
                                 <?php
                                 }
                                 ?>
@@ -579,15 +579,15 @@ if(isset($_SESSION["Kullanici"])){
                             if(isset($_GET["altsecenek"])){
                                 if($_GET["altsecenek"] == "lekle"){
                                     $k_adi = $_SESSION["Kullanici"];
-                                    $liste_ekle_sorgu = $db->query("INSERT INTO izlemeliste (diziadi,userid) values ('Game of Thrones','$uye_id')");
-                                    header("Location:../film/gameof.php");
+                                    $liste_ekle_sorgu = $db->query("INSERT INTO izlemeliste (diziadi,userid) values ('Şahsiyet','$uye_id')");
+                                    header("Location:../film/sahsiyet.php");
                                 }
                                 elseif($_GET["altsecenek"] == "leklecik"){
-                                    $liste_ekle_kaldir_sorgu = $db->query("DELETE from izlemeliste WHERE userid = '$uye_id' AND diziadi = 'Game of Thrones'");
-                                    header("Location:../film/gameof.php");
+                                    $liste_ekle_kaldir_sorgu = $db->query("DELETE from izlemeliste WHERE userid = '$uye_id' and diziadi = 'Şahsiyet'");
+                                    header("Location:../film/sahsiyet.php");
                                 }
                                 else{
-                                    header("Location:../film/gameof.php");
+                                    header("Location:../film/sahsiyet.php");
                                 }
                             }
                             }
@@ -663,7 +663,7 @@ if(isset($_SESSION["Kullanici"])){
                                 $k_adi = $_SESSION["Kullanici"];
                             ?>
                         <div class="sblock comment-block">
-                            <form method="POST" action="../film/gameof.php">
+                            <form method="POST" action="../film/sahsiyet.php">
                                 <div class="alt-Baslik">
                                     <h5>
                                         <img class="avatar" src="../<?php echo $uye_resim; ?>" width="40" height="40">
@@ -726,12 +726,12 @@ if(isset($_SESSION["Kullanici"])){
                                 $dizi_sezon = 0;
                             }
                             $yorumyapan_adi = $_SESSION["Kullanici"];
-                            $yorumekleme_sorgusu = $db->query("INSERT INTO yorumlar (username,yorum,diziadi,begeni,dizibolum,dizisezon) values('$yorumyapan_adi','$comment','Game of Thrones',0,'$dizi_bolum',' $dizi_sezon')");
-                            $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'Game of Thrones'");
+                            $yorumekleme_sorgusu = $db->query("INSERT INTO yorumlar (username,yorum,diziadi,begeni,dizibolum,dizisezon) values('$yorumyapan_adi','$comment','Şahsiyet',0,'$dizi_bolum',' $dizi_sezon')");
+                            $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'Şahsiyet'");
                             $yorum_say_sayfa = $yorum_say_sorgu->num_rows;
                             $son_sayfa = $yorum_say_sayfa / 5;
                             $son_sayfa = ceil($son_sayfa);   
-                            header("Location:../film/gameof.php?sayfa=yorum");
+                            header("Location:../film/sahsiyet.php?sayfa=yorum");
                             
                         }
                                 }
@@ -760,9 +760,9 @@ if(isset($_SESSION["Kullanici"])){
                             $sayfa = 0;
                             $sayfa_num = 1;
                         }
-                        $sayfa_yorum_yazdirma_sorgusu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Game of Thrones' ORDER BY id DESC LIMIT $sayfa,5");
+                        $sayfa_yorum_yazdirma_sorgusu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Şahsiyet' ORDER BY id DESC LIMIT $sayfa,5");
                         $sayfa_yorum_yazdirma_kontrol = $sayfa_yorum_yazdirma_sorgusu->num_rows;
-                        $son_sayfa_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Game of Thrones'");
+                        $son_sayfa_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Şahsiyet'");
                         $yorum_num = $son_sayfa_sorgu->num_rows;
                         $son_sayfa = $yorum_num;
                         $son_sayfa/=5;
@@ -785,7 +785,7 @@ if(isset($_SESSION["Kullanici"])){
                                 echo '
                                 <div class="sblock yorumcu-yorumlari" style="display:block">
                             <div class="yorumcu-avatar" style="width: 45px;float: left;">
-                                <img style="width: 40px;" src="../'. $uye_resim.'" alt="avatar">
+                                <img style="width: 40px;" src="../'.$uye_resim.'" alt="avatar">
                             </div>
                             <div class="yorumcu-bilgi-yorum" style="width: 620px; float: left;">
                                 <div>
@@ -825,8 +825,7 @@ if(isset($_SESSION["Kullanici"])){
                                 <div class="alt-yorumlar" style="display:none;" id="alt-yorumlar'.$div_id.'">';
                                 while(@$altyorum_verileri = $altyorumbul_sorgu->fetch_assoc()){
                                     $altyorum_comment = $altyorum_verileri["yorum"];
-                                    $altyorum_username = $altyorum_verileri["username"];
-                                    $altyorum_resim = $db->query("SELECT * FROM uyeler WHERE username = '$altyorum_username'");
+                                    $altyorum_username = $altyorum_verileri["username"];$altyorum_resim = $db->query("SELECT * FROM uyeler WHERE username = '$altyorum_username'");
                                     $veri = $altyorum_resim->fetch_assoc();
                                     $uye_resim = $veri["uyeresim"];
                                     $uye_id = $veri["id"];
@@ -869,12 +868,12 @@ if(isset($_SESSION["Kullanici"])){
                                 $begeni_sorgu_kontrol = $begeni_sorgu->num_rows;
                                 if($begeni_sorgu_kontrol > 0){
                                     echo'
-                                <a href="../film/gameof.php?sayfa=yorum&like=1&yorum='.$yorum_id.'&yorums='.$sayfa.'"><span class="unlike-butonu"></span></a> 
+                                <a href="../film/sahsiyet.php?sayfa=yorum&like=1&yorum='.$yorum_id.'&yorums='.$sayfa.'"><span class="unlike-butonu"></span></a> 
                                 ';
                                 }
                                 else{
                                     echo'
-                                <a href="../film/gameof.php?sayfa=yorum&like=1&yorum='.$yorum_id.'&yorums='.$sayfa.'"><span class="like-butonu"></span></a> 
+                                <a href="../film/sahsiyet.php?sayfa=yorum&like=1&yorum='.$yorum_id.'&yorums='.$sayfa.'"><span class="like-butonu"></span></a> 
                                 ';
                                 }
                             }
@@ -919,7 +918,7 @@ if(isset($_SESSION["Kullanici"])){
                             </div>
                             <div class ="giris-yap" style="color:red;font-size:14px;display:none;margin-left:50px;"><strong>Lütfen Giriş Yapınız</strong></div>
                             <div class="cevapla-alani" style="display:none;" id="alt_yor'.$div_id.'">
-                                <form action="../film/gameof.php" method="POST">
+                                <form action="../film/sahsiyet.php" method="POST">
                                     <table border="0" cellspacing="0" cellpadding="0" width="100%">
                                         <tr>
                                             <td colspan="2" align="center">';
@@ -965,7 +964,7 @@ if(isset($_SESSION["Kullanici"])){
                                     $yorumcunun_adi =$_SESSION["Kullanici"];
                                     $altyorumekle_sorgu = $db->query("INSERT INTO altyorum (ustyorumid,username,yorum,ididizi) values ('$ust_yorum_id','$yorumcunun_adi','$alt_yorum','$dizi_id')");
                                     $sayfa = $_POST["yorums"];
-                                    header("Location:../film/gameof.php?sayfa=yorum");
+                                    header("Location:../film/sahsiyet.php?sayfa=yorum");
                                     
                                     
                                     
@@ -989,20 +988,20 @@ if(isset($_SESSION["Kullanici"])){
                             if($sayfa_num < 3 ){
                         ?>
                             <a class="sayfalama"
-                                href="../film/gameof.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">
+                                href="../film/sahsiyet.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">
                                 < Önceki</a> <a
                                     class="<?php if($sayfa_num == 1){echo "aktifsayfa";} else{echo "sayfalama";} ?>"
-                                    <?php if($sayfa_num != 1){echo 'href="../film/gameof.php?sayfa=yorum&yorums=1"';} ?>>
+                                    <?php if($sayfa_num != 1){echo 'href="../film/sahsiyet.php?sayfa=yorum&yorums=1"';} ?>>
                                     1
                             </a>
                             <a class="<?php if($sayfa_num == 2){echo "aktifsayfa";} else{echo "sayfalama";} ?>"
-                                <?php if($sayfa_num != 2){echo 'href="../film/gameof.php?sayfa=yorum&yorums=2"';} ?>>2</a>
-                            <a class="sayfalama" href="../film/gameof.php?sayfa=yorum&yorums=3">3</a>
+                                <?php if($sayfa_num != 2){echo 'href="../film/sahsiyet.php?sayfa=yorum&yorums=2"';} ?>>2</a>
+                            <a class="sayfalama" href="../film/sahsiyet.php?sayfa=yorum&yorums=3">3</a>
                             ...
                             <a class="sayfalama"
-                                href="../film/gameof.php?sayfa=yorum&yorums=<?php echo $son_sayfa;  ?>"><?php echo $son_sayfa;  ?></a>
+                                href="../film/sahsiyet.php?sayfa=yorum&yorums=<?php echo $son_sayfa;  ?>"><?php echo $son_sayfa;  ?></a>
                             <a class="sayfalama"
-                                href="../film/gameof.php?sayfa=yorum&yorums=<?php if($sayfa_num != $son_sayfa){echo $sayfa_num+1;}  ?>">Sonraki
+                                href="../film/sahsiyet.php?sayfa=yorum&yorums=<?php if($sayfa_num != $son_sayfa){echo $sayfa_num+1;}  ?>">Sonraki
                                 ></a>
 
                             <?php
@@ -1010,37 +1009,37 @@ if(isset($_SESSION["Kullanici"])){
                             elseif($sayfa_num > $son_sayfa-2){
                            ?>
                             <a class="sayfalama"
-                                href="../film/gameof.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">
-                                < Önceki</a> <a class="sayfalama" href="../film/gameof.php?sayfa=yorum&yorums=1">1
+                                href="../film/sahsiyet.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">
+                                < Önceki</a> <a class="sayfalama" href="../film/sahsiyet.php?sayfa=yorum&yorums=1">1
                             </a>
                             ...
                             <a class="<?php if($sayfa_num == $son_sayfa-2){echo "aktifsayfa";} else{echo "sayfalama";} ?>"
-                                <?php if($sayfa_num != $son_sayfa-2){echo 'href="../film/gameof.php?sayfa=yorum&yorums='.($son_sayfa-2).'"';} ?>><?php echo $son_sayfa-2;  ?></a>
+                                <?php if($sayfa_num != $son_sayfa-2){echo 'href="../film/sahsiyet.php?sayfa=yorum&yorums='.($son_sayfa-2).'"';} ?>><?php echo $son_sayfa-2;  ?></a>
                             <a class="<?php if($sayfa_num == $son_sayfa-1){echo "aktifsayfa";} else{echo "sayfalama";} ?>"
-                                <?php if($sayfa_num != $son_sayfa-1){echo 'href="../film/gameof.php?sayfa=yorum&yorums='.($son_sayfa-1).'"';} ?>><?php echo $son_sayfa-1;  ?></a>
+                                <?php if($sayfa_num != $son_sayfa-1){echo 'href="../film/sahsiyet.php?sayfa=yorum&yorums='.($son_sayfa-1).'"';} ?>><?php echo $son_sayfa-1;  ?></a>
                             <a class="<?php if($sayfa_num == $son_sayfa){echo "aktifsayfa";} else{echo "sayfalama";} ?>"
-                                <?php if($sayfa_num != $son_sayfa){echo 'href="../film/gameof.php?sayfa=yorum&yorums='.$son_sayfa.'"';} ?>><?php echo $son_sayfa;  ?></a>
+                                <?php if($sayfa_num != $son_sayfa){echo 'href="../film/sahsiyet.php?sayfa=yorum&yorums='.$son_sayfa.'"';} ?>><?php echo $son_sayfa;  ?></a>
                             <a class="sayfalama"
-                                href="../film/gameof.php?sayfa=yorum&yorums=<?php if($sayfa_num != $son_sayfa){echo $sayfa_num+1;}  ?>">Sonraki
+                                href="../film/sahsiyet.php?sayfa=yorum&yorums=<?php if($sayfa_num != $son_sayfa){echo $sayfa_num+1;}  ?>">Sonraki
                                 ></a>
                             <?php
                             }elseif($sayfa_num >= 3){
                            ?>
                             <a class="sayfalama"
-                                href="../film/gameof.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">
-                                < Önceki</a> <a class="sayfalama" href="../film/gameof.php?sayfa=yorum&yorums=1">1
+                                href="../film/sahsiyet.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">
+                                < Önceki</a> <a class="sayfalama" href="../film/sahsiyet.php?sayfa=yorum&yorums=1">1
                             </a>
                             ...
                             <a class="sayfalama"
-                                href="../film/gameof.php?sayfa=yorum&yorums=<?php echo $sayfa_num-1; ?>"><?php echo $sayfa_num-1;  ?></a>
+                                href="../film/sahsiyet.php?sayfa=yorum&yorums=<?php echo $sayfa_num-1; ?>"><?php echo $sayfa_num-1;  ?></a>
                             <a class="aktifsayfa"><?php echo $sayfa_num;  ?></a>
                             <a class="sayfalama"
-                                href="../film/gameof.php?sayfa=yorum&yorums=<?php echo $sayfa_num+1;  ?>"><?php echo $sayfa_num+1;  ?></a>
+                                href="../film/sahsiyet.php?sayfa=yorum&yorums=<?php echo $sayfa_num+1;  ?>"><?php echo $sayfa_num+1;  ?></a>
                             ...
                             <a class="sayfalama"
-                                href="../film/gameof.php?sayfa=yorum&yorums=<?php echo $son_sayfa;  ?>"><?php echo $son_sayfa;  ?></a>
+                                href="../film/sahsiyet.php?sayfa=yorum&yorums=<?php echo $son_sayfa;  ?>"><?php echo $son_sayfa;  ?></a>
                             <a class="sayfalama"
-                                href="../film/gameof.php?sayfa=yorum&yorums=<?php if($sayfa_num != $son_sayfa){echo $sayfa_num+1;}  ?>">Sonraki
+                                href="../film/sahsiyet.php?sayfa=yorum&yorums=<?php if($sayfa_num != $son_sayfa){echo $sayfa_num+1;}  ?>">Sonraki
                                 ></a>
                             <?php
                             }
@@ -1049,19 +1048,19 @@ if(isset($_SESSION["Kullanici"])){
                         }else{
                         ?>
                             <a class="sayfalama"
-                                href="../film/gameof.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">
+                                href="../film/sahsiyet.php?sayfa=yorum&yorums=<?php if($sayfa_num != 1){echo $sayfa_num-1;}  ?>">
                                 < Önceki</a> <a
                                     class="<?php if($sayfa_num == 1){echo "aktifsayfa";} else{echo "sayfalama";} ?>"
-                                    <?php if($sayfa_num != 1){echo 'href="../film/gameof.php?sayfa=yorum&yorums=1"';} ?>>
+                                    <?php if($sayfa_num != 1){echo 'href="../film/sahsiyet.php?sayfa=yorum&yorums=1"';} ?>>
                                     1
                             </a>
                             <a class="<?php if($sayfa_num == 2){echo "aktifsayfa";} else{echo "sayfalama";} ?>"
-                                <?php if($sayfa_num != 2){echo 'href="../film/gameof.php?sayfa=yorum&yorums=2"';} ?>>2</a>
+                                <?php if($sayfa_num != 2){echo 'href="../film/sahsiyet.php?sayfa=yorum&yorums=2"';} ?>>2</a>
                             <?php
                                 if($son_sayfa == 3){
                             ?>
                             <a class="<?php if($sayfa_num == 3){echo "aktifsayfa";} else{echo "sayfalama";} ?>"
-                                <?php if($sayfa_num != 3){echo 'href="../film/gameof.php?sayfa=yorum&yorums=3"';} ?>>3</a>
+                                <?php if($sayfa_num != 3){echo 'href="../film/sahsiyet.php?sayfa=yorum&yorums=3"';} ?>>3</a>
                             <?php
                                 }
                             ?>
@@ -1071,17 +1070,17 @@ if(isset($_SESSION["Kullanici"])){
                     </div>
                     <?php
                         }
-                        $subs_sorgu = $db->query("SELECT * FROM subs WHERE diziname='Game of Thrones' AND onay = '1' ");
+                        $subs_sorgu = $db->query("SELECT * FROM subs WHERE diziname='Şahsiyet' AND onay = '1' ");
                         $subs_sorgu_kontrol = $subs_sorgu->num_rows;
                         $sezonlar = array();
                         if($subs_sorgu_kontrol > 0){
-                            $sezon_kontrol = $db->query("SELECT DISTINCT sezon FROM subs WHERE diziname='Game of Thrones' AND onay = '1' ORDER BY sezon DESC");
+                            $sezon_kontrol = $db->query("SELECT DISTINCT sezon FROM subs WHERE diziname='Şahsiyet' AND onay = '1' ORDER BY sezon DESC");
                             while($deger = $sezon_kontrol->fetch_assoc()){
                                 array_push($sezonlar,$deger["sezon"]);
                             }
                             for($i = 0 ;$i<count($sezonlar);$i++){
                                 $s = $sezonlar[$i];
-                                $altyazı_bul = $db->query("SELECT * FROM subs WHERE sezon = '$s' AND onay = 1 AND diziname='Game of Thrones' ORDER BY bolum ");
+                                $altyazı_bul = $db->query("SELECT * FROM subs WHERE sezon = '$s' AND onay = 1 AND diziname='Şahsiyet' ORDER BY bolum ");
                                 ?>
                                 <div class="sblock">
                                     <div class="alt-Baslik" align="center">
@@ -1130,9 +1129,9 @@ if(isset($_SESSION["Kullanici"])){
                 <div id="sag-govde">
                     <div class="kisa-sol" id="yorum-poster"
                         style="display:<?php if(@$_GET["sayfa"] == "yorum"){ echo "block";}else{echo "none";} ?>">
-                        <a href="../film/gameof.php" style="margin-top:-4px; margin-bottom: -8px;">
-                            <img src="../film/filmPoster/gameyorum.jpg" width="308" height="173" style="border-radius:4px;"
-                                title="Game of Thrones" alt="Game of Thrones">
+                        <a href="../film/sahsiyet.php" style="margin-top:-4px; margin-bottom: -8px;">
+                            <img src="../film/filmPoster/sahsiyetyorum.png" width="308" height="173" style="border-radius:4px;"
+                                title="Şahsiyet" alt="Şahsiyet">
                         </a>
                     </div>
                     <div class="kisa-sol">
@@ -1218,12 +1217,12 @@ if(isset($_GET["puan"])){
     $puan = filtre($_GET["puan"]);
     if(($puan == 1) || ($puan == 2) || ($puan == 3) || ($puan == 4) || ($puan == 5) || ($puan == 6) || ($puan == 7) || ($puan == 8) || ($puan == 9) || ($puan == 10)){
         $k_adi = $_SESSION["Kullanici"];
-        $k_adiKayit = $db->query("INSERT INTO yildizoyatanlar (username,puan,diziname) values ('$k_adi','$puan','Game of Thrones')");
-        $puan_Kayit = $db->query("UPDATE yildizoy set oy = oy + '$puan',toplam = toplam + 1 WHERE isim = 'Game of Thrones'");
+        $k_adiKayit = $db->query("INSERT INTO yildizoyatanlar (username,puan,diziname) values ('$k_adi','$puan','Şahsiyet')");
+        $puan_Kayit = $db->query("UPDATE yildizoy set oy = oy + '$puan',toplam = toplam + 1 WHERE isim = 'Şahsiyet'");
         if($puan_Kayit){
             echo "hata";
         }
-        header("Location:../film/gameof.php");
+        header("Location:../film/sahsiyet.php");
     
     }
     else{
@@ -1247,23 +1246,23 @@ if(isset($_SESSION["Kullanici"])){
                 if($like_varmi_kontrol_veri["begeni"] == 1){
                 $likesi_sorgu = $db->query("UPDATE yorumlar SET begeni=begeni-1 WHERE id = '$yorum_id'");
                  $like_sıfırla = $db->query("UPDATE ybegeni SET begeni=0 WHERE yid = '$yorum_id' AND username = '$k_adi'");
-                 header("Location:../film/gameof.php?sayfa=yorum&yorums=$sayfa");
+                 header("Location:../film/sahsiyet.php?sayfa=yorum&yorums=$sayfa");
                 }
                 else if($like_varmi_kontrol_veri["begeni"] == 0){
                     $likesi_sorgu = $db->query("UPDATE yorumlar SET begeni=begeni+1 WHERE id = '$yorum_id'");
                  $like_sıfırla = $db->query("UPDATE ybegeni SET begeni=1 WHERE yid = '$yorum_id' AND username = '$k_adi'");
-                 header("Location:../film/gameof.php?sayfa=yorum&yorums=$sayfa");
+                 header("Location:../film/sahsiyet.php?sayfa=yorum&yorums=$sayfa");
                 }
                 
             }
             else{
                 $like_ekle = $db->query("INSERT INTO ybegeni (yid,username,begeni,ididizi) values ('$yorum_id','$k_adi',1,'$dizi_id')");
                 $yoruma_like_ekle = $db->query("UPDATE yorumlar SET begeni=begeni+1 WHERE id = '$yorum_id'");
-                header("Location:../film/gameof.php?sayfa=yorum&yorums=$sayfa");
+                header("Location:../film/sahsiyet.php?sayfa=yorum&yorums=$sayfa");
             }
         }
         else{
-            header("Location:../film/gameof.php?sayfa=yorum");
+            header("Location:../film/sahsiyet.php?sayfa=yorum");
         }
     }
 }

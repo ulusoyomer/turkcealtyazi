@@ -312,6 +312,7 @@ if(isset($_SESSION["Kullanici"])){
                                             <td class="td15">
                                                     <select name="sezon" style="width:75px;">
                                                             <option value="">---Sezon---</option>
+                                                            <option value="0">Film</option>
                                                             <option value="1">1</option>
                                                             <option value="2">2</option>
                                                             <option value="3">3</option>
@@ -341,6 +342,7 @@ if(isset($_SESSION["Kullanici"])){
                                                 <td class="td15">
                                                         <select name="bölüm" style="width:75px;">
                                                         <option value="">---Bölüm---</option>
+                                                        <option value="0">Film</option>
                                                             <?php
                                                                 for($i = 1 ; $i<=50; $i++){
                                                                     echo'<option value="'.$i.'">'.$i.'</option>';

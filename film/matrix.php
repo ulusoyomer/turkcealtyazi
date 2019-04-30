@@ -583,7 +583,7 @@ if(isset($_SESSION["Kullanici"])){
                                     header("Location:../film/matrix.php");
                                 }
                                 elseif($_GET["altsecenek"] == "leklecik"){
-                                    $liste_ekle_kaldir_sorgu = $db->query("DELETE from izlemeliste WHERE userid = '$uye_id' and diziadi = 'Matrix'");
+                                    $liste_ekle_kaldir_sorgu = $db->query("DELETE from izlemeliste WHERE userid = '$uye_id' AND diziadi = 'Matrix'");
                                     header("Location:../film/matrix.php");
                                 }
                                 else{
@@ -826,6 +826,8 @@ if(isset($_SESSION["Kullanici"])){
                                 while(@$altyorum_verileri = $altyorumbul_sorgu->fetch_assoc()){
                                     $altyorum_comment = $altyorum_verileri["yorum"];
                                     $altyorum_username = $altyorum_verileri["username"];
+                                    $alt_yorum_id = $altyorum_verileri["id"];
+                                    $alt_yorum_begeni = $altyorum_verileri["begeni"];
                                     $altyorum_resim = $db->query("SELECT * FROM uyeler WHERE username = '$altyorum_username'");
                                     $veri = $altyorum_resim->fetch_assoc();
                                     $uye_resim = $veri["uyeresim"];
@@ -848,6 +850,66 @@ if(isset($_SESSION["Kullanici"])){
                                     </div>
                                     <div class="yorumcu-yorumu">
                                         '.$altyorum_comment.'
+                                    </div>
+                                    <div style="margin-top:10px; margin-left:20px;">';
+                                    if(@isset($_SESSION["Kullanici"])){ 
+                                        if(isset($_GET["yorums"])){
+                                            if($_GET["yorums"] > 0){
+                                                $sayfa = $_GET["yorums"];
+                                            }
+                                        }
+                                        else{
+                                            $sayfa = 1;
+                                        }
+                                        $begeni_sorgu=$db->query("SELECT * FROM aybegeni WHERE username = '$uye_name' AND ayid = '$alt_yorum_id' AND begeni = '1'");
+                                        $begeni_sorgu_kontrol = $begeni_sorgu->num_rows;
+                                        if($begeni_sorgu_kontrol > 0){
+                                            echo'
+                                        <a href="../film/matrix.php?sayfa=yorum&like2=1&yorum='.$alt_yorum_id.'&yorums='.$sayfa.'"><span class="unlike-butonu"></span></a> 
+                                       
+                                        ';
+                                        }
+                                        else{
+                                            echo'
+                                        <a href="../film/matrix.php?sayfa=yorum&like2=1&yorum='.$alt_yorum_id.'&yorums='.$sayfa.'"><span class="like-butonu"></span></a>
+                                        ';
+                                        }
+                                    }
+                                    else{
+                                        echo'
+                                        <span class="like-butonu" onclick="uyegiris('.$div_id.')"></span>
+                                        ';
+                                    }
+                                    
+                                   echo'
+                                   <a><span class="like-sayac" alt="">'.$alt_yorum_begeni.'</span></a>
+                                    <div class="clear"></div> 
+                                   </div>
+                                    <div style="margin-top:10px; margin-left:20px;">
+                                    ';
+                                    $begenenler_sorgu = $db->query("SELECT * FROM aybegeni WHERE ayid = '$alt_yorum_id' AND begeni = '1' ORDER BY id DESC LIMIT 3");
+                                $begenenler_sorgu_kontrol = $begenenler_sorgu->num_rows;
+                                if($begenenler_sorgu_kontrol > 0){
+                                    while($veri = $begenenler_sorgu->fetch_assoc()){
+                                        $b_adi = $veri["username"];
+                                        echo'
+                                             <span style=" display:inline-block;background:#F3F3F3; color:#111111; padding:2px 8px; font-size:15px;">'.$b_adi.'</span>&nbsp;
+                                             
+                                            ';
+                                    }
+                                    echo '
+                                         <a style="display:inline-block;" title="';
+                                         $begenenler_sorgu = $db->query("SELECT * FROM aybegeni WHERE ayid = '$alt_yorum_id' AND begeni = '1'");
+                                         while($veri=$begenenler_sorgu->fetch_assoc()){
+                                             $begenen_adi = $veri["username"];
+                                             echo $begenen_adi.",";
+                                         }
+                                         echo'">...</a>
+                                         
+                                        ';
+                                }
+                                    echo '
+                                    
                                     </div>                                       
                                 </div>';
                                 }
@@ -1083,10 +1145,13 @@ if(isset($_SESSION["Kullanici"])){
                                 $s = $sezonlar[$i];
                                 $altyazı_bul = $db->query("SELECT * FROM subs WHERE sezon = '$s' AND onay = 1 AND diziname='Matrix' ORDER BY bolum ");
                                 ?>
-                                <div class="sblock">
+                                <div class="sblock" style="display:<?php if(@$_GET["sayfa"] != "yorum" ||@$_GET["yorum"] == "dizidetay" || @!$_GET){ echo "block";}else{ echo "none";} ?>">
                                     <div class="alt-Baslik" align="center">
                                         <h5 id="sezon-baslik">
-                                            <a onclick="acAltyazi(<?php echo $s; ?>)" style="display:inline-block; width:100%;height:100%;"><?php echo $s;?>. Sezon</a>
+                                        <a onclick="acAltyazi(<?php echo $s; ?>)" style="display:inline-block; width:100%;height:100%;"><?php 
+                                            if($s == 0){echo "Film Altyazısı";} 
+                                            else{echo $s .". Sezon";} 
+                                            ?></a>
                                         </h5>
                                     </div>
                                     <div class="ozet-goster" id="<?php echo $s; ?>sezona" style="border-bottom:1px solid #dbdbdb;display:block;" >
@@ -1142,7 +1207,7 @@ if(isset($_SESSION["Kullanici"])){
                             <div class="alt-menu-icerik">
                                 <ul>
                                 <?php
-                                $altyazı_sorgu = $db->query("SELECT * FROM subs WHERE onay = '1' ORDER BY id DESC LIMIT 5");
+                                $altyazı_sorgu = $db->query("SELECT * FROM subs  WHERE onay = '1' ORDER BY id DESC LIMIT 5");
                                 while($veri = $altyazı_sorgu->fetch_assoc()){
                                     $diziname = $veri["diziname"];
                                     $sezon = $veri["sezon"];
@@ -1153,7 +1218,7 @@ if(isset($_SESSION["Kullanici"])){
                                     $dizi_yol = $dizi_veri["yol"];
                                     echo '
                                         <li>
-                                            <a href="../'.$dizi_yol.'">'.$diziname.' S '.$sezon.' / B '.$bolum.' <span style="color:gray;font-size:10px;"> Gönderici '.$g_adi.' </span></a>
+                                            <a href=../"'.$dizi_yol.'">'.$diziname.' S '.$sezon.' / B '.$bolum.' <span style="color:gray;font-size:10px;"> Gönderici '.$g_adi.' </span></a>
                                         </li>
                                         ';
                                 }
@@ -1259,6 +1324,43 @@ if(isset($_SESSION["Kullanici"])){
             else{
                 $like_ekle = $db->query("INSERT INTO ybegeni (yid,username,begeni,ididizi) values ('$yorum_id','$k_adi',1,'$dizi_id')");
                 $yoruma_like_ekle = $db->query("UPDATE yorumlar SET begeni=begeni+1 WHERE id = '$yorum_id'");
+                header("Location:../film/matrix.php?sayfa=yorum&yorums=$sayfa");
+            }
+        }
+        else{
+            header("Location:../film/matrix.php?sayfa=yorum");
+        }
+    }
+}
+?>
+<?php
+if(isset($_SESSION["Kullanici"])){
+    if(isset($_GET["like2"])){
+        $k_adi = $_SESSION["Kullanici"];
+        $yorum_id = $_GET["yorum"];
+        $like = $_GET["like2"];
+        $sayfa = $_GET["yorums"];
+        if($like == 1){
+            $like_sorgu = $db->query("SELECT * FROM aybegeni WHERE username = '$k_adi' AND ayid = '$yorum_id' ");
+            $like_sorgu_kontrol = $like_sorgu->num_rows;
+            if($like_sorgu_kontrol > 0){
+                $like_varmi_kontrol = $db->query("SELECT * FROM aybegeni WHERE ayid = '$yorum_id' AND username = '$k_adi' ");
+                $like_varmi_kontrol_veri = $like_varmi_kontrol->fetch_assoc();
+                if($like_varmi_kontrol_veri["begeni"] == 1){
+                $likesi_sorgu = $db->query("UPDATE altyorum SET begeni=begeni-1 WHERE id = '$yorum_id'");
+                 $like_sıfırla = $db->query("UPDATE aybegeni SET begeni=0 WHERE ayid = '$yorum_id' AND username = '$k_adi'");
+                 header("Location:../film/matrix.php?sayfa=yorum&yorums=$sayfa");
+                }
+                else if($like_varmi_kontrol_veri["begeni"] == 0){
+                    $likesi_sorgu = $db->query("UPDATE altyorum SET begeni=begeni+1 WHERE id = '$yorum_id'");
+                 $like_sıfırla = $db->query("UPDATE aybegeni SET begeni=1 WHERE ayid = '$yorum_id' AND username = '$k_adi'");
+                 header("Location:../film/matrix.php?sayfa=yorum&yorums=$sayfa");
+                }
+                
+            }
+            else{
+                $like_ekle = $db->query("INSERT INTO aybegeni (ayid,username,begeni,iddizi) values ('$yorum_id','$k_adi',1,'$dizi_id')");
+                $yoruma_like_ekle = $db->query("UPDATE altyorum SET begeni=begeni+1 WHERE id = '$yorum_id'");
                 header("Location:../film/matrix.php?sayfa=yorum&yorums=$sayfa");
             }
         }

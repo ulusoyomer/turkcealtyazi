@@ -21,7 +21,7 @@ function filtre($deger){
 
 $ip_adres=$_SERVER["REMOTE_ADDR"];
 $zaman = time();
-$anket_suresi = 1;
+$anket_suresi = 8400;
 $kullanici_zaman = $zaman + $anket_suresi;
 
 if(isset($_SESSION["Kullanici"])){

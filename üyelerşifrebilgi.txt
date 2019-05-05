@@ -1,0 +1,1 @@
+﻿Kayıt olan hazır üyelerin şifreleri epostalarının @ den önceki harflerdir.

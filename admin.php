@@ -1457,15 +1457,8 @@ if(isset($_SESSION["Kullanici"])){
                                             \';
                                     }
                                     echo \'
-                                         <a style="display:inline-block;" title="\';
-                                         $begenenler_sorgu = $db->query("SELECT * FROM aybegeni WHERE ayid = \'$alt_yorum_id\' AND begeni = \'1\'");
-                                         while($veri=$begenenler_sorgu->fetch_assoc()){
-                                             $begenen_adi = $veri["username"];
-                                             echo $begenen_adi.",";
-                                         }
-                                         echo\'">...</a>
-                                         
-                                        \';
+                                    <a style="display:inline-block;" href="likeatanlar.php?likeslist=2&yorumid=\'.$alt_yorum_id.\'">...</a>
+                                    \';
                                 }
                                     echo \'
                                     
@@ -1527,14 +1520,8 @@ if(isset($_SESSION["Kullanici"])){
                                             \';
                                     }
                                     echo \'
-                                         <a style="display:inline-block;" title="\';
-                                         $begenenler_sorgu = $db->query("SELECT * FROM ybegeni WHERE yid = \'$yorum_id\' AND begeni = \'1\'");
-                                         while($veri=$begenenler_sorgu->fetch_assoc()){
-                                             $begenen_adi = $veri["username"];
-                                             echo $begenen_adi.",";
-                                         }
-                                         echo\'">...</a>
-                                        \';
+                                    <a style="display:inline-block;" href="likeatanlar.php?likeslist=1&yorumid=\'.$yorum_id.\'">...</a>
+                                    \';
                                 }
                                 echo\'
                             </div>

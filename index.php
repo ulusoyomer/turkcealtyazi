@@ -945,10 +945,24 @@ require_once("baglanti.php");
                                         </span>
                                     </li>
                                     <li align="center" style="background:none;">
+                                    <?php
+                                    if(isset($_SESSION["Kullanici"])){
+                                    ?>
                                         <span>
                                             <input type="submit" value="Gönder" name="form3">
                                         </span>
+                                   <?php
+                                    }
+                                    else{
+                                        ?>
+                                        <span>
+                                            Lütfen Giriş Yapınız..
+                                        </span>
+                                    <?php
+                                    }
+                                    ?>
                                     </li>
+                                    
                                     <?php
                                     }
                                     else{

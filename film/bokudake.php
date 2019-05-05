@@ -898,15 +898,8 @@ if(isset($_SESSION["Kullanici"])){
                                             ';
                                     }
                                     echo '
-                                         <a style="display:inline-block;" title="';
-                                         $begenenler_sorgu = $db->query("SELECT * FROM aybegeni WHERE ayid = '$alt_yorum_id' AND begeni = '1'");
-                                         while($veri=$begenenler_sorgu->fetch_assoc()){
-                                             $begenen_adi = $veri["username"];
-                                             echo $begenen_adi.",";
-                                         }
-                                         echo'">...</a>
-                                         
-                                        ';
+                                    <a style="display:inline-block;" href="likeatanlar.php?likeslist=2&yorumid='.$alt_yorum_id.'">...</a>
+                                    ';
                                 }
                                     echo '
                                     
@@ -968,14 +961,8 @@ if(isset($_SESSION["Kullanici"])){
                                             ';
                                     }
                                     echo '
-                                         <a style="display:inline-block;" title="';
-                                         $begenenler_sorgu = $db->query("SELECT * FROM ybegeni WHERE yid = '$yorum_id' AND begeni = '1'");
-                                         while($veri=$begenenler_sorgu->fetch_assoc()){
-                                             $begenen_adi = $veri["username"];
-                                             echo $begenen_adi.",";
-                                         }
-                                         echo'">...</a>
-                                        ';
+                                    <a style="display:inline-block;" href="likeatanlar.php?likeslist=1&yorumid='.$yorum_id.'">...</a>
+                                    ';
                                 }
                                 echo'
                             </div>
@@ -1149,9 +1136,9 @@ if(isset($_SESSION["Kullanici"])){
                                     <div class="alt-Baslik" align="center">
                                         <h5 id="sezon-baslik">
                                         <a onclick="acAltyazi(<?php echo $s; ?>)" style="display:inline-block; width:100%;height:100%;"><?php 
-                                            if($s == 0){echo "Film Altyazısı";} 
-                                            else{echo $s .". Sezon";} 
-                                            ?></a>
+                                        if($s == 0){echo "Film Altyazısı";} 
+                                        else{echo $s .". Sezon";} 
+                                        ?></a>
                                         </h5>
                                     </div>
                                     <div class="ozet-goster" id="<?php echo $s; ?>sezona" style="border-bottom:1px solid #dbdbdb;display:block;" >
@@ -1196,7 +1183,7 @@ if(isset($_SESSION["Kullanici"])){
                     <div class="kisa-sol" id="yorum-poster"
                         style="display:<?php if(@$_GET["sayfa"] == "yorum"){ echo "block";}else{echo "none";} ?>">
                         <a href="../film/bokudake.php" style="margin-top:-4px; margin-bottom: -8px;">
-                            <img src="../film/filmPoster/bokudakeyorum.jpg" width="308" height="173" style="border-radius:4px;"
+                            <img src="../film/filmPoster/bokudake.jpg" width="308" height="173" style="border-radius:4px;"
                                 title="Boku Dake ga Inai Machi" alt="Boku Dake ga Inai Machi">
                         </a>
                     </div>

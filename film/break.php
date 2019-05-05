@@ -261,9 +261,9 @@ if(isset($_SESSION["Kullanici"])){
                     <div class="sblock">
                         <div id="Baslik">
                             <h1>
-                                Braking Bad </h1>
+                                Breaking Bad </h1>
                             <h2>
-                                Braking Bad </h2>
+                                Breaking Bad </h2>
                             <span>50 dk</span>
                         </div>
                         <div class="alt-menu">
@@ -283,7 +283,7 @@ if(isset($_SESSION["Kullanici"])){
                                 <a class="google" href="#">&nbsp;</a>
                             </div>
                             <?php
-                                $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'Braking Bad'");
+                                $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'Breaking Bad'");
                                 $toplamsonucverileri = $toplamsonucsorgusu->fetch_assoc();
                                 $dizi_poster = $toplamsonucverileri["poster"];
                                 $dizi_id = $toplamsonucverileri["id"];
@@ -306,8 +306,8 @@ if(isset($_SESSION["Kullanici"])){
                                     <div>
                                         
                                         <?php
-                                        $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'Braking Bad'");
-                                        $kisi_sorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'Braking Bad'");
+                                        $toplamsonucsorgusu = $db->query("SELECT * FROM yildizoy WHERE isim = 'Breaking Bad'");
+                                        $kisi_sorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'Breaking Bad'");
                                         $kisi_sayisi = $kisi_sorgusu->num_rows;
                                         if($kisi_sayisi > 0){
                                         $toplamsonucverileri = $toplamsonucsorgusu->fetch_assoc();
@@ -323,7 +323,7 @@ if(isset($_SESSION["Kullanici"])){
                                             $yazısonuc = 0;
                                         }
                                         function oylayanlar($db){
-                                            $oylayan_sorgu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'Braking Bad' ORDER BY id DESC LIMIT 3");
+                                            $oylayan_sorgu = $db->query("SELECT * FROM yildizoyatanlar WHERE diziname = 'Breaking Bad' ORDER BY id DESC LIMIT 3");
                                             while($oylayan_veri = $oylayan_sorgu->fetch_assoc()){
                                                 $oylayan_ad=$oylayan_veri["username"];
                                                 echo "$oylayan_ad".", ";
@@ -331,7 +331,7 @@ if(isset($_SESSION["Kullanici"])){
                                         }
                                         if(isset($_SESSION["Kullanici"])){
                                             $k_adi = $_SESSION["Kullanici"];
-                                            $k_adiSorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE username ='$k_adi' AND diziname = 'Braking Bad'");
+                                            $k_adiSorgusu = $db->query("SELECT * FROM yildizoyatanlar WHERE username ='$k_adi' AND diziname = 'Breaking Bad'");
                                             $k_adiBilgileri = $k_adiSorgusu->fetch_assoc();
                                             $k_adiKontrol = $k_adiSorgusu->num_rows;
                                             if($k_adiKontrol > 0){
@@ -554,10 +554,10 @@ if(isset($_SESSION["Kullanici"])){
                             if(isset($_SESSION["Kullanici"])){  
                             ?>
                             <div id="alt-butonlar">
-                                <a href="agonder.php?diziname=Braking Bad">Altyazı Gönder</a>
+                                <a href="agonder.php?diziname=Breaking Bad">Altyazı Gönder</a>
                                 <?php
                                 $k_adi = $_SESSION["Kullanici"];
-                                $secenek_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = '$uye_id' AND diziadi = 'Braking Bad'");
+                                $secenek_sorgu = $db->query("SELECT * FROM izlemeliste WHERE userid = '$uye_id' AND diziadi = 'Breaking Bad'");
                                 $secenek_kontrol = $secenek_sorgu->num_rows;
                                 if($secenek_kontrol > 0){
                                 ?>
@@ -579,11 +579,11 @@ if(isset($_SESSION["Kullanici"])){
                             if(isset($_GET["altsecenek"])){
                                 if($_GET["altsecenek"] == "lekle"){
                                     $k_adi = $_SESSION["Kullanici"];
-                                    $liste_ekle_sorgu = $db->query("INSERT INTO izlemeliste (diziadi,userid) values ('Braking Bad','$uye_id')");
+                                    $liste_ekle_sorgu = $db->query("INSERT INTO izlemeliste (diziadi,userid) values ('Breaking Bad','$uye_id')");
                                     header("Location:../film/break.php");
                                 }
                                 elseif($_GET["altsecenek"] == "leklecik"){
-                                    $liste_ekle_kaldir_sorgu = $db->query("DELETE from izlemeliste WHERE userid = '$uye_id' AND diziadi = 'Braking Bad'");
+                                    $liste_ekle_kaldir_sorgu = $db->query("DELETE from izlemeliste WHERE userid = '$uye_id' AND diziadi = 'Breaking Bad'");
                                     header("Location:../film/break.php");
                                 }
                                 else{
@@ -726,8 +726,8 @@ if(isset($_SESSION["Kullanici"])){
                                 $dizi_sezon = 0;
                             }
                             $yorumyapan_adi = $_SESSION["Kullanici"];
-                            $yorumekleme_sorgusu = $db->query("INSERT INTO yorumlar (username,yorum,diziadi,begeni,dizibolum,dizisezon) values('$yorumyapan_adi','$comment','Braking Bad',0,'$dizi_bolum',' $dizi_sezon')");
-                            $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'Braking Bad'");
+                            $yorumekleme_sorgusu = $db->query("INSERT INTO yorumlar (username,yorum,diziadi,begeni,dizibolum,dizisezon) values('$yorumyapan_adi','$comment','Breaking Bad',0,'$dizi_bolum',' $dizi_sezon')");
+                            $yorum_say_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi = 'Breaking Bad'");
                             $yorum_say_sayfa = $yorum_say_sorgu->num_rows;
                             $son_sayfa = $yorum_say_sayfa / 5;
                             $son_sayfa = ceil($son_sayfa);   
@@ -760,9 +760,9 @@ if(isset($_SESSION["Kullanici"])){
                             $sayfa = 0;
                             $sayfa_num = 1;
                         }
-                        $sayfa_yorum_yazdirma_sorgusu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Braking Bad' ORDER BY id DESC LIMIT $sayfa,5");
+                        $sayfa_yorum_yazdirma_sorgusu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Breaking Bad' ORDER BY id DESC LIMIT $sayfa,5");
                         $sayfa_yorum_yazdirma_kontrol = $sayfa_yorum_yazdirma_sorgusu->num_rows;
-                        $son_sayfa_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Braking Bad'");
+                        $son_sayfa_sorgu = $db->query("SELECT * FROM yorumlar WHERE diziadi='Breaking Bad'");
                         $yorum_num = $son_sayfa_sorgu->num_rows;
                         $son_sayfa = $yorum_num;
                         $son_sayfa/=5;
@@ -898,15 +898,8 @@ if(isset($_SESSION["Kullanici"])){
                                             ';
                                     }
                                     echo '
-                                         <a style="display:inline-block;" title="';
-                                         $begenenler_sorgu = $db->query("SELECT * FROM aybegeni WHERE ayid = '$alt_yorum_id' AND begeni = '1'");
-                                         while($veri=$begenenler_sorgu->fetch_assoc()){
-                                             $begenen_adi = $veri["username"];
-                                             echo $begenen_adi.",";
-                                         }
-                                         echo'">...</a>
-                                         
-                                        ';
+                                    <a style="display:inline-block;" href="likeatanlar.php?likeslist=2&yorumid='.$alt_yorum_id.'">...</a>
+                                    ';
                                 }
                                     echo '
                                     
@@ -968,14 +961,8 @@ if(isset($_SESSION["Kullanici"])){
                                             ';
                                     }
                                     echo '
-                                         <a style="display:inline-block;" title="';
-                                         $begenenler_sorgu = $db->query("SELECT * FROM ybegeni WHERE yid = '$yorum_id' AND begeni = '1'");
-                                         while($veri=$begenenler_sorgu->fetch_assoc()){
-                                             $begenen_adi = $veri["username"];
-                                             echo $begenen_adi.",";
-                                         }
-                                         echo'">...</a>
-                                        ';
+                                    <a style="display:inline-block;" href="likeatanlar.php?likeslist=1&yorumid='.$yorum_id.'">...</a>
+                                    ';
                                 }
                                 echo'
                             </div>
@@ -1133,25 +1120,25 @@ if(isset($_SESSION["Kullanici"])){
                     </div>
                     <?php
                         }
-                        $subs_sorgu = $db->query("SELECT * FROM subs WHERE diziname='Braking Bad' AND onay = '1' ");
+                        $subs_sorgu = $db->query("SELECT * FROM subs WHERE diziname='Breaking Bad' AND onay = '1' ");
                         $subs_sorgu_kontrol = $subs_sorgu->num_rows;
                         $sezonlar = array();
                         if($subs_sorgu_kontrol > 0){
-                            $sezon_kontrol = $db->query("SELECT DISTINCT sezon FROM subs WHERE diziname='Braking Bad' AND onay = '1' ORDER BY sezon DESC");
+                            $sezon_kontrol = $db->query("SELECT DISTINCT sezon FROM subs WHERE diziname='Breaking Bad' AND onay = '1' ORDER BY sezon DESC");
                             while($deger = $sezon_kontrol->fetch_assoc()){
                                 array_push($sezonlar,$deger["sezon"]);
                             }
                             for($i = 0 ;$i<count($sezonlar);$i++){
                                 $s = $sezonlar[$i];
-                                $altyazı_bul = $db->query("SELECT * FROM subs WHERE sezon = '$s' AND onay = 1 AND diziname='Braking Bad' ORDER BY bolum ");
+                                $altyazı_bul = $db->query("SELECT * FROM subs WHERE sezon = '$s' AND onay = 1 AND diziname='Breaking Bad' ORDER BY bolum ");
                                 ?>
                                 <div class="sblock" style="display:<?php if(@$_GET["sayfa"] != "yorum" ||@$_GET["yorum"] == "dizidetay" || @!$_GET){ echo "block";}else{ echo "none";} ?>">
                                     <div class="alt-Baslik" align="center">
                                         <h5 id="sezon-baslik">
                                         <a onclick="acAltyazi(<?php echo $s; ?>)" style="display:inline-block; width:100%;height:100%;"><?php 
-                                            if($s == 0){echo "Film Altyazısı";} 
-                                            else{echo $s .". Sezon";} 
-                                            ?></a>
+                                        if($s == 0){echo "Film Altyazısı";} 
+                                        else{echo $s .". Sezon";} 
+                                        ?></a>
                                         </h5>
                                     </div>
                                     <div class="ozet-goster" id="<?php echo $s; ?>sezona" style="border-bottom:1px solid #dbdbdb;display:block;" >
@@ -1197,7 +1184,7 @@ if(isset($_SESSION["Kullanici"])){
                         style="display:<?php if(@$_GET["sayfa"] == "yorum"){ echo "block";}else{echo "none";} ?>">
                         <a href="../film/break.php" style="margin-top:-4px; margin-bottom: -8px;">
                             <img src="../film/filmPoster/breakyorum.jpg" width="308" height="173" style="border-radius:4px;"
-                                title="Braking Bad" alt="Braking Bad">
+                                title="Breaking Bad" alt="Breaking Bad">
                         </a>
                     </div>
                     <div class="kisa-sol">
@@ -1283,8 +1270,8 @@ if(isset($_GET["puan"])){
     $puan = filtre($_GET["puan"]);
     if(($puan == 1) || ($puan == 2) || ($puan == 3) || ($puan == 4) || ($puan == 5) || ($puan == 6) || ($puan == 7) || ($puan == 8) || ($puan == 9) || ($puan == 10)){
         $k_adi = $_SESSION["Kullanici"];
-        $k_adiKayit = $db->query("INSERT INTO yildizoyatanlar (username,puan,diziname) values ('$k_adi','$puan','Braking Bad')");
-        $puan_Kayit = $db->query("UPDATE yildizoy set oy = oy + '$puan',toplam = toplam + 1 WHERE isim = 'Braking Bad'");
+        $k_adiKayit = $db->query("INSERT INTO yildizoyatanlar (username,puan,diziname) values ('$k_adi','$puan','Breaking Bad')");
+        $puan_Kayit = $db->query("UPDATE yildizoy set oy = oy + '$puan',toplam = toplam + 1 WHERE isim = 'Breaking Bad'");
         if($puan_Kayit){
             echo "hata";
         }

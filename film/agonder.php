@@ -415,40 +415,58 @@ if(isset($_SESSION["Kullanici"])){
                             $bolum_alt = $_POST["bölüm"];
                             $gelen_dosya = $_FILES["file"];
                             $dosya_uzanti = $gelen_dosya["name"];
-                            $dosya_uzanti = explode(".",$dosya_uzanti);
-                            $dosya_tmp_adi = $gelen_dosya["tmp_name"];
-                            $diziname2 = $diziname;
-                            $diziname2 = bosluk_sil($diziname2);
-                            if($dosya_uzanti[1] == "srt"){
-                                $dosya_yolu = "sub/";
-                                $dosya_adi = $name.$diziname2.$sezon_alt."X".$bolum_alt."-".$altyazi_sorgu_say.".".$dosya_uzanti[1];
-                                $dosya_yolu = $dosya_yolu.$dosya_adi;
-                                if(move_uploaded_file($dosya_tmp_adi,$dosya_yolu)){
-                                    $subs_ekle = $db->query("INSERT INTO subs (diziname,username,diziyolu,diziyorum,sezon,bolum,dil,onay) values ('$diziname','$name','$dosya_yolu','$yorum_alt','$sezon_alt','$bolum_alt','UNK',0)");
-                                    if($subs_ekle){
-                                        echo'
-                                        <div style="margin:0 auto; color :red; font-size:16px;">
-                                            Gönder Tamamlandı Ana Sayfaya Gönderiliyorsunuz.
-                                        </div>
-                                            ';
-                                            header('Refresh: 3; ../index.php');
+                            $dosya_ismi_kontrol = mb_substr_count($dosya_uzanti,".");
+                            if($dosya_ismi_kontrol == 1){
+                                $dosya_uzanti = explode(".",$dosya_uzanti);
+                                $dosya_tmp_adi = $gelen_dosya["tmp_name"];
+                                $diziname2 = $diziname;
+                                $diziname2 = bosluk_sil($diziname2);
+                                if($dosya_uzanti[1] == "srt"){
+                                    $dosya_yolu = "sub/";
+                                    $dosya_adi = $name.$diziname2.$sezon_alt."X".$bolum_alt."-".$altyazi_sorgu_say.".".$dosya_uzanti[1];
+                                    $dosya_yolu = $dosya_yolu.$dosya_adi;
+                                    if(move_uploaded_file($dosya_tmp_adi,$dosya_yolu)){
+                                        $subs_ekle = $db->query("INSERT INTO subs (diziname,username,diziyolu,diziyorum,sezon,bolum,dil,onay) values ('$diziname','$name','$dosya_yolu','$yorum_alt','$sezon_alt','$bolum_alt','UNK',0)");
+                                        if($subs_ekle){
+                                            echo'
+                                            <div style="margin:0 auto; color :red; font-size:16px;">
+                                                Gönder Tamamlandı Ana Sayfaya Gönderiliyorsunuz.
+                                            </div>
+                                                ';
+                                                header('Refresh: 3; ../index.php');
+                                        }
+                                        else{
+                                            echo'
+                                            <div style="margin:0 auto; color :red; font-size:16px;">
+                                                Dosya Göndermede Hata oldu Sonra Tekrar Dene.
+                                            </div>
+                                                ';
+                                                header('Refresh: 3; ../index.php');
+                                        }
                                     }
                                     else{
                                         echo'
-                                        <div style="margin:0 auto; color :red; font-size:16px;">
-                                            Dosya Göndermede Hata oldu Sonra Tekrar Dene
-                                        </div>
-                                            ';
-                                            header('Refresh: 3; ../index.php');
+                                                <div style="margin:0 auto; color :red; font-size:16px;">
+                                                Dosya Göndermede Hata oldu Sonra Tekrar Dene.
+                                                </div>
+                                                    ';
                                     }
                                 }
+                                else{
+                                    echo'
+                                            <div style="margin:0 auto; color :red; font-size:16px;">
+                                            Dosya Türü Uymuyor.
+                                            </div>
+                                                ';
+                                }
+                            
                             }
                             else{
-                                echo'
-                            <div style="margin:0 auto; color :red; font-size:16px;">
-                                Dosya Türü Uymuyor.
-                            </div>
-                            ';
+                                 echo'
+                                <div style="margin:0 auto; color :red; font-size:16px;">
+                                Dosya İsminiz Hatalıdır. Dosya isminde bir nokta olmal.
+                                </div>
+                                ';
                             }
                         }
                         else{
@@ -465,41 +483,52 @@ if(isset($_SESSION["Kullanici"])){
                             $bolum_alt = $_POST["bölüm"];
                             $gelen_dosya = $_FILES["file"];
                             $dosya_uzanti = $gelen_dosya["name"];
-                            $dosya_uzanti = explode(".",$dosya_uzanti);
-                            $dosya_tmp_adi = $gelen_dosya["tmp_name"];
-                            $diziname2 = $diziname;
-                            $diziname2 = bosluk_sil($diziname2);
-                            if($dosya_uzanti[1] == "srt"){
-                                $dosya_yolu = "sub/";
-                                $dosya_adi = $name.$diziname2.$sezon_alt."X".$bolum_alt."-".$altyazi_sorgu_say.".".$dosya_uzanti[1];
-                                $dosya_yolu = $dosya_yolu.$dosya_adi;
-                                if(move_uploaded_file($dosya_tmp_adi,$dosya_yolu)){
-                                    $subs_ekle = $db->query("INSERT INTO subs (diziname,username,diziyolu,diziyorum,sezon,bolum,dil,onay) values ('$diziname','$name','$dosya_yolu','$yorum_alt','$sezon_alt','$bolum_alt','$dil',0)");
-                                    if($subs_ekle){
-                                        echo'
-                                        <div style="margin:0 auto; color :red; font-size:16px;">
-                                            Gönder Tamamlandı Ana Sayfaya Gönderiliyorsunuz.
-                                        </div>
-                                            ';
-                                            header('Refresh: 3; ../index.php');
+                            $dosya_ismi_kontrol = mb_substr_count($dosya_uzanti,".");
+                            if($dosya_ismi_kontrol == 1){
+                                $dosya_uzanti = explode(".",$dosya_uzanti);
+                                $dosya_tmp_adi = $gelen_dosya["tmp_name"];
+                                $diziname2 = $diziname;
+                                $diziname2 = bosluk_sil($diziname2);
+                                if($dosya_uzanti[1] == "srt"){
+                                    $dosya_yolu = "sub/";
+                                    $dosya_adi = $name.$diziname2.$sezon_alt."X".$bolum_alt."-".$altyazi_sorgu_say.".".$dosya_uzanti[1];
+                                    $dosya_yolu = $dosya_yolu.$dosya_adi;
+                                    if(move_uploaded_file($dosya_tmp_adi,$dosya_yolu)){
+                                        $subs_ekle = $db->query("INSERT INTO subs (diziname,username,diziyolu,diziyorum,sezon,bolum,dil,onay) values ('$diziname','$name','$dosya_yolu','$yorum_alt','$sezon_alt','$bolum_alt','$dil',0)");
+                                        if($subs_ekle){
+                                            echo'
+                                            <div style="margin:0 auto; color :red; font-size:16px;">
+                                                Gönder Tamamlandı Ana Sayfaya Gönderiliyorsunuz.
+                                            </div>
+                                                ';
+                                                header('Refresh: 3; ../index.php');
+                                        }
+                                        else{
+                                            echo'
+                                            <div style="margin:0 auto; color :red; font-size:16px;">
+                                                Dosya Göndermede Hata oldu Sonra Tekrar Dene
+                                            </div>
+                                                ';
+                                                header('Refresh: 3; ../index.php');
+                                        }
                                     }
-                                    else{
-                                        echo'
-                                        <div style="margin:0 auto; color :red; font-size:16px;">
-                                            Dosya Göndermede Hata oldu Sonra Tekrar Dene
-                                        </div>
-                                            ';
-                                            header('Refresh: 3; ../index.php');
-                                    }
+                                }
+                                else{
+                                    echo'
+                                <div style="margin:0 auto; color :red; font-size:16px;">
+                                    Dosya Türü Uymuyor.
+                                </div>
+                                ';
                                 }
                             }
                             else{
                                 echo'
-                            <div style="margin:0 auto; color :red; font-size:16px;">
-                                Dosya Türü Uymuyor.
-                            </div>
-                            ';
+                                <div style="margin:0 auto; color :red; font-size:16px;">
+                                    Dosya İsmi Hatalıdır. Bir tane . olmalıdır.
+                                </div>
+                                ';
                             }
+                            
                         
                         
                     }

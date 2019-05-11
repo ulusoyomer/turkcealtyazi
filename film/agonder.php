@@ -287,8 +287,8 @@ if(isset($_SESSION["Kullanici"])){
                         <form enctype="multipart/form-data" method="POST" action="agonder.php?diziname=<?php echo $diziname; ?>" style="margin:0; padding:0;">
                             <tbody>
                                     <tr class="tr15" style="width:992px;">
-                                            <td class="td15" rowspan="5" style="width:110px;">
-                                                <img src="../<?php echo $dizi_resim; ?>" width="100" height="140">
+                                            <td class="td15" rowspan="5" style="width:80px;">
+                                                <img src="../<?php echo $dizi_resim; ?>" width="75" height="140">
                                             </td>
                                             <td class="td15">
                                                 <strong>Dil</strong>

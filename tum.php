@@ -326,128 +326,61 @@ require_once("baglanti.php");
                         </div>
                 </div>
                 <div id="sag-govde">
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Film Altyazıları</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="kisa-sol">
-                        <div class="baslik">
-                            <h2><a href="#" title="Pek Yakında">Dizi Altyazıları</a></h2>
-                        </div>
-                        <div class="alt-menu">
-                            <a>Bugün</a>
-                            <a>Bu Hafta</a>
-                            <a>Bu Ay</a>
-                            <a>Bu Yıl</a>
-                            <a>Geçen Yıl</a>
-                        </div>
-                        <div class="alt-menu-icerik">
-                            <ul>
-                                <li>
-                                    <a>Lorem ipsum dolor sit amet.</a>
-                                </li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                <li><a>Lorem ipsum dolor sit amet.</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                   
-                            <div class="kisa-sol">
-                                <div class="baslik">
-                                    <h2><a href="#" title="Pek Yakında">Alt Yazıgönderenler</a></h2>
-                                </div>
-                                <div class="alt-menu">
-                                    <a>Bugün</a>
-                                    <a>Bu Hafta</a>
-                                    <a>Bu Ay</a>
-                                    <a>Bu Yıl</a>
-                                    <a>Geçen Yıl</a>
-                                </div>
-                                <div class="alt-menu-icerik">
-                                    <ul>
-                                        <li>
-                                            <a>Lorem ipsum dolor sit amet.</a>
-                                        </li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    </ul>
-                                </div>
+                <div class="kisa-sol">
+                            <div class="baslik" style="border-bottom:1px solid gray;">
+                                <h2><a href="#" title="Son Eklenen Altyazılar">Son Eklenen Altyazılar</a></h2>
                             </div>
-                            <div class="kisa-sol">
-                                <div class="baslik">
-                                    <h2><a href="#" title="Pek Yakında">Yakında</a></h2>
-                                </div>
-                                <div class="alt-menu">
-                                    <a>Bugün</a>
-                                    <a>Bu Hafta</a>
-                                    <a>Bu Ay</a>
-                                    <a>Bu Yıl</a>
-                                    <a>Geçen Yıl</a>
-                                </div>
-                                <div class="alt-menu-icerik">
-                                    <ul>
+                            <div class="alt-menu-icerik">
+                                <ul>
+                                <?php
+                                $altyazı_sorgu = $db->query("SELECT * FROM subs WHERE onay = '1' ORDER BY id DESC LIMIT 5");
+                                while($veri = $altyazı_sorgu->fetch_assoc()){
+                                    $diziname = $veri["diziname"];
+                                    $sezon = $veri["sezon"];
+                                    $bolum = $veri["bolum"];
+                                    $g_adi= $veri["username"];
+                                    $dizi_sorgu = $db->query("SELECT * FROM yildizoy WHERE isim = '$diziname'");
+                                    $dizi_veri = $dizi_sorgu->fetch_assoc();
+                                    $dizi_yol = $dizi_veri["yol"];
+                                    echo '
                                         <li>
-                                            <a>Lorem ipsum dolor sit amet.</a>
+                                            <a href="'.$dizi_yol.'">'.$diziname.' S '.$sezon.' / B '.$bolum.' <span style="color:gray;font-size:10px;"> Gönderici '.$g_adi.' </span></a>
                                         </li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                    </ul>
-                                </div>
+                                        ';
+                                }
+                            ?>
+                                </ul>
                             </div>
-                            <div class="kisa-sol">
+                        </div>
+
+                        <div class="kisa-sol">
                                 <div class="baslik">
-                                    <h2><a href="#" title="Pek Yakında">Ne var ne yok!</a></h2>
-                                </div>
-                                <div class="alt-menu">
-                                    <a>Bugün</a>
-                                    <a>Bu Hafta</a>
-                                    <a>Bu Ay</a>
-                                    <a>Bu Yıl</a>
-                                    <a>Geçen Yıl</a>
+                                    <h2><a href="#" title="Pek Yakında">AltYazı Gönderenler</a></h2>
                                 </div>
                                 <div class="alt-menu-icerik">
                                     <ul>
-                                        <li>
-                                            <a>Lorem ipsum dolor sit amet.</a>
-                                        </li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
-                                        <li><a>Lorem ipsum dolor sit amet.</a></li>
+                                        <?php
+                                        $altyazı_sorgu = $db->query("SELECT * FROM subs WHERE onay = '1' ORDER BY id DESC LIMIT 5");
+                                            while($veri = $altyazı_sorgu->fetch_assoc()){
+                                                $g_name = $veri["username"];
+                                                $diziname = $veri["diziname"];
+                                                $sezon = $veri["sezon"];
+                                                $bolum = $veri["bolum"];
+                                                $kullanici_sorgu = $db->query("SELECT * FROM uyeler WHERE username = '$g_name' ");
+                                                $kullanici_veri = $kullanici_sorgu->fetch_assoc();
+                                                $kullanici_id = $kullanici_veri["id"];
+                                                echo '
+                                                    <li>
+                                                        <a href="members/'.$kullanici_id.'.php">'.$g_name.' <span style="font-size:10px;color:gray"> '.$diziname.' S '.$sezon.'/ B '.$bolum.'</span></a>
+                                                    </li>
+                                                    ';
+                                            }
+                                        ?>
                                     </ul>
                                 </div>
                             </div>
 
+                    </div>
                         
                     
                 </div>

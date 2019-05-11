@@ -350,7 +350,7 @@ require_once("baglanti.php");
                                     $sezon = $veri["sezon"];
                                     $bolum = $veri["bolum"];
                                     $g_adi= $veri["username"];
-                                    $dizi_sorgu = $db->query("SELECT * FROM yildizoy WHERE onay = '1' WHERE isim = '$diziname'");
+                                    $dizi_sorgu = $db->query("SELECT * FROM yildizoy WHERE isim = '$diziname'");
                                     $dizi_veri = $dizi_sorgu->fetch_assoc();
                                     $dizi_yol = $dizi_veri["yol"];
                                     echo '
